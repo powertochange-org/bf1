@@ -1,0 +1,72 @@
+/*
+    Document   : print.css
+    Author     : Keith Roehrenbeck
+    Description: Fonts & Text
+*/
+
+html, textarea {
+    font-family: 'Century Gothic', Verdana;
+    font-size: 12px;
+}
+
+a, button {
+    font-family: 'Century Gothic', Verdana;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+a{ color: #696D66; }
+a:hover{ color: #000; }
+
+/*  CONTAINER */
+
+/*  HEADER */
+
+#navbar .option a, #userbox a {
+    text-transform: uppercase;
+    font-size: 15px;
+    
+}
+
+#navbar .option a:hover, #userbox a:hover {
+    
+}
+
+#pagetitle {
+    text-transform: capitalize;
+}
+
+#loginbox {
+    text-transform: uppercase;
+}
+
+/*  CONTENT */
+#content {
+
+}
+
+#leftmenu{
+
+}
+
+#leftmenu ul{
+
+}
+
+#leftmenu li a{
+    color: #666666;
+    font-size: 14px;
+}
+
+#leftmenu li a:hover, #leftmenu li a.active{
+    color: #000;
+}
+
+#leftmenu li span{
+
+}
+
+/*  FOOTER  */
+#footer {
+    font-size: 10px;
+}

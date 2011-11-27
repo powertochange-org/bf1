@@ -1,0 +1,112 @@
+/*
+    Document   : modules.css
+    Author     : Keith Roehrenbeck
+    Description: CSS specific to modules
+*/
+
+/* UI */
+.ui-icon:hover{ opacity:0.75; }
+
+/* MAIN */
+
+/* MODULE */
+.module{ width: 880px; height: 400px; margin: 5px auto; margin-bottom: -5px; overflow: hidden; }
+.module #background_img{ position: absolute; }
+.module #title, .page #title{ margin: 10px; }
+.module #title #number, .module #title #name, .page #title #number, .page #title #name{ color: #fff; display: inline-block; font-size: 34px; text-transform: uppercase; font-weight:500; }
+.module #description{ position: relative; top: 175px; left: 100px; width: 600px; padding: 10px; font-size: 13px; color: #fff;
+
+    /* Fallback for web browsers that don't support RGBa */
+    background: rgb(120, 120, 120);
+    /* RGBa with 0.6 opacity */
+    background: rgba(120, 120, 120, 0.6);
+    /* For IE 5.5 - 7*/
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
+    /* For IE 8*/
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
+
+}
+.module #continue{ position: absolute; display: inline-block; margin-left: 720px; margin-top: 355px; }
+.module #continue a{ display: block; padding: 5px 10px; font-size: 16px; height: 22px; }
+.module #continue .ui-icon { float: right; margin: 3px 10px; margin-right: 0px; }
+#module11 #title #name, #module11 #continue a{ color: #CC6600; }
+#module12 #title #name, #module12 #continue a{ color: #E27E07; }
+#module21 #title #name, #module21 #continue a{ color: #EB9E47; }
+#module22 #title #name, #module22 #continue a{ color: #666666; }
+#module31 #title #name, #module31 #continue a{ color: #887562; }
+#module32 #title #name, #module32 #continue a{ color: #717A76; }
+#module41 #title #name, #module41 #continue a{ color: #55402C; }
+#module42 #title #name, #module42 #continue a{ color: #585858; }
+#module43 #title #name, #module43 #continue a{ color: #003300; }
+
+/* PAGE */
+.page{ width: 880px; min-height: 600px; margin: 5px auto; margin-bottom: -5px; overflow: hidden; }
+.page #title{ position:absolute; }
+.page #banner{ height: 115px; }
+.page #sectiontitle{ text-transform: uppercase; font-size: 20px; color: #696D66; text-align: center; padding: 5px; }
+
+/* LEFT MENU */
+.page #leftmenu{ width: 120px; }
+.page #leftmenu .section{  }
+.page #leftmenu .section a{ display: inline-block; font-size: 12px; }
+.page #leftmenu .section .colapse { cursor: pointer; position: absolute; margin-top: -27px; margin-left: -15px; }
+.page #leftmenu .section .pages{ display: none; border-bottom: 1px solid #DDD; }
+.page #leftmenu .section .pages.active{ display: block; border-bottom: 1px solid #DDD; }
+.page #leftmenu .section .pages a{ font-size: 10px; padding: 3px; padding-left: 15px; border: none; }
+
+/* CONTENT PANE */
+.page #contentpane{ float: right; width: 700px; padding: 10px 20px; overflow:hidden; }
+.page .element{ margin-bottom: 10px; padding-right:16px; }
+.page .element a.note{ float:right; margin-right:-16px; width:16px; height:16px; }
+.page .element a.note.add{ background:url('images/sticky-note--plus.png') no-repeat; }
+.page .element a.note.close{ background:url('images/sticky-note--minus.png') no-repeat; }
+.page .element a.note.open{ background:url('images/sticky-note-text.png') no-repeat; }
+
+.page #contentpane #main, .page #contentpane #right{ padding: 10px; min-height: 300px; }
+.page #contentpane #main{ float: left; }
+
+.page .textbox{ padding: 5px 16px 5px 5px; }
+.page .image{  }
+.page .image .caption{ font-size: 10px; }
+.page .input{ font-size: 11px; padding:0px; }
+.page .input .response { outline:1px solid #ccc; border:none; height:auto;}
+.page .input .response textarea{ height: 80px; border:none; outline:none; padding:5px 5px 20px 5px; margin-bottom:-17px; background:none; }
+.page .input .flags label{ display: inline-block; margin-left: 5px; font-size: 10px; }
+.page .input .flags input{ display: inline-block; margin: 5px 0px; }
+.page .input .alert{ font-size:10px; height:12px; margin:5px; padding:0px 0px 5px 18px; }
+.page .input .alert.error{ background:url('images/001_30_12.png') no-repeat; }
+.page .input .alert.success{ background:url('images/001_06_12.png') no-repeat; }
+
+.page #contentpane #right{ float: right; }
+
+/* TWO COLUMN */
+.page #contentpane.two-column #main{ width: 480px; }
+.page #contentpane.two-column #main .input .response textarea{ width: 470px; }
+.page #contentpane.two-column #right{ width: 166px; }
+.page #contentpane.two-column #right .input .response textarea{ width: 160px; }
+
+/* ONE COLUMN */
+.page #contentpane.one-column #main{ width: 646px; }
+.page #contentpane.one-column #main .input .response textarea{ width: 640px; }
+.page #contentpane.one-column #right{ display:none; }
+
+/* BOTTOM */
+.page #bottom{ margin-left:180px; margin-right:30px; }
+.page #bottom #errors{ display:none; float:left; padding:5px; width:400px; padding-left:40px; background:url('../images/icons/error.png') no-repeat; }
+.page #bottom #submit button{ float:right; padding: 5px 10px; font-size: 14px; }
+.page #bottom #submit button .ui-icon{ float:right; margin-top:2px; }
+.page #notes{ position:absolute; }
+
+/* NOTE */
+div.note{ position:absolute; display:inline-block; opacity:0.70; z-index:10; }
+div.note:hover, .note:active{ opacity:1; z-index:11; }
+div.note.collapsed{ display:none; }
+div.note .bg{ height:100%; width:100%; }
+div.note .bg .corner{ position:absolute; height:67px; width:100px; bottom:-6px; left:-2px; background:url('images/note_corner.png'); }
+div.note .bg .top{ position:absolute; top:0px; left:0px; width:100px; bottom:61px; background:#ffff99; }
+div.note .bg .right{ position:absolute; top:0px; left:98px; bottom:0px; right:0px; background:#ffff99; }
+div.note .dragbar{ position:relative; height:16px; background:#cccc99; cursor:move; z-index:10;}
+div.note .dragbar a{ float:right;}
+div.note form{ position:relative; z-index:1; margin:-16px 10px 10px 10px; background:#ffff99;}
+div.note textarea{ font-size:10px; resize:auto; min-height:130px; min-width:130px; padding:15px; margin:16px -8px -8px -8px; background:none; border:none; outline:none; }
+div.note button{ display:none; }

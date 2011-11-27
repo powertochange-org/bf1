@@ -1,0 +1,50 @@
+/*
+    Document   : work.css
+    Author     : Keith Roehrenbeck
+    Description: CSS specific to my work page
+*/
+
+#work{
+    width: 880px;
+    min-height: 300px;
+    margin: 30px auto;
+    overflow: hidden;
+}
+
+#pagetitle{
+    margin: 30px 100px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#contentpane{
+    padding: 10px 20px;
+}
+
+#progress{ margin-bottom:30px; }
+#progress #bar{ width:700px; margin:0px auto; }
+#progress #bar .bar{ height:25px; display:inline-block; background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ddd), to(#666)); margin:0px -1px; }
+#progress #bar .bar.started{ background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ddd), to(#55402C)); }
+#progress #bar .bar.complete{ background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ddd), to(#003300)); }
+#progress #eta{ display:inline-block; float:right; margin:5px; }
+#progress #status{ position:relative; height:42px; padding:5px; display:inline-block; background:#666; margin:10px; margin-left:-80px; }
+#progress #status .point{ width:0; height:0; border-bottom:10px solid #666; border-top:0; border-left:7px solid transparent; border-right:7px solid transparent; position:relative; margin:-15px auto 5px auto; }
+#progress #status .name{ float:left; text-align:center; color:#fff; margin:3px 5px; font-size:14px; }
+#progress #status span, #progress #status a{ float:right; }
+#progress #status a{ height:16px; padding:12px 5px; }
+
+#modules{ margin:10px; }
+.module{ margin:10px; }
+.module .ui-icon{ float:left; }
+.module .name{ font-size:16px; padding:5px 0px; border-bottom:1px solid #bbb; }
+.module .name span{ margin-left:-20px; margin-top:2px; }
+.module .name span.ui-icon{ cursor:pointer; }
+.module .flagsnotes{ display: none; padding:5px 15px; }
+.module .flagsnotes.active{ display: block; }
+.module .flagsnotes span.icon{ float:left; margin-left:-30px; width:16px; height:16px; margin-top:5px; }
+.module .flag .question, .module .note a{ font-weight:bold; padding:5px 0px; margin-bottom:5px; border-bottom:1px solid #ddd; }
+.module .flag, .module .note{ margin:10px 15px; }
+.module .flag .question, .module .flag .response{ display:block; }
+.module .flag span.icon{ background:url('images/flag.png'); }
+.module .note a{ display:block; }
+.module .note span.icon{ background:url('images/sticky-note-pin.png'); }
