@@ -14,7 +14,7 @@ if(isset($_SESSION['email'])){
 }
 
 if(!$auth){
-    header('Location: /crudoctrine/#login');
+    header('Location: #login');
 }
 
 //get session values
@@ -28,8 +28,8 @@ $page       = array();
 
 try {
 
-    //initialize pdo object
-    $db = new PDO('mysql:host=crudoctrine.db.6550033.hostedresource.com;port=3306;dbname=crudoctrine', 'crudoctrine', 'D6LLd2mxU6Z34i');
+	// grab the existing $db object
+	$db=Database::obtain();
 
     //determine page content
     $mod = isset($_GET['m'])        ? $_GET['m']        : '';
@@ -43,7 +43,6 @@ try {
 
         if($req!=''){
 
-
             //page title
             $title = 'Module '.$mod.' '.$req;
             
@@ -53,18 +52,13 @@ try {
         } else{
 
             //get module information
-            $query = $db->prepare( "SELECT *, s.ID AS FirstSection
-                                    FROM module m
-                                    INNER JOIN section s ON s.ModuleId = m.ID
-                                    WHERE m.ID = ?
-                                    ORDER BY s.Ord ASC"
-                );
-            $query->bindValue(1, (int)$mod, PDO::PARAM_INT);
-            $query->execute();
-            $result = $query->fetch(PDO::FETCH_ASSOC);
+			$sql =  "SELECT *, s.ID AS FirstSection
+                     FROM module m
+                     INNER JOIN section s ON s.ModuleId = m.ID
+                     WHERE m.ID = ".(int)$mod.
+                     " ORDER BY s.Ord ASC";
 
-            //module information
-            $module = $result;
+            $module = $db->query_first($sql);
 
             //page title
             $title = 'Module '.$module['Number'];
@@ -77,16 +71,14 @@ try {
     } elseif($sec!=''){
 
         //get section, module, & first page information
-        $query = $db->prepare( "SELECT s.*, m.Number, m.Name AS ModuleName, m.Ord AS ModuleOrder, m.Banner, p.ID AS PageId, p.Ord AS PageOrder, p.Visibility
-                                FROM section s 
-                                INNER JOIN module m on s.ModuleId = m.Id 
-                                INNER JOIN page p on s.ID = p.SectionId 
-                                WHERE s.ID = ? 
-                                ORDER BY p.Ord ASC"
-            );
-        $query->bindValue(1, (int)$sec, PDO::PARAM_INT);
-        $query->execute();
-        $result = $query->fetch(PDO::FETCH_ASSOC);
+        $sql = "SELECT s.*, m.Number, m.Name AS ModuleName, m.Ord AS ModuleOrder, m.Banner, p.ID AS PageId, p.Ord AS PageOrder, p.Visibility
+                FROM section s 
+                INNER JOIN module m on s.ModuleId = m.Id 
+                INNER JOIN page p on s.ID = p.SectionId 
+                WHERE s.ID = ".(int)$sec.
+                " ORDER BY p.Ord ASC";
+
+        $result = $db->query_first($sql);
         
         //module information
         $module['ID']       = $result['ModuleId'];
@@ -114,15 +106,13 @@ try {
     } elseif($pag!=''){
 
         //get page, section, & module information
-        $query = $db->prepare( "SELECT p.*, s.ModuleId, s.Title AS SectionTitle, s.Ord AS SectionOrder, m.Number, m.Name AS ModuleName, m.Ord AS ModuleOrder, m.Banner
-                                FROM page p
-                                INNER JOIN section s on p.SectionId = s.ID
-                                INNER JOIN module m on s.ModuleId = m.Id
-                                WHERE p.ID = ? "
-            );
-        $query->bindValue(1, (int)$pag, PDO::PARAM_INT);
-        $query->execute();
-        $result = $query->fetch(PDO::FETCH_ASSOC);
+        $sql = "SELECT p.*, s.ModuleId, s.Title AS SectionTitle, s.Ord AS SectionOrder, m.Number, m.Name AS ModuleName, m.Ord AS ModuleOrder, m.Banner
+                FROM page p
+                INNER JOIN section s on p.SectionId = s.ID
+                INNER JOIN module m on s.ModuleId = m.Id
+                WHERE p.ID = ".(int)$pag.;
+
+        $result = $db->query_first($sql);
 
         //module information
         $module['ID']       = $result['ModuleId'];
@@ -158,20 +148,17 @@ try {
     }
 
     //fetch user progress to validate loading page
-    $db_progress = $db->prepare(   "SELECT pr.Status, p.Ord AS page, s.Ord AS section, m.Ord AS module
-                                    FROM progress pr
-                                    INNER JOIN page p ON pr.PageId = p.ID
-                                    INNER JOIN section s ON p.SectionId = s.ID
-                                    INNER JOIN module m ON s.ModuleId = m.ID
-                                    WHERE pr.Email = ?
-                                    ORDER BY m.Ord, s.Ord, p.Ord"
-        );
-    $db_progress->bindValue(1, $email, PDO::PARAM_STR);
-    $db_progress->execute();
-    $progress=$db_progress->fetch(PDO::FETCH_ASSOC);
+    $sql = "SELECT pr.Status, p.Ord AS page, s.Ord AS section, m.Ord AS module
+            FROM progress pr
+            INNER JOIN page p ON pr.PageId = p.ID
+            INNER JOIN section s ON p.SectionId = s.ID
+            INNER JOIN module m ON s.ModuleId = m.ID
+            WHERE pr.Email = '".$db->escape($email)."'
+            ORDER BY m.Ord, s.Ord, p.Ord";
+
+    $progress = $db->query_first($sql);
 
     //ensure user has proper access to loading page
-
     $auth = false;
 
     switch($pagetype){
@@ -192,7 +179,7 @@ try {
 //        header('Location: /crudoctrine/work/');
 //    }
 
-    $db=null;
+	$db->close();
 
 } catch (PDOException $e){
     echo $e->getMessage();

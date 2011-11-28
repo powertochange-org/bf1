@@ -20,17 +20,13 @@ try {
     //check for form submission
     if($submit) {    //form was submitted, process data
 
-	    //initialize pdo object
-	    $db = new PDO('mysql:host=crudoctrine.db.6550033.hostedresource.com;port=3306;dbname=crudoctrine', 'crudoctrine', 'D6LLd2mxU6Z34i');
-
-        //prepare query
-        $query = $db->prepare("SELECT * FROM user WHERE Email = ? AND Password = ?");
-        $query->bindValue(1, $email,    PDO::PARAM_STR);
-        $query->bindValue(2, $pass,     PDO::PARAM_STR);
-
+		// grab the existing $db object
+		$db=Database::obtain();
+		
+		$sql = "SELECT * FROM user WHERE Email = '".$db->escape($email)."' AND Password = '".$db->escape($pass)."'";
+		
         //get results
-        $query->execute();
-        $result = $query->fetchAll();
+		$result = $db->query_first($sql);        
 
         //check result to verify login
         if(count($result) > 0){ //success
@@ -47,9 +43,9 @@ try {
 
             //if ajax, return user attributes as xml
             if ($ajax) {
-                header ("Location: /crudoctrine/");
+                header ("Location: /");
             } else {
-                header ("Location: /crudoctrine/");
+                header ("Location: /");
             }
 
         } else { //fail
@@ -64,9 +60,8 @@ try {
 
             }
         }
-        $db = null;
+		$db->close();
     }
-
 } catch (PDOException $e) {
     echo $e->getMessage();
     exit();

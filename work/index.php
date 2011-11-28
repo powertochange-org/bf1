@@ -14,7 +14,7 @@ if(isset($_SESSION['email'])){
 }
 
 if(!$auth){
-    header('Location: /crudoctrine/#login');
+    header('Location: #login');
 }
 
 //page title
@@ -32,56 +32,53 @@ try {
 
     global $modules, $progress;
 
-    //initialize pdo object
-    $db = new PDO('mysql:host=crudoctrine.db.6550033.hostedresource.com;port=3306;dbname=crudoctrine', 'crudoctrine', 'D6LLd2mxU6Z34i');
+	// grab the existing $db object
+	$db=Database::obtain();
+	
+	$sql = "SELECT * FROM module WHERE Number > 1 ORDER BY Ord;";
 
-    //get modules
-    $modules = $db->query("SELECT * FROM module WHERE Number > 1 ORDER BY Ord;")->fetchAll(PDO::FETCH_ASSOC);
+	//get modules
+    $modules = $db->fetch_array($sql);
 
     //get progress
-    $db_progress = $db->prepare(   "SELECT pr.Status, p.ID AS page, s.ID AS section, m.ID AS module, pr.`Update`
-                                    FROM progress pr
-                                    INNER JOIN page p ON pr.PageId = p.ID
-                                    INNER JOIN section s ON p.SectionId = s.ID
-                                    INNER JOIN module m ON s.ModuleId = m.ID
-                                    WHERE pr.Email = ?
-                                    ORDER BY m.Ord, s.Ord, p.Ord"
-        );
-    $db_progress->bindValue(1, $email, PDO::PARAM_STR);
-    $db_progress->execute();
-    $progress=$db_progress->fetchAll(PDO::FETCH_ASSOC);
+	$sql = "SELECT pr.Status, p.ID AS page, s.ID AS section, m.ID AS module, pr.`Update`
+            FROM progress pr
+            INNER JOIN page p ON pr.PageId = p.ID
+            INNER JOIN section s ON p.SectionId = s.ID
+            INNER JOIN module m ON s.ModuleId = m.ID
+            WHERE pr.Email = '".$db->escape($email)."'
+            ORDER BY m.Ord, s.Ord, p.Ord";
+
+	$progress = $db->query_first($sql);        
+
 
     //get flags
-    $db_flags = $db->prepare(      "SELECT r.*, s.Title AS Section, p.Title AS Page, p.ID AS PageId, i.Question, m.ID AS module
-                                    FROM response r
-                                    INNER JOIN input    i    ON r.InputId    = i.ID
-                                    INNER JOIN element  e    ON i.ID         = e.ElementId
-                                    INNER JOIN page     p    ON e.PageId     = p.ID
-                                    INNER JOIN section  s    ON p.SectionId  = s.ID
-                                    INNER JOIN module   m    ON s.ModuleId   = m.ID
-                                    WHERE r.Email = ?
-                                    AND r.Personal = 1
-                                    ORDER BY m.Ord, s.Ord, p.Ord"
-        );
-    $db_flags->bindValue(1, $email, PDO::PARAM_STR);
-    $db_flags->execute();
-    $flags=$db_flags->fetchAll(PDO::FETCH_ASSOC);
+	$sql = "SELECT r.*, s.Title AS Section, p.Title AS Page, p.ID AS PageId, i.Question, m.ID AS module
+            FROM response r
+            INNER JOIN input    i    ON r.InputId    = i.ID
+            INNER JOIN element  e    ON i.ID         = e.ElementId
+            INNER JOIN page     p    ON e.PageId     = p.ID
+            INNER JOIN section  s    ON p.SectionId  = s.ID
+            INNER JOIN module   m    ON s.ModuleId   = m.ID
+            WHERE r.Email = '".$db->escape($email)."'
+            AND r.Personal = 1
+            ORDER BY m.Ord, s.Ord, p.Ord";
+
+    $flags = $db->query_first($sql);        
 
     //get notes
-    $db_notes = $db->prepare(      "SELECT n.*, s.Title AS Section, p.Title AS Page, p.ID AS PageId, m.ID AS module
-                                    FROM note n
-                                    INNER JOIN element  e    ON n.ElementId  = e.ElementID
-                                    INNER JOIN page     p    ON e.PageId     = p.ID
-                                    INNER JOIN section  s    ON p.SectionId  = s.ID
-                                    INNER JOIN module   m    ON s.ModuleId   = m.ID
-                                    WHERE n.Email = ?
-                                    ORDER BY m.Ord, s.Ord, p.Ord, e.ElementId"
-        );
-    $db_notes->bindValue(1, $email, PDO::PARAM_STR);
-    $db_notes->execute();
-    $notes=$db_notes->fetchAll(PDO::FETCH_ASSOC);
+    $sql = "SELECT n.*, s.Title AS Section, p.Title AS Page, p.ID AS PageId, m.ID AS module
+            FROM note n
+            INNER JOIN element  e    ON n.ElementId  = e.ElementID
+            INNER JOIN page     p    ON e.PageId     = p.ID
+            INNER JOIN section  s    ON p.SectionId  = s.ID
+            INNER JOIN module   m    ON s.ModuleId   = m.ID
+            WHERE n.Email = '".$db->escape($email)."'
+            ORDER BY m.Ord, s.Ord, p.Ord, e.ElementId";
 
-
+    $notes = $db->query_first($sql);
+	
+	$db->close();
 
 } catch (PDOException $e){
     echo $e->getMessage();

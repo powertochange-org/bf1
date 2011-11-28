@@ -9,7 +9,7 @@
 $title = 'Welcome';
 
 //header
-include('header.php');
+include_once('header.php');
 
 //get modules from db
 $modules = array();
@@ -18,11 +18,16 @@ try {
 
     global $modules;
 
-    //initialize pdo object
-    $db = new PDO('mysql:host=crudoctrine.db.6550033.hostedresource.com;port=3306;dbname=crudoctrine', 'crudoctrine', 'D6LLd2mxU6Z34i');
+    //initialize the database object
+	$db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
+	$db->connect();     
 
-    //execute query and return to module array
-    $modules = $db->query("SELECT * FROM module ORDER BY Ord;")->fetchAll(PDO::FETCH_ASSOC);
+    $sql = "SELECT * FROM module ORDER BY Ord;";
+
+	//execute query and return to module array
+    $modules = $db->fetch_array($sql);
+
+	$db->close();
 
 } catch (PDOException $e){
     echo $e->getMessage();

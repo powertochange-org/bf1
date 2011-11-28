@@ -14,7 +14,7 @@ if(isset($_SESSION['email'])){
 }
 
 if(!$auth){
-    header('Location: /crudoctrine/#login');
+    header('Location: #login');
 }
 
 //page title
