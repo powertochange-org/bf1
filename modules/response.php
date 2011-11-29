@@ -18,8 +18,8 @@ $coach      = isset($_POST['coach'])    ? $_POST['coach'] == 'true'     : 0;
 
 $errors     = isset($_POST['errors'])   ? $_POST['errors']          : '';
 
-//get pdo
-$db = new PDO('mysql:host=crudoctrine.db.6550033.hostedresource.com;port=3306;dbname=crudoctrine', 'crudoctrine', 'D6LLd2mxU6Z34i');
+// grab the existing $db object
+$db=Database::obtain();
 
 //save response
 if($submit){
@@ -27,44 +27,35 @@ if($submit){
     if($new){   //new response
 
         //prepare query
-        $query = $db->prepare("INSERT INTO response (Email, InputId, Response, Personal, Coach) VALUES (?,?,?,?,?)");
-        $query->bindValue(1, $email,            PDO::PARAM_STR);
-        $query->bindValue(2, (int)$id,          PDO::PARAM_INT);
-        $query->bindValue(3, $response,         PDO::PARAM_STR);
-        $query->bindValue(4, (int)$coach,       PDO::PARAM_INT);
-        $query->bindValue(5, (int)$response,    PDO::PARAM_INT);
-
-        //execute query
-        $query->execute();
-
+		$data['Email'] = $email;
+		$data['InputId'] = (int)$id;
+		$data['Response'] = $response;
+		$data['Personal'] = $personal;
+		$data['Coach'] = $coach;
+		
+		//execute query
+		$db->insert("response", $data);
+		
     } else {    //edit response
 
         //prepare query
-        $query = $db->prepare("UPDATE response SET Response = ?, Personal = ?, Coach = ? WHERE Email = ? AND InputId = ?");
-        $query->bindValue(1, $response,         PDO::PARAM_STR);
-        $query->bindValue(2, (int)$personal,    PDO::PARAM_INT);
-        $query->bindValue(3, (int)$coach,       PDO::PARAM_INT);
-        $query->bindValue(4, $email,            PDO::PARAM_STR);
-        $query->bindValue(5, (int)$id,          PDO::PARAM_INT);
+		$data['Response'] = $response;
+		$data['Personal'] = (int)$personal;
+		$data['Coach'] = (int)$coach;
 
         //execute query
-        $query->execute();
+        $db->update("response", $data, "Email = '".$db->escape($email)."' AND ElementId = " .(int)$id);
 
     }
-    $db = null;
+    $db->close();
     echo 'Response Saved';
 
     exit();
-
 }
 
 //get response
-$db_response = $db->prepare("SELECT * FROM response WHERE Email = ? AND InputId = ?");
-$db_response->bindValue(1, $email,      PDO::PARAM_STR);
-$db_response->bindValue(2, (int)$id,    PDO::PARAM_INT);
-$db_response->execute();
-
-$_response      = $db_response->fetch(PDO::FETCH_ASSOC);
+$sql = "SELECT * FROM response WHERE Email = '".$db->escape($email)."' AND ElementId = " .(int)$id);
+$_response = $db->query_first($sql);
 
 if(count($_response) > 1){
     $new        = false;
@@ -83,7 +74,7 @@ if(count($_response) > 1){
 
 }
 
-$db = null;
+$db->close();
 
 //return response values
 header('Content-Type: application/xml; charset=ISO-8859-1');

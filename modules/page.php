@@ -7,23 +7,21 @@
 
 try {
 
-    //initialize pdo object
-    $db = new PDO('mysql:host=crudoctrine.db.6550033.hostedresource.com;port=3306;dbname=crudoctrine', 'crudoctrine', 'D6LLd2mxU6Z34i');
+	// grab the existing $db object
+	$db=Database::obtain();
 
     //get module sections & pages
-    $db_sections = $db->prepare("SELECT * FROM section WHERE ModuleId = ? ORDER BY Ord ASC");
-    $db_sections->bindValue(1, (int)$module['ID'], PDO::PARAM_STR);
-    $db_sections->execute();
+	$sql = "SELECT * FROM section WHERE ModuleId = " .(int)$module['ID']. " ORDER BY Ord ASC");
 
-    $sections = $db_sections->fetchAll(PDO::FETCH_ASSOC);
+	//execute query 
+    $sections = $db->fetch_array($sql);	
 
     foreach($sections as $row){
         //get pages in section
-        $db_pages = $db->prepare("SELECT * FROM page WHERE SectionId = ? ORDER BY Ord ASC");
-        $db_pages->bindValue(1, (int)$row['ID'], PDO::PARAM_STR);
-        $db_pages->execute();
+		$sql = "SELECT * FROM page WHERE SectionId = " .(int)$row['ID']. " ORDER BY Ord ASC");
 
-        $pages = $db_pages->fetchAll(PDO::FETCH_ASSOC);
+		//execute query 
+	    $pages = $db->fetch_array($sql);
         $count = count($pages);
 
         //add to module if section has at least one page
@@ -39,7 +37,9 @@ try {
     $notes          = array();
 
     //get elements
-    $db_elements = $db->query("SELECT * FROM element WHERE PageId = ".$page['ID']." ORDER BY Ord")->fetchAll(PDO::FETCH_ASSOC);
+	$sql = "SELECT * FROM element WHERE PageId = ".$page['ID']." ORDER BY Ord";
+	//execute query 
+    $db_elements = $db->fetch_array($sql);	
 
     //get element content and construct element arrays
     foreach($db_elements as $db_element){
@@ -49,7 +49,8 @@ try {
         $elemType   = $db_element['Type'];
 
         //execute query
-        $db_content = $db->query("SELECT * FROM ".$elemType." WHERE ID = ".$elemId)->fetch(PDO::FETCH_ASSOC);
+		$sql = "SELECT * FROM ".$elemType." WHERE ID = ".$elemId;
+        $db_content = $db->fetch_array($sql);
 
         //content string
         $content = '';
@@ -92,7 +93,6 @@ try {
                 $height     = $db_content['Height'];
                 $content    = '<div style="height: '.$height.'px;"></div>';
                 break;
-
         }
 
         //construct element
@@ -119,11 +119,15 @@ try {
     }
 
     //get notes
-    $db_notes   = $db->query("SELECT n.ElementId FROM note n INNER JOIN element e ON n.ElementId = e.ElementId  WHERE e.PageId = ".$page['ID']." AND n.Email = '".$email."';")->fetchAll(PDO::FETCH_ASSOC);
-    foreach($db_notes as $db_note){
+    //execute query
+	$sql = "SELECT n.ElementId FROM note n INNER JOIN element e ON n.ElementId = e.ElementId  WHERE e.PageId = ".$page['ID']." AND n.Email = '".$email."'";
+    $db_notes = $db->fetch_array($sql);
+
+    //TODO: This doesn't seem right
+	foreach($db_notes as $db_note){
         $notes[] = $db_note['ElementId'];
     }
-    $db = null;
+ 	$db->close();
 
 } catch (PDOException $e){
     echo $e->getMessage();
@@ -142,10 +146,9 @@ function insertElement($_id, $_type, $_content){
     echo $element;
 
 }
-
 ?>
 
-<script src="/crudoctrine/jquery/elastic/jquery.elastic-1.6.js" type="text/javascript" charset="utf-8"></script>
+<script src="/jquery/elastic/jquery.elastic-1.6.js" type="text/javascript" charset="utf-8"></script>
 
 <div id="module<?php echo str_replace('.', '', $module['Number']); ?>" class="page">
 
@@ -589,7 +592,7 @@ function insertElement($_id, $_type, $_content){
                         var type        = $(this).find('type').text();
                         var id          = $(this).find('id').text();
 
-                        var url         = "/crudoctrine/modules/?";
+                        var url         = "/modules/?";
                         switch(type){
                             case 'page':
                                 url    += 'p';

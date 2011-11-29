@@ -18,50 +18,44 @@ $moduleOrd  = isset($_POST['moduleOrd'])    ? $_POST['moduleOrd']       : 0;
 $cur_date   = date( 'Y-m-d' );
 $errors     = isset($_POST['errors'])       ? $_POST['errors']          : '';
 
-//get pdo
-$db = new PDO('mysql:host=crudoctrine.db.6550033.hostedresource.com;port=3306;dbname=crudoctrine', 'crudoctrine', 'D6LLd2mxU6Z34i');
+// grab the existing $db object
+$db=Database::obtain();
 
 //update progress
 if($submit){
 
     //mark current page complete
-    $query = $db->prepare("UPDATE progress SET Status = ?, `Update` = ? WHERE Email = ? AND PageId = ?;");
-    $query->bindValue(1, 'complete',        PDO::PARAM_STR);
-    $query->bindValue(2, $cur_date,         PDO::PARAM_STR);
-    $query->bindValue(3, $email,            PDO::PARAM_STR);
-    $query->bindValue(4, (int)$pageId,      PDO::PARAM_INT);
-    $query->execute();
-
+	$data['Status'] = 'complete';
+	$data['Update'] = $cur_date;
+	
+	//execute query
+    $db->update("progress", $data, "Email = '".$db->escape($email)."' AND PageId = " .(int)$pageId);
+    
     //get next page
-    $db_next = $db->prepare("   SELECT p.ID AS Page, s.ID AS Section, m.ID AS Module
-                                FROM page p
-                                INNER JOIN section s ON p.SectionId = s.ID
-                                INNER JOIN module m ON s.ModuleId = m.ID
-                                WHERE   (p.Ord = ".($pageOrd + 1)." AND s.ID = ".$sectionId." AND m.ID = ".$moduleId.") OR
-                                        (p.Ord = 0 AND s.Ord = ".($sectionOrd + 1)." AND m.ID = ".$moduleId.") OR
-                                        (p.Ord = 0 AND s.Ord = 0 AND m.Ord = ".($moduleOrd + 1).");");
+    $sql = "SELECT p.ID AS Page, s.ID AS Section, m.ID AS Module
+            FROM page p
+            INNER JOIN section s ON p.SectionId = s.ID
+            INNER JOIN module m ON s.ModuleId = m.ID
+            WHERE   (p.Ord = ".($pageOrd + 1)." AND s.ID = ".$sectionId." AND m.ID = ".$moduleId.") OR
+                    (p.Ord = 0 AND s.Ord = ".($sectionOrd + 1)." AND m.ID = ".$moduleId.") OR
+                    (p.Ord = 0 AND s.Ord = 0 AND m.Ord = ".($moduleOrd + 1).");");
 
-    $db_next->bindValue(1, (int)($pageOrd + 1),     PDO::PARAM_STR);
-    $db_next->bindValue(2, (int)$sectionId,         PDO::PARAM_STR);
-    $db_next->bindValue(3, (int)$moduleId,          PDO::PARAM_STR);
-    $db_next->bindValue(4, (int)($sectionOrd + 1),  PDO::PARAM_STR);
-    $db_next->bindValue(5, (int)$moduleId,          PDO::PARAM_STR);
-    $db_next->bindValue(6, (int)($moduleOrd + 1),   PDO::PARAM_STR);
-    $db_next->execute();
+	//execute query 
+    $next = $db->query_first($sql);
 
-    if(count($db_next > 0)){
-        $next       = $db_next->fetch(PDO::FETCH_ASSOC);
+    if($db->affected_rows > 0){
         $nextId     = $next['Page'];
 
         //mark next page started
-        $query = $db->prepare("INSERT INTO progress (Email, PageId, Status, `Update`) VALUES (?,?,?,?)");
-        $query->bindValue(1, $email,            PDO::PARAM_STR);
-        $query->bindValue(2, (int)$nextId,      PDO::PARAM_INT);
-        $query->bindValue(3, 'started',         PDO::PARAM_STR);
-        $query->bindValue(4, $cur_date,         PDO::PARAM_STR);
-        $query->execute();
+		$data['Email'] = $email;
+		$data['PageId'] = (int)$nextId;
+		$data['Status'] = 'started';
+		$data['Update'] = $cur_date;
 
-        $type   = $next['Module'] == $moduleId ? 'page' : 'module';
+		//execute query
+		$db->insert("progress", $data);
+        
+		$type   = $next['Module'] == $moduleId ? 'page' : 'module';
         $id     = $type == 'page' ? $nextId : $next['Module'];
 
         //return next page
@@ -86,6 +80,6 @@ if($submit){
 
 }
 
-$db = null;
+$db->close();
 
 ?>

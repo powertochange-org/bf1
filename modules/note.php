@@ -27,47 +27,39 @@ $db=Database::obtain();
 if($submit){
 
     if($new){   //new note
-
         //prepare query
-        $query = $db->prepare("INSERT INTO note (Email, ElementId, Type, Note, _x, _y, _w, _h) VALUES (?,?,?,?,?,?,?,?)");
-        $query->bindValue(1, $email,            PDO::PARAM_STR);
-        $query->bindValue(2, (int)$id,          PDO::PARAM_INT);
-        $query->bindValue(3, 'note',            PDO::PARAM_STR);
-        $query->bindValue(4, $note,             PDO::PARAM_STR);
-        $query->bindValue(5, (int)$x,           PDO::PARAM_INT);
-        $query->bindValue(6, (int)$y,           PDO::PARAM_INT);
-        $query->bindValue(7, (int)$w,           PDO::PARAM_INT);
-        $query->bindValue(8, (int)$h,           PDO::PARAM_INT);
+        $data['Email'] = $email;
+        $data['ElementId'] = (int)$id;
+        $data['Type'] = 'note';
+        $data['Note'] = $note;
+        $data['_x'] = (int)$x;
+        $data['_y'] = (int)$y;
+        $data['_w'] = (int)$w;
+        $data['_h'] = (int)$h;
 
         //execute query
-        $query->execute();
-
+        $primary_id = $db->insert("note", $data);
+        
     } else {    //edit note
-
         if($note == ''){ //note is empty, delete
             //prepare query
-            $query = $db->prepare("DELETE FROM note WHERE Email = ? AND ElementId = ?");
-            $query->bindValue(1, $email,            PDO::PARAM_STR);
-            $query->bindValue(2, (int)$id,          PDO::PARAM_INT);
+            $sql = "DELETE FROM note WHERE Email = '".$db->escape($email)."' AND ElementId = " .(int)$id;
 
             //execute query
-            $query->execute();
+            $db->query($sql);
 
             echo 'Note Deleted';
         } else {
             //prepare query
-            $query = $db->prepare("UPDATE note SET Type = ?, Note = ?, _x = ?, _y = ?, _w = ?, _h = ? WHERE Email = ? AND ElementId = ?");
-            $query->bindValue(1, 'note',            PDO::PARAM_STR);
-            $query->bindValue(2, $note,             PDO::PARAM_STR);
-            $query->bindValue(3, (int)$x,           PDO::PARAM_INT);
-            $query->bindValue(4, (int)$y,           PDO::PARAM_INT);
-            $query->bindValue(5, (int)$w,           PDO::PARAM_INT);
-            $query->bindValue(6, (int)$h,           PDO::PARAM_INT);
-            $query->bindValue(7, $email,            PDO::PARAM_STR);
-            $query->bindValue(8, (int)$id,          PDO::PARAM_INT);
+            $data['Type'] = 'note';
+            $data['Note'] = $note;
+            $data['_x'] = (int)$x;
+            $data['_y'] = (int)$y;
+            $data['_w'] = (int)$w;
+            $data['_h'] = (int)$h;
 
             //execute query
-            $query->execute();
+            $db->update("note", $data, "Email = '".$db->escape($email)."' AND ElementId = " .(int)$id);
 
             echo 'Note Saved';
         }
@@ -78,12 +70,11 @@ if($submit){
 }
 
 //get note
-$db_note = $db->prepare("SELECT * FROM note WHERE Email = ? AND ElementId = ?");
-$db_note->bindValue(1, $email,      PDO::PARAM_STR);
-$db_note->bindValue(2, (int)$id,    PDO::PARAM_INT);
-$db_note->execute();
+//prepare query
+$sql = "SELECT * FROM note WHERE Email = '".$db->escape($email)."' AND ElementId = " .(int)$id;
 
-$_note  = $db_note->fetch(PDO::FETCH_ASSOC);
+//execute query
+$_note = $db->fetch_array($sql);
 
 if(count($_note) > 1){
     $new    = false;
@@ -104,7 +95,7 @@ if(count($_note) > 1){
     $h      = 130;
 
 }
-
+$db->close();
 ?>
 
 
