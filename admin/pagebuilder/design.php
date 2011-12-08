@@ -2,7 +2,7 @@
 /*
  * Cru Doctrine
  * Admin - Page Builder - Page Design
- * Keith Roehrenbeck | Campus Crusade for Christ
+ * Campus Crusade for Christ
  */
 
 try {

@@ -2,7 +2,7 @@
 /*
  * Cru Doctrine
  * Admin
- * Keith Roehrenbeck | Campus Crusade for Christ
+ * Campus Crusade for Christ
  */
 
 //ensure user authentication

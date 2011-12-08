@@ -2,7 +2,7 @@
 /*
  * Cru Doctrine
  * Modules - Module Home
- * Keith Roehrenbeck | Campus Crusade for Christ
+ * Campus Crusade for Christ
  */
 
 ?>

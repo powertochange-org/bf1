@@ -2,7 +2,7 @@
 /*
  * Cru Doctrine
  * Admin - Edit User
- * Keith Roehrenbeck | Campus Crusade for Christ
+ * Campus Crusade for Christ
  */
 
 try {

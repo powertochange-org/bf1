@@ -2,7 +2,7 @@
 /*
  * Cru Doctrine
  * Header
- * Keith Roehrenbeck | Campus Crusade for Christ
+ * Campus Crusade for Christ
  */
 
 //check for session

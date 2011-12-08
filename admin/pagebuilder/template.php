@@ -2,7 +2,7 @@
 /*
  * Cru Doctrine
  * Page Builder - Information
- * Keith Roehrenbeck | Campus Crusade for Christ
+ * Campus Crusade for Christ
  */
 ?>
 

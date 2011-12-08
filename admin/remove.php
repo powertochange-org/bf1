@@ -2,7 +2,7 @@
 /*
  * Cru Doctrine
  * Admin - Remove Handler
- * Keith Roehrenbeck | Campus Crusade for Christ
+ * Campus Crusade for Christ
  */
 
 function deleteModule($id){

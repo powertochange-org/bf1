@@ -3,7 +3,7 @@
 /*
  * Cru Doctrine
  * Admin - Users
- * Keith Roehrenbeck | Campus Crusade for Christ
+ * Campus Crusade for Christ
  */
 
 //get users from db

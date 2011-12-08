@@ -2,7 +2,7 @@
 /*
  * Cru Doctrine
  * My Work
- * Keith Roehrenbeck | Campus Crusade for Christ
+ * Campus Crusade for Christ
  */
 
 //ensure user authentication

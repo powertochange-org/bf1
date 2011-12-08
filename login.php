@@ -2,7 +2,7 @@
 /*
  * Cru Doctrine
  * Login
- * Keith Roehrenbeck | Campus Crusade for Christ
+ * Campus Crusade for Christ
  */
 
 try {
@@ -69,7 +69,7 @@ try {
 
 ?>
 
-<link rel="stylesheet" type="text/css" media="screen" href="/crudoctrine/login.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="login.css" />
 
 <div id="login">
 

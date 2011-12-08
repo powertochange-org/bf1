@@ -2,7 +2,7 @@
 /*
  * Cru Doctrine
  * Logout
- * Keith Roehrenbeck | Campus Crusade for Christ
+ * Campus Crusade for Christ
  */
 
 
