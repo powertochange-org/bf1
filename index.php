@@ -34,7 +34,7 @@ try {
 }
 ?>
 
-<link rel="stylesheet" type="text/css" media="screen" href="CSS/home.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="css/home.css" />
 
 <div id="content">
 

@@ -126,7 +126,7 @@ try {
 
         if(submit){
             $.ajax({
-                url: '/crudoctrine/login.php',
+                url: 'login.php',
                 type: 'POST',
                 data: {
                     ajax       : true,

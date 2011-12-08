@@ -14,7 +14,7 @@ if(isset($_SESSION['email'])){
 }
 
 if(!$auth){
-    header('Location: #login');
+    header('Location: /#login');
 }
 
 //page title

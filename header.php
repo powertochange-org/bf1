@@ -43,16 +43,16 @@ echo"<title>".$title." | Cru Doctrine</title>";
 <!--core-->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.js"></script>
 <!--ui-->
-<script type="text/javascript" src="/crudoctrine/jquery/ui/js/jquery-ui-1.8.custom.min.js"></script>
-<link type="text/css" href="/crudoctrine/jquery/ui/css/crudoctrine-grey/jquery-ui-1.8.1.custom.css" rel="Stylesheet" />
+<script type="text/javascript" src="jquery/ui/js/jquery-ui-1.8.custom.min.js"></script>
+<link type="text/css" href="jquery/ui/css/crudoctrine-grey/jquery-ui-1.8.1.custom.css" rel="Stylesheet" />
 <!--media-->
-<script type="text/javascript" src="/crudoctrine/jquery/media/jquery.media.js"></script>
+<script type="text/javascript" src="jquery/media/jquery.media.js"></script>
 
 <!--END JQUERY-->
 
 <!--CSS-->
-<link rel="stylesheet" type="text/css" media="screen" href="/crudoctrine/CSS/layout.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="/crudoctrine/CSS/print.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="css/layout.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="css/print.css" />
 <!--END CSS-->
 
 </head>
@@ -67,23 +67,23 @@ echo"<title>".$title." | Cru Doctrine</title>";
 
 	<div id="navbar"><!--NAVBAR-->
 
-            <div id="userbox"><!--USERBOX-->
+        <div id="userbox"><!--USERBOX-->
 
-                <div id="loginDialog" >
-                    <div id="form" class="shadow-medium corners-all">
+              <div id="loginDialog" >
+                  <div id="form" class="shadow-medium corners-all">
 
-                    </div>
-                    <div id="tab"></div>
-                </div>
-                <div id="loginbox" class="ui-corner-top"><?php echo $loggedin ? $userMessage.' | <a href="/crudoctrine/logout.php" id="logout">LOG OUT</a>' : '<a href="/crudoctrine/login.php" id="login">LOG IN</a>'; ?></div>
+                  </div>
+                  <div id="tab"></div>
+              </div>
+              <div id="loginbox" class="ui-corner-top"><?php echo $loggedin ? $userMessage.' | <a href="logout.php" id="logout">LOG OUT</a>' : '<a href="login.php" id="login">LOG IN</a>'; ?></div>
 
-            </div><!--END USERBOX-->
-            <div class="option" ><a href="/crudoctrine/">WELCOME</a></div>
-	    <!--<div class="option" ><a href="/crudoctrine/profile/">MY PROFILE</a></div>-->
-	    <div class="option" ><a href="/crudoctrine/work/">MY WORK</a></div>
+           </div><!--END USERBOX-->
+        <div class="option" ><a href="">WELCOME</a></div>
+	    <!--<div class="option" ><a href="profile/">MY PROFILE</a></div>-->
+	    <div class="option" ><a href="work/">MY WORK</a></div>
 	    <div class="option" ><a href="#">COMMUNITY</a></div>
 	    <div class="option" ><a href="#">RESOURCES</a></div>
-            <?php echo $_SESSION['type']=='super' ? '<div class="option" ><a href="/crudoctrine/admin/">ADMIN</a></div>' : ''; ?>
+        <?php echo $_SESSION['type']=='super' ? '<div class="option" ><a href="admin/">ADMIN</a></div>' : ''; ?>
 
 	</div><!--ENDS NAVBAR-->
 
@@ -120,7 +120,7 @@ echo"<title>".$title." | Cru Doctrine</title>";
 
     function login(){
         $.ajax({
-            url: "/crudoctrine/login.php",
+            url: "login.php",
             dataType: "html",
             type: "post",
             success: function(msg){
@@ -134,7 +134,7 @@ echo"<title>".$title." | Cru Doctrine</title>";
 
     function logout() {
         $.ajax({
-            url: "/crudoctrine/logout.php",
+            url: "logout.php",
             dataType: "html",
             type: "post",
             success: function(msg){
