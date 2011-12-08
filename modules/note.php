@@ -26,7 +26,7 @@ $db=Database::obtain();
 //save note
 if($submit){
 
-    if($new){   //new note
+    if($new){//new note
         //prepare query
         $data['Email'] = $email;
         $data['ElementId'] = (int)$id;
@@ -65,8 +65,8 @@ if($submit){
         }
 
     }
+	$db->close();
     exit();
-
 }
 
 //get note
@@ -97,7 +97,6 @@ if(count($_note) > 1){
 }
 $db->close();
 ?>
-
 
 <div class="note <?php echo $new ? 'new' : ''; ?>" id="<?php echo $id; ?>" style="<?php echo 'top:'.$y.'px; left:'.$x.'px;"';?>">
     <div class="bg">

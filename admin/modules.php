@@ -12,11 +12,15 @@ try {
     
     global $modules;
     
-    //initialize pdo object
-    $db = new PDO('mysql:host=crudoctrine.db.6550033.hostedresource.com;port=3306;dbname=crudoctrine', 'crudoctrine', 'D6LLd2mxU6Z34i');
+	// grab the existing $db object
+	$db=Database::obtain();
     
     //execute query and return to module array
-    $modules = $db->query("SELECT * FROM module ORDER BY Ord;")->fetchAll(PDO::FETCH_ASSOC);
+    $sql = "SELECT * FROM module ORDER BY Ord";
+	//execute query
+	$modules = $db->fetch_array($sql);
+
+	$db->close();
     
 } catch (PDOException $e){
     echo $e->getMessage();

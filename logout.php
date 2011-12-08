@@ -14,6 +14,6 @@ if(isset($_SESSION['email'])){
 }
 
 
-header( "Location: /crudoctrine/" );
+header( "Location: " );
 
 ?>

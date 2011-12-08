@@ -1,3 +1,4 @@
+
 <?php
 /*
  * Cru Doctrine
@@ -10,19 +11,20 @@ $users = array();
 
 try {
 
-    global $users;
-
-    //initialize pdo object
-    $db = new PDO('mysql:host=crudoctrine.db.6550033.hostedresource.com;port=3306;dbname=crudoctrine', 'crudoctrine', 'D6LLd2mxU6Z34i');
+	// grab the existing $db object
+	$db=Database::obtain();
 
     //execute query and return to module array
-    $users = $db->query(   "SELECT u.Email, u.FName, u.LName, u.Type, u.Region AS Reg, u.Loc, u.Reg_Date, u.Reg_Status, r.Name AS Region, l.Name AS Location
-                            FROM user u
-                            INNER JOIN region r ON u.Region = r.ID
-                            INNER JOIN location l ON u.Loc = l.ID
-                            ORDER BY LName;"
-        )->fetchAll(PDO::FETCH_ASSOC);
+    
+	$users = "SELECT u.Email, u.FName, u.LName, u.Type, u.Region AS Reg, u.Loc, u.Reg_Date, u.Reg_Status, r.Name AS Region, l.Name AS Location
+              FROM user u
+              INNER JOIN region r ON u.Region = r.ID
+              INNER JOIN location l ON u.Loc = l.ID
+              ORDER BY LName;"
 
+	$users = $db->fetch_array($sql);
+	
+	$db->close();
 } catch (PDOException $e){
     echo $e->getMessage();
 }

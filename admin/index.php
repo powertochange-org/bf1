@@ -14,7 +14,7 @@ if($_SESSION['type']=='super'){
 }
 
 if(!$auth){
-    header('Location: /crudoctrine/#login');
+    header('Location: #login');
 }
 
 //page title

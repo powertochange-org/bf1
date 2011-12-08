@@ -7,8 +7,8 @@
 
 try {
 
-    //initialize pdo object
-    $db = new PDO('mysql:host=crudoctrine.db.6550033.hostedresource.com;port=3306;dbname=crudoctrine', 'crudoctrine', 'D6LLd2mxU6Z34i');
+	// grab the existing $db object
+	$db=Database::obtain();
 
     if(!$new){ //get elements for existing page
 
@@ -17,8 +17,10 @@ try {
         $right_elements = array();
 
         //get elements
-        $db_elements = $db->query("SELECT * FROM element WHERE PageId = ".$id." ORDER BY Ord")->fetchAll(PDO::FETCH_ASSOC);
-
+		$sql = "SELECT * FROM element WHERE PageId = ".$id." ORDER BY Ord";
+		//execute query
+		$db_elements = $db->fetch_array($sql);
+		
         //get element content and construct element arrays
         foreach($db_elements as $db_element){
 
@@ -27,8 +29,8 @@ try {
             $elemType   = $db_element['Type'];
 
             //execute query
-            $db_content = $db->query("SELECT * FROM ".$elemType." WHERE ID = ".$elemId)->fetchAll(PDO::FETCH_ASSOC);
-            $db_content = $db_content[0];
+            $sql = "SELECT * FROM ".$elemType." WHERE ID = ".$elemId;
+            $db_content = $db->query_first($sql);
 
             //content string
             $content = '';
@@ -95,7 +97,7 @@ try {
 
     }
 
-    $db = null;
+	$db->close();
 
 } catch (PDOException $e) {
     echo $e->getMessage();
@@ -1131,7 +1133,3 @@ function insertElement($_id, $_type, $_content){
     }
 
 </script>
-
-<?php
-
-?>

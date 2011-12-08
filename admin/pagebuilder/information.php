@@ -7,26 +7,26 @@
 
 try {
 
-    //initialize pdo object
-    $db = new PDO('mysql:host=crudoctrine.db.6550033.hostedresource.com;port=3306;dbname=crudoctrine', 'crudoctrine', 'D6LLd2mxU6Z34i');
+	// grab the existing $db object
+	$db=Database::obtain();
 
     if (!$new){ //get data for existing page
 
         //get page information
-        $db_page = $db->query("SELECT * FROM page WHERE ID = ".$id)->fetchAll(PDO::FETCH_ASSOC);
+		$sql = "SELECT * FROM page WHERE ID = ".$id;
 
-        //assign section information to array
-        $result = $db_page[0];
+        //execute query
+		//assign section information to array
+        $result = $db->query_first($sql);
 
         //assign values
         $sectionId  = $result['SectionId'];
         $_title     = $result['Title'];
         $order      = $result['Ord'];
         $visibility = $result['Visibility'];
-
     }
 
-    $db = null;
+	$db->close();
 
 } catch (PDOException $e) {
     echo $e->getMessage();

@@ -19,42 +19,31 @@ try {
 
     $errors     = isset($_POST['errors'])   ? $_POST['errors'] : '';
 
-    //initialize pdo object
-    $db = new PDO('mysql:host=crudoctrine.db.6550033.hostedresource.com;port=3306;dbname=crudoctrine', 'crudoctrine', 'D6LLd2mxU6Z34i');
+	// grab the existing $db object
+	$db=Database::obtain();
 
     //check for form submission
     if($submit){
 
-        //open transaction
-        $db->beginTransaction();
-
         if($new){   //new section
+	        //prepare query
+	        $data['ModuleId'] = (int)$moduleId;
+	        $data['Title'] = $title;
+	        $data['Ord'] = (double)$order;
 
-            //prepare query
-            $query = $db->prepare("INSERT INTO section (ModuleId, Title, Ord) VALUES (?,?,?)");
-            $query->bindValue(1, (int)$moduleId,    PDO::PARAM_INT);
-            $query->bindValue(2, $title,            PDO::PARAM_STR);
-            $query->bindValue(3, (double)$order,    PDO::PARAM_INT);
-
-            //execute query and obtain pk
-            $query->execute();
-            $sectionId = $db->lastInsertId();
+	        //execute query
+	        $sectionId = $db->insert("section", $data);
 
         } else {    //edit section
 
-            //prepare query
-            $query = $db->prepare("UPDATE section SET ModuleId = ?, Title = ?, Ord = ? WHERE ID = ?");
-            $query->bindValue(1, (int)$moduleId,    PDO::PARAM_INT);
-            $query->bindValue(2, $title,            PDO::PARAM_STR);
-            $query->bindValue(3, (double)$order,    PDO::PARAM_INT);
-            $query->bindValue(4, $sectionId,        PDO::PARAM_INT);
+	        //prepare query
+	        $data['ModuleId'] = (int)$moduleId;
+	        $data['Title'] = $title;
+	        $data['Ord'] = (double)$order;
 
             //execute query
-            $query->execute();
-
+            $db->update("section", $data, "ID = ".$db->escape($sectionId));
         }
-
-        $db->commit();
 
         //if ajax, return module attributes as xml
         if ($ajax) {
@@ -80,18 +69,17 @@ try {
     } else if (!$new){ //get data for existing section
 
         //get section information
-        $db_section = $db->query("SELECT * FROM section WHERE ID = ".$sectionId)->fetchAll(PDO::FETCH_ASSOC);
+        $sql = "SELECT * FROM section WHERE ID = ".$sectionId;
 
         //assign section information to array
-        $result = $db_section[0];
+		$result = $db->fetch_array($sql);
 
         //assign values
         $title      = $result['Title'];
         $order      = $result['Ord'];
-
     }
 
-    $db = null;
+	$db->close();
 
 } catch (PDOException $e) {
     echo $e->getMessage();

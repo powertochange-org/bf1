@@ -15,17 +15,19 @@ try {
 
     global $module;
 
-    //initialize pdo object
-    $db = new PDO('mysql:host=crudoctrine.db.6550033.hostedresource.com;port=3306;dbname=crudoctrine', 'crudoctrine', 'D6LLd2mxU6Z34i');
+	// grab the existing $db object
+	$db=Database::obtain();
 
     //get module information
-    $db_module = $db->query("SELECT * FROM module WHERE ID = ".$moduleId)->fetchAll(PDO::FETCH_ASSOC);
+    $sql = "SELECT * FROM module WHERE ID = ".$moduleId;
 
     //assign module information to array
-    $module['info'] = $db_module[0];
+    $module['info'] = $db->query_first($sql);
 
     //get sections
-    $db_sections = $db->query("SELECT * FROM section WHERE moduleId = ".$moduleId." ORDER BY Ord")->fetchAll(PDO::FETCH_ASSOC);
+    $sql = "SELECT * FROM section WHERE moduleId = ".$moduleId." ORDER BY Ord";
+	//execute query
+    $db_sections = $db->fetch_array($sql);
 
     //construct section array
     $sections = array();
@@ -36,7 +38,9 @@ try {
         $section['info'] = $db_section;
 
         //get corresponding pages
-        $db_pages = $db->query("SELECT * FROM page WHERE sectionId = ".$sectionId." ORDER BY Ord")->fetchAll(PDO::FETCH_ASSOC);
+	    $sql = "SELECT * FROM page WHERE sectionId = ".$sectionId." ORDER BY Ord";
+		//execute query
+	    $db_pages = $db->fetch_array($sql);
 
         //attach pages to section
         $section['pages'] = $db_pages;
@@ -47,6 +51,7 @@ try {
     //attach sections to module
     $module['sections'] = $sections;
 
+	$db->close();
 
 } catch (PDOException $e){
     echo $e->getMessage();

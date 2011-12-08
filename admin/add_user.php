@@ -18,24 +18,18 @@ try {
 
     $errors     = isset($_POST['errors'])   ? $_POST['errors'] : '';
 
-    //initialize pdo object
-    $db = new PDO('mysql:host=crudoctrine.db.6550033.hostedresource.com;port=3306;dbname=crudoctrine', 'crudoctrine', 'D6LLd2mxU6Z34i');
+	// grab the existing $db object
+	$db=Database::obtain();
 
     //check for form submission
     if($submit){    //form was submitted, process data
 
-        //open transaction
-        $db->beginTransaction();
+        //prepare query
+        $data['Reg_Status'] = $status;
 
-        //update status
-        $query = $db->prepare("UPDATE user SET Reg_Status = ? WHERE ID = ?");
-        $query->bindValue(1, $status,           PDO::PARAM_STR);
-        $query->bindValue(2, $email,            PDO::PARAM_STR);
-        $query->execute();
+        //execute query
+        $db->update("user", $data, "ID = '".$db->escape($email)."'");
         
-        
-        $db->commit();
-
         //if ajax, return user attributes as xml
         if ($ajax) {
 
@@ -59,21 +53,25 @@ try {
     } else { //get data for user
 
         //get status
-        $db_user  = $db->query("SELECT Reg_Status, FName, LName FROM user WHERE Email = ".$email)->fetchAll(PDO::FETCH_ASSOC);
-        $result     = $db_user[0];
+		//prepare query
+		$sql = "SELECT Reg_Status, FName, LName FROM user WHERE Email = ".$email;
+
+		//execute query
+		$result     = $db->query_first($sql);
         $status     = $result['Reg_Status'];
         $name       = $result['FName'].' '.$result['LName'];
         
         //get progress
         
         //get coach
-        $db_coach   = $db->query("SELECT Coach FROM coach WHERE Student = ".$email)->fetchAll(PDO::FETCH_ASSOC);
-        $result     = $db_coach[0];
+		//prepare query
+		$sql = "SELECT Coach FROM coach WHERE Student = ".$email;
+        $result     = $db->query_first($sql);
         $coach      = $result['Coach'];
 
     }
 
-    $db = null;
+	$db->close();
 
 } catch (PDOException $e) {
     echo $e->getMessage();

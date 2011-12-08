@@ -7,30 +7,34 @@
 
 function deleteModule($id){
 
-    global $db;
-
     //delete attached sections
-    $sections = $db->query('SELECT * FROM section WHERE ModuleId = '.$id)->fetchAll(PDO::FETCH_ASSOC);
+    $sql = "SELECT * FROM section WHERE ModuleId = ".$id;
+	//execute query
+	$sections = $db->fetch_array($sql);
     foreach($sections as $section){
         deleteSection($section['ID']);
     }
     
     //delete module
-    $db->exec('DELETE FROM module WHERE ID='.$id);
+	$sql = "DELETE FROM module WHERE ID= ".$id;
+    //execute query
+    $db->query($sql);    
 }
 
 function deleteSection($id){
 
-    global $db;
-
     //delete attached pages
-    $pages = $db->query('SELECT * FROM page WHERE SectionId = '.$id)->fetchAll(PDO::FETCH_ASSOC);
+	$sql = "SELECT * FROM page WHERE SectionId = ".$id;
+    $pages = $db->fetch_array($sql);
     foreach($pages as $page){
         deletePage($page['ID']);
     }
     
     //delete section
-    $db->exec('DELETE FROM section WHERE ID='.$id);
+    $sql = "DELETE FROM section WHERE ID= ".$id;
+    //execute query
+    $db->query($sql);    
+
 }
 
 function deletePage($id){
@@ -38,14 +42,19 @@ function deletePage($id){
     global $db;
     
     //delete attached elements
-    $elements = $db->query('SELECT * FROM element WHERE PageId = '.$id)->fetchAll(PDO::FETCH_ASSOC);
+	$sql = "SELECT * FROM element WHERE PageId = ".$id;
+    $elements = $db->fetch_array($sql);
     foreach($elements as $element){
-        $db->exec('DELETE FROM '.$element['Type'].' WHERE ID='.$element['ElementId']);
-        $db->exec('DELETE FROM element WHERE ElementId='.$element['ElementId']);
+		$sql = "DELETE FROM ".$element['Type']." WHERE ID = ".$element['ElementId'];
+		//execute query
+	    $db->query($sql);
+	    $sql = "DELETE FROM element WHERE ElementId = ".$element['ElementId'];
+		$db->query($sql);
     }
 
     //delete page
-    $db->exec('DELETE FROM page WHERE ID='.$id);
+	$sql = "DELETE FROM page WHERE ID = ".$id;
+	$db->query($sql);
 }
 
 try {
@@ -58,11 +67,8 @@ try {
 
     $errors     = isset($_POST['errors'])   ? $_POST['errors']                              : '';
 
-    //initialize pdo object
-    $db = new PDO('mysql:host=crudoctrine.db.6550033.hostedresource.com;port=3306;dbname=crudoctrine', 'crudoctrine', 'D6LLd2mxU6Z34i');
-
-    //open transaction
-    $db->beginTransaction();
+	// grab the existing $db object
+	$db=Database::obtain();
 
     switch($type){
 
@@ -80,9 +86,7 @@ try {
 
     }
 
-    $db->commit();
-
-    $db = null;
+	$db->close();
 
     //if ajax, return success
     if ($ajax) {

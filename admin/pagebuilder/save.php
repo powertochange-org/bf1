@@ -32,23 +32,25 @@ function processElements($_xml, $_loc, $_db){
         $insert = ($elementId == 0);
 
         //attach element to page
-        $_db->beginTransaction();
-        if($insert) {   //insert
-            $prep = $_db->prepare("INSERT INTO element (PageId, Type, Ord, Loc) VALUES (?, ?, ?, ?)");
-            $prep->bindValue(1, (int)$pageId, PDO::PARAM_INT);
-            $prep->bindValue(2, $elementType, PDO::PARAM_STR);
-            $prep->bindValue(3, (int)$order, PDO::PARAM_INT);
-            $prep->bindValue(4, $_loc, PDO::PARAM_STR);
-            $prep->execute();
-            $elementId = $_db->lastInsertId();
-        } else {        //update
-            $prep = $_db->prepare("UPDATE element SET Ord = ?, Loc = ? WHERE ElementId = ?");
-            $prep->bindValue(1, (int)$order, PDO::PARAM_INT);
-            $prep->bindValue(2, $_loc, PDO::PARAM_STR);
-            $prep->bindValue(3, (int)$elementId, PDO::PARAM_INT);
-            $prep->execute();
+        if($insert) {//insert
+
+	        //prepare query
+	        $data['PageId'] = (int)$pageId;
+	        $data['Type'] = $elementType;
+	        $data['Ord'] = (int)$order;
+	        $data['Loc'] = $_loc;
+
+	        //execute query
+	        $elementId = $_db->insert("element", $data);
+        } else { //update
+	
+	        //prepare query
+		    $data['Ord'] = (int)$order;
+	        $data['Loc'] = $_loc;
+	
+	        //execute query
+	        $_db->update("element", $data, "ElementId = " .(int)$elementId);	
         }
-        $_db->commit();
 
         //create type-specific element
         switch($elementType){
@@ -57,19 +59,22 @@ function processElements($_xml, $_loc, $_db){
                 $text       = $element->text;
 
                 //save to db
-                $_db->beginTransaction();
                 if($insert) {//insert
-                    $prep = $_db->prepare("INSERT INTO Textbox (ID, text) VALUES (?, ?)");
-                    $prep->bindValue(1, (int)$elementId, PDO::PARAM_INT);
-                    $prep->bindValue(2, $text, PDO::PARAM_STR);
-                    $prep->execute();
-                } else {            //update
-                    $prep = $_db->prepare("UPDATE Textbox SET text = ? WHERE ID = ?");
-                    $prep->bindValue(1, $text, PDO::PARAM_STR);
-                    $prep->bindValue(2, (int)$elementId, PDO::PARAM_INT);
-                    $prep->execute();
+
+			        //prepare query
+			        $data['ID'] = (int)$elementId;
+			        $data['text'] = $text;
+
+			        //execute query
+			        $textBoxId = $_db->insert("Textbox", $data);
+                } else { //update
+
+			        //prepare query
+			        $data['text'] = $text;
+
+			        //execute query
+			        $_db->update("Textbox", $data, "ID = " .(int)$elementId);	
                 }
-                $_db->commit();
 
                 break;
 
@@ -81,25 +86,28 @@ function processElements($_xml, $_loc, $_db){
                 $caption    = $element->caption;
 
                 //save to db
-                $_db->beginTransaction();
-                if($insert) {       //insert
-                    $prep = $_db->prepare("INSERT INTO Media (ID, Caption, filename, height, width) VALUES (?, ?, ?, ?, ?)");
-                    $prep->bindValue(1, (int)$elementId,    PDO::PARAM_INT);
-                    $prep->bindValue(2, $caption,           PDO::PARAM_STR);
-                    $prep->bindValue(3, $url,               PDO::PARAM_STR);
-                    $prep->bindValue(4, (int)$height,       PDO::PARAM_INT);
-                    $prep->bindValue(5, (int)$width,        PDO::PARAM_INT);
-                    $prep->execute();
-                } else {            //update
-                    $prep = $_db->prepare("UPDATE Media SET Caption = ?, filename = ?, height = ?, width = ? WHERE ID = ?");
-                    $prep->bindValue(1, $catpion,               PDO::PARAM_STR);
-                    $prep->bindValue(2, $url,           PDO::PARAM_STR);
-                    $prep->bindValue(3, (int)$height,       PDO::PARAM_INT);
-                    $prep->bindValue(4, (int)$width,        PDO::PARAM_INT);
-                    $prep->bindValue(5, (int)$elementId,    PDO::PARAM_INT);
-                    $prep->execute();
+                if($insert) {//insert
+	
+			        //prepare query
+			        $data['ID'] = (int)$elementId;
+			        $data['Caption'] = $caption;
+					$data['filename'] = $url;
+					$data['height'] = (int)$height;
+					$data['width'] = (int)$width;
+
+			        //execute query
+			        $mediaId = $_db->insert("Media", $data);
+                } else {//update
+	
+			        //prepare query
+			        $data['Caption'] = $caption;
+					$data['filename'] = $url;
+					$data['height'] = (int)$height;
+					$data['width'] = (int)$width;
+
+			        //execute query
+			        $_db->update("Media", $data, "ID = " .(int)$elementId);	
                 }
-                $_db->commit();
 
                 break;
 
@@ -111,25 +119,30 @@ function processElements($_xml, $_loc, $_db){
                 $caption    = $element->caption;
 
                 //save to db
-                $_db->beginTransaction();
-                if($insert) {       //insert
-                    $prep = $_db->prepare("INSERT INTO Image (ID, Caption, filename, height, width) VALUES (?, ?, ?, ?, ?)");
-                    $prep->bindValue(1, (int)$elementId,    PDO::PARAM_INT);
-                    $prep->bindValue(2, $caption,           PDO::PARAM_STR);
-                    $prep->bindValue(3, $url,               PDO::PARAM_STR);
-                    $prep->bindValue(4, (int)$height,       PDO::PARAM_INT);
-                    $prep->bindValue(5, (int)$width,        PDO::PARAM_INT);
-                    $prep->execute();
-                } else {            //update
-                    $prep = $_db->prepare("UPDATE Image SET Caption = ?, filename = ?, height = ?, width = ? WHERE ID = ?");
-                    $prep->bindValue(1, $caption,           PDO::PARAM_STR);
-                    $prep->bindValue(2, $url,               PDO::PARAM_STR);
-                    $prep->bindValue(3, (int)$height,       PDO::PARAM_INT);
-                    $prep->bindValue(4, (int)$width,        PDO::PARAM_INT);
-                    $prep->bindValue(5, (int)$elementId,    PDO::PARAM_INT);
-                    $prep->execute();
+
+                if($insert) {//insert
+	
+			        //prepare query
+			        $data['ID'] = (int)$elementId;
+			        $data['Caption'] = $caption;
+					$data['filename'] = $url;
+					$data['height'] = (int)$height;
+					$data['width'] = (int)$width;
+
+			        //execute query
+			        $imageId = $_db->insert("Image", $data);
+                } else {//update
+	
+			        //prepare query
+			        $data['Caption'] = $caption;
+					$data['filename'] = $url;
+					$data['height'] = (int)$height;
+					$data['width'] = (int)$width;
+
+			        //execute query
+			        $_db->update("Image", $data, "ID = " .(int)$elementId);	
+
                 }
-                $_db->commit();
 
                 break;
 
@@ -140,25 +153,28 @@ function processElements($_xml, $_loc, $_db){
                 $coach      = $element->coach == 'true'       ? true : false;
                 $min        = $element->min;
                 //save to db
-                $_db->beginTransaction();
                 if($insert) {//insert
-                    $prep = $_db->prepare("INSERT INTO Input (ID, question, personal, coach, min) VALUES (?, ?, ?, ?, ?)");
-                    $prep->bindValue(1, (int)$elementId,    PDO::PARAM_INT);
-                    $prep->bindValue(2, $question,          PDO::PARAM_STR);
-                    $prep->bindValue(3, (int)$personal,     PDO::PARAM_INT);
-                    $prep->bindValue(4, (int)$coach,        PDO::PARAM_INT);
-                    $prep->bindValue(5, (int)$min,          PDO::PARAM_INT);
-                    $prep->execute();
-                } else {    //update
-                    $prep = $_db->prepare("UPDATE Input SET question = ?, personal = ?, coach = ?, min = ? WHERE ID = ?");
-                    $prep->bindValue(1, $question,          PDO::PARAM_STR);
-                    $prep->bindValue(2, (int)$personal,     PDO::PARAM_BOOL);
-                    $prep->bindValue(3, (int)$coach,        PDO::PARAM_BOOL);
-                    $prep->bindValue(4, (int)$min,          PDO::PARAM_INT);
-                    $prep->bindValue(5, (int)$elementId,    PDO::PARAM_INT);
-                    $prep->execute();
+	
+			        //prepare query
+			        $data['ID'] = (int)$elementId;
+			        $data['question'] = $question;
+					$data['personal'] = (int)$personal;
+					$data['coach'] = (int)$coach;
+					$data['min'] = (int)$min;
+
+			        //execute query
+			        $inputId = $_db->insert("Input", $data);
+                } else {//update
+	
+			        //prepare query
+			        $data['question'] = $question;
+					$data['personal'] = (int)$personal;
+					$data['coach'] = (int)$coach;
+					$data['min'] = (int)$min;
+
+			        //execute query
+			        $_db->update("Input", $data, "ID = " .(int)$elementId);	
                 }
-                $_db->commit();
 
                 break;
 
@@ -166,23 +182,25 @@ function processElements($_xml, $_loc, $_db){
                 //get values
                 $height     = $element->height;
                 //save to db
-                $_db->beginTransaction();
                 if($insert) {//insert
-                    $prep = $_db->prepare("INSERT INTO whitespace (ID, Height) VALUES (?, ?)");
-                    $prep->bindValue(1, (int)$elementId,    PDO::PARAM_INT);
-                    $prep->bindValue(2, (int)$height,       PDO::PARAM_INT);
-                    $prep->execute();
-                } else {    //update
-                    $prep = $_db->prepare("UPDATE Input SET Height = ? WHERE ID = ?");
-                    $prep->bindValue(1, (int)$height,       PDO::PARAM_INT);
-                    $prep->bindValue(2, (int)$personal,     PDO::PARAM_BOOL);
-                    $prep->execute();
+	
+			        //prepare query
+			        $data['ID'] = (int)$elementId;
+					$data['Height'] = (int)$height;
+
+			        //execute query
+			        $whitespaceId = $_db->insert("whitespace", $data);
+                } else {//update
+
+			        //prepare query
+					$data['Height'] = (int)$height;
+					
+			        //execute query
+			        $_db->update("whitespace", $data, "ID = " .(int)$personal);	
                 }
-                $_db->commit();
 
                 break;
         }
-
     }
 }
 
@@ -198,17 +216,14 @@ function emptyTrash($_xml, $_db) {
 
         //remove if existing
         if($elementId > 0) {
-            $_db->beginTransaction();
 
-            $prep = $_db->prepare("DELETE FROM ".$elementType." WHERE ID = ? ");
-            $prep->bindValue(1, (int)$elementId, PDO::PARAM_INT);
-            $prep->execute();
+            $sql = "DELETE FROM ".$elementType." WHERE ID = ".(int)$elementId;
+            //execute query
+            $_db->query($sql);
 
-            $prep = $_db->prepare("DELETE FROM element WHERE ElementId = ? ");
-            $prep->bindValue(1, (int)$elementId, PDO::PARAM_INT);
-            $prep->execute();
-
-            $_db->commit();
+            $sql = "DELETE FROM element WHERE ElementId = ".(int)$elementId;
+            //execute query
+            $_db->query($sql);
         }
     }
 }
@@ -217,32 +232,31 @@ try {
 
     global $pageId, $section, $title, $visibility, $order;
 
-    //create pdo object
-    $db = new PDO('mysql:host=crudoctrine.db.6550033.hostedresource.com;port=3306;dbname=crudoctrine', 'crudoctrine', 'D6LLd2mxU6Z34i');
+	// grab the existing $db object
+	$db=Database::obtain();
     
-    //begin transaction
-    $db->beginTransaction();
-
     //process page information
     if($pageId == 0){//insert
-        $prep = $db->prepare("INSERT INTO Page (SectionId, Title, Ord, Visibility) VALUES (?,?,?,?)");
-        $prep->bindValue(1, (int)$section,  PDO::PARAM_INT);
-        $prep->bindValue(2, $title,         PDO::PARAM_STR);
-        $prep->bindValue(3, (int)$order,    PDO::PARAM_INT);
-        $prep->bindValue(4, $visibility,    PDO::PARAM_STR);
-        $prep->execute();
-        $pageId = $db->lastInsertId();
-    } else {        //update
-        $prep = $db->prepare("UPDATE Page SET SectionId = ?, Title = ?, Ord = ?, Visibility = ? WHERE ID = ?");
-        $prep->bindValue(1, (int)$section,  PDO::PARAM_INT);
-        $prep->bindValue(2, $title,         PDO::PARAM_STR);
-        $prep->bindValue(3, (int)$order,    PDO::PARAM_INT);
-        $prep->bindValue(4, $visibility,    PDO::PARAM_STR);
-        $prep->bindValue(5, (int)$pageId,   PDO::PARAM_INT);
-        $prep->execute();
-    }
 
-    $db->commit();
+        //prepare query
+        $data['SectionId'] = (int)$section;
+        $data['Title'] = $title;
+        $data['Ord'] = (int)$order;
+        $data['Visibility'] = $visibility;
+
+        //execute query
+        $pageId = $db->insert("Page", $data);
+    } else {//update
+
+        //prepare query
+        $data['SectionId'] = (int)$section;
+        $data['Title'] = $title;
+        $data['Ord'] = (int)$order;
+        $data['Visibility'] = $visibility;
+
+        //execute query
+        $db->update("Page", $data, "ID = " .(int)$pageId);
+    }
     
     //process main xml
     $xml = simplexml_load_string($main);
@@ -256,16 +270,13 @@ try {
     $xml = simplexml_load_string($trash);
     emptyTrash($xml, $db);
 
-    $db = null;
+	$db->close();
 
     echo 1;
 
 } catch (PDOException $e) {
 
-    echo "Error!: " . $e->getMessage() . "<br/>";
-    die();
-
+   echo "Error!: " . $e->getMessage() . "<br/>";
+   die();
 }
-
-
 ?>

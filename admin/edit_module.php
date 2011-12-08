@@ -24,52 +24,42 @@ try {
 
     $errors     = isset($_POST['errors'])   ? $_POST['errors'] : '';
 
-    //initialize pdo object
-    $db = new PDO('mysql:host=crudoctrine.db.6550033.hostedresource.com;port=3306;dbname=crudoctrine', 'crudoctrine', 'D6LLd2mxU6Z34i');
+	// grab the existing $db object
+	$db=Database::obtain();
 
     //check for form submission
     if($submit){    //form was submitted, process data
 
-        //open transaction
-        $db->beginTransaction();
-
         if($new){   //new module
 
-            //prepare query
-            $query = $db->prepare("INSERT INTO module (Number, Name, Ord, Caption, Descr, Photo, Banner, FrontImg) VALUES (?,?,?,?,?,?,?,?)");
-            $query->bindValue(1, (double)$number,   PDO::PARAM_INT);
-            $query->bindValue(2, $title,            PDO::PARAM_STR);
-            $query->bindValue(3, (double)$order,    PDO::PARAM_INT);
-            $query->bindValue(4, $caption,          PDO::PARAM_STR);
-            $query->bindValue(5, $descr,            PDO::PARAM_STR);
-            $query->bindValue(6, $photo,            PDO::PARAM_STR);
-            $query->bindValue(7, $banner,           PDO::PARAM_STR);
-            $query->bindValue(8, $homepage,         PDO::PARAM_STR);
+	        //prepare query
+	        $data['Number'] = (double)$number;
+	        $data['Name'] = $title;
+	        $data['Ord'] = (double)$order;
+	        $data['Caption'] = $caption;
+	        $data['Descr'] = $descr;
+	        $data['Photo'] = $photo;
+	        $data['Banner'] = $banner;
+	        $data['FrontImg'] = $homepage;
 
-            //execute query and obtain pk
-            $query->execute();
-            $moduleId = $db->lastInsertId();
+	        //execute query
+	        $moduleId = $db->insert("module", $data);
 
         } else {    //edit module
 
-            //prepare query
-            $query = $db->prepare("UPDATE module SET Number = ?, Name = ?, Ord = ?, Caption = ?, Descr = ?, Photo = ?, Banner = ?, FrontImg = ? WHERE ID = ?");
-            $query->bindValue(1, (double)$number,   PDO::PARAM_INT);
-            $query->bindValue(2, $title,            PDO::PARAM_STR);
-            $query->bindValue(3, (double)$order,    PDO::PARAM_INT);
-            $query->bindValue(4, $caption,            PDO::PARAM_STR);
-            $query->bindValue(5, $descr,            PDO::PARAM_STR);
-            $query->bindValue(6, $photo,            PDO::PARAM_STR);
-            $query->bindValue(7, $banner,           PDO::PARAM_STR);
-            $query->bindValue(8, $homepage,         PDO::PARAM_STR);
-            $query->bindValue(9, $moduleId,         PDO::PARAM_INT);
+	        //prepare query
+	        $data['Number'] = (double)$number;
+	        $data['Name'] = $title;
+	        $data['Ord'] = (double)$order;
+	        $data['Caption'] = $caption;
+	        $data['Descr'] = $descr;
+	        $data['Photo'] = $photo;
+	        $data['Banner'] = $banner;
+	        $data['FrontImg'] = $homepage;
 
             //execute query
-            $query->execute();
-
+            $db->update("module", $data, "ID = ".$db->escape($moduleId));
         }
-
-        $db->commit();
 
         //if ajax, return module attributes as xml
         if ($ajax) {
@@ -100,10 +90,10 @@ try {
     } else if (!$new){ //get data for existing module
 
         //get module information
-        $db_module = $db->query("SELECT * FROM module WHERE ID = ".$moduleId)->fetchAll(PDO::FETCH_ASSOC);
+        $sql = "SELECT * FROM module WHERE ID = ".$moduleId;
 
         //assign module information to array
-        $result = $db_module[0];
+        $result = $db->query_first($sql);
 
         //assign values
         $number     = $result['Number'];
@@ -117,7 +107,7 @@ try {
 
     }
 
-    $db = null;
+	$db->close();
 
 } catch (PDOException $e) {
     echo $e->getMessage();

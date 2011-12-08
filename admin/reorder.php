@@ -15,11 +15,8 @@ try {
 
     $errors     = isset($_POST['errors'])   ? $_POST['errors']                              : '';
 
-    //initialize pdo object
-    $db = new PDO('mysql:host=crudoctrine.db.6550033.hostedresource.com;port=3306;dbname=crudoctrine', 'crudoctrine', 'D6LLd2mxU6Z34i');
-
-    //open transaction
-    $db->beginTransaction();
+	// grab the existing $db object
+	$db=Database::obtain();
 
     foreach($xml->item as $item){
 
@@ -30,18 +27,13 @@ try {
         echo $id.' -> '.$order.PHP_EOL;
 
         //prepare query
-        $query = $db->prepare("UPDATE ".$type." SET Ord = ? WHERE ID = ?");
-        $query->bindValue(1, (double)$order,    PDO::PARAM_INT);
-        $query->bindValue(2, (int)$id,          PDO::PARAM_INT);
+        $data['Ord'] = (double)$order;
 
         //execute query
-        $query->execute();
-
+        $db->update($type., $data, "ID = " .(int)$id);
     }
 
-    $db->commit();
-
-    $db = null;
+	$db->close();
 
     //if ajax, return success
     if ($ajax) {
