@@ -1,4 +1,3 @@
-
 <?php
 /*
  * Cru Doctrine
@@ -11,20 +10,23 @@ $users = array();
 
 try {
 
-	// grab the existing $db object
-	$db=Database::obtain();
+    global $users;
+
+    //initialize the database object
+    $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
+    $db->connect();
 
     //execute query and return to module array
     
-	$users = "SELECT u.Email, u.FName, u.LName, u.Type, u.Region AS Reg, u.Loc, u.Reg_Date, u.Reg_Status, r.Name AS Region, l.Name AS Location
-              FROM user u
-              INNER JOIN region r ON u.Region = r.ID
-              INNER JOIN location l ON u.Loc = l.ID
-              ORDER BY LName;"
+    $sql =   "SELECT u.Email, u.FName, u.LName, u.Type, u.Region AS Reg, u.Loc, u.Reg_Date, u.Reg_Status, r.Name AS Region, l.Name AS Location
+             FROM user u
+             INNER JOIN region r ON u.Region = r.ID
+             INNER JOIN location l ON u.Loc = l.ID
+             ORDER BY LName;";
 
-	$users = $db->fetch_array($sql);
-	
-	$db->close();
+    $users = $db->fetch_array($sql);
+    
+    $db->close();
 } catch (PDOException $e){
     echo $e->getMessage();
 }
@@ -35,7 +37,7 @@ try {
 
     <div id="list">
 
-        <form id="createNew" action="?p=users&request=edit_user" method="post">
+        <form id="createNew" action="?p=users&request=add_user" method="post">
             <button type="submit" value="submit" class="corners-all shadow-light"><span class="ui-icon ui-icon-plus"></span>Add User</button>
         </form>
 
@@ -57,14 +59,14 @@ try {
 
             if(count($users) > 0){
                 foreach ($users as $row){
-                    echo '  <div class="user" id="'.$row['email'].'">
+                    echo '  <div class="user" id="'.$row['Email'].'">
                                 <div class="title corners-left">
                                     <div class="usericon"></div>
                                     <div class="name">'.$row['FName'].' '.$row['LName'].'</div>
-                                    <div class="location">'.$row['Location'].'</div>
+                                    <div class="location">'.$row['Loc'].'</div>
                                 </div>
                                 <div class="email">'.$row['Email'].'</div>
-                                <a class="edit ui-state-default corners-all" href="?p=users&email='.$row['Email'].'"><span class="ui-icon ui-icon-pencil"></span>Edit</a>
+                                <a class="edit ui-state-default corners-all" href="?p=edit_user&email='.$row['Email'].'"><span class="ui-icon ui-icon-pencil"></span>Edit</a>
                             </div>';
                 }
             }
@@ -80,12 +82,12 @@ try {
     $('#createNew').submit(function(){
         //get new user form
         $.ajax({
-            url: "edit_user.php",
+            url: "add_user.php",
             dataType: "html",
             success: function(msg){
                 //append form to DOM and display dialog
                 $('#users').append(msg);
-                $('#edituser').dialog({
+                $('#adduser').dialog({
                     title: "New User",
                     buttons: {
                         "Ok": function() {
@@ -97,7 +99,7 @@ try {
                     },
                     close: function(){
                         $(this).dialog( "destroy" );
-                        $('#edituser').remove();
+                        $('#adduser').remove();
                     },
                     height: 650,
                     width: 650,

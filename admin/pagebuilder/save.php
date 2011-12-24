@@ -17,6 +17,13 @@ $main       = $_POST['main'];
 $right      = $_POST['right'];
 $trash      = $_POST['trash'];
 
+$main = str_replace('\"', '"', $main);
+$right = str_replace('\"', '"', $right);
+$trash = str_replace('\"', '"', $trash);
+
+require_once("../../config.inc.php"); 
+require_once("../../Database.singleton.php");
+
 function processElements($_xml, $_loc, $_db){
 
     global $pageId;
@@ -232,8 +239,9 @@ try {
 
     global $pageId, $section, $title, $visibility, $order;
 
-	// grab the existing $db object
-	$db=Database::obtain();
+    //initialize the database object
+    $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
+    $db->connect();
     
     //process page information
     if($pageId == 0){//insert
@@ -255,7 +263,7 @@ try {
         $data['Visibility'] = $visibility;
 
         //execute query
-        $db->update("Page", $data, "ID = " .(int)$pageId);
+        $db->update("page", $data, "ID = " .(int)$pageId);
     }
     
     //process main xml

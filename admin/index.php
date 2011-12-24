@@ -45,9 +45,9 @@ $page  .= '.php';
 <link rel="stylesheet" type="text/css" media="screen" href="admin.css" />
 
 <!--uploadify-->
-<script type="text/javascript" src="/crudoctrine/jquery/uploadify/jquery.uploadify.v2.1.0.js"></script>
-<script type="text/javascript" src="/crudoctrine/jquery/uploadify/swfobject.js"></script>
-<link rel="stylesheet" href="/crudoctrine/jquery/uploadify/uploadify.css" type="text/css" />
+<script type="text/javascript" src="/jquery/uploadify/jquery.uploadify.v2.1.0.js"></script>
+<script type="text/javascript" src="/jquery/uploadify/swfobject.js"></script>
+<link rel="stylesheet" href="/jquery/uploadify/uploadify.css" type="text/css" />
 
 <div id="content">
 
@@ -186,5 +186,4 @@ $page  .= '.php';
 
 //footer
 include('../footer.php');
-
 ?>

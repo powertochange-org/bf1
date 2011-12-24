@@ -19,27 +19,31 @@ try {
 
     $errors     = isset($_POST['errors'])   ? $_POST['errors'] : '';
 
-	// grab the existing $db object
-	$db=Database::obtain();
+    require_once("../config.inc.php"); 
+    require_once("../Database.singleton.php");
+
+    //initialize the database object
+    $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
+    $db->connect();
 
     //check for form submission
     if($submit){
 
         if($new){   //new section
-	        //prepare query
-	        $data['ModuleId'] = (int)$moduleId;
-	        $data['Title'] = $title;
-	        $data['Ord'] = (double)$order;
+            //prepare query
+            $data['ModuleId'] = (int)$moduleId;
+            $data['Title'] = $title;
+            $data['Ord'] = (double)$order;
 
-	        //execute query
-	        $sectionId = $db->insert("section", $data);
+            //execute query
+            $sectionId = $db->insert("section", $data);
 
         } else {    //edit section
 
-	        //prepare query
-	        $data['ModuleId'] = (int)$moduleId;
-	        $data['Title'] = $title;
-	        $data['Ord'] = (double)$order;
+            //prepare query
+            $data['ModuleId'] = (int)$moduleId;
+            $data['Title'] = $title;
+            $data['Ord'] = (double)$order;
 
             //execute query
             $db->update("section", $data, "ID = ".$db->escape($sectionId));
@@ -52,10 +56,10 @@ try {
             echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
             echo '<section>';
             echo '<new>'        .$new.                      '</new>';
-            echo '<id>'         .$sectionId.		    '</id>';
-            echo '<moduleId>'   .$moduleId.		    '</moduleId>';
-            echo '<title>'      .$title.		    '</title>';
-            echo '<order>'      .$order.		    '</order>';
+            echo '<id>'         .$sectionId.            '</id>';
+            echo '<moduleId>'   .$moduleId.         '</moduleId>';
+            echo '<title>'      .$title.            '</title>';
+            echo '<order>'      .$order.            '</order>';
             echo '</section>';
 
             exit();
@@ -72,14 +76,14 @@ try {
         $sql = "SELECT * FROM section WHERE ID = ".$sectionId;
 
         //assign section information to array
-		$result = $db->fetch_array($sql);
+        $result = $db->query_first($sql);
 
         //assign values
         $title      = $result['Title'];
         $order      = $result['Ord'];
     }
 
-	$db->close();
+    $db->close();
 
 } catch (PDOException $e) {
     echo $e->getMessage();

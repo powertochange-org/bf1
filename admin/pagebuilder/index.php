@@ -96,5 +96,4 @@ include('../../header.php');
 
 //footer
 include('../../footer.php');
-
 ?>

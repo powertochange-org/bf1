@@ -5,23 +5,15 @@
  * Campus Crusade for Christ
  */
 
-//ensure user authentication
-$auth = false;
+//header
+include('../header.php');
 
-session_start();
-if(isset($_SESSION['email'])){
-    $auth = true;
-}
-
-if(!$auth){
+if(!$loggedin){
     header('Location: /#login');
 }
 
 //page title
 $title = 'My Work';
-
-//header
-include('../header.php');
 
 $modules    = array();
 $progress   = array();
@@ -30,18 +22,19 @@ $notes      = array();
 
 try {
 
-    global $modules, $progress;
+    global $modules, $progress, $flags, $notes;
 
-	// grab the existing $db object
-	$db=Database::obtain();
-	
-	$sql = "SELECT * FROM module WHERE Number > 1 ORDER BY Ord;";
+    //initialize the database object
+    $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
+    $db->connect();     
+        
+    $sql = "SELECT * FROM module WHERE Number > 1 ORDER BY Ord;";
 
-	//get modules
+    //get modules
     $modules = $db->fetch_array($sql);
 
     //get progress
-	$sql = "SELECT pr.Status, p.ID AS page, s.ID AS section, m.ID AS module, pr.`Update`
+    $sql = "SELECT pr.Status, p.ID AS page, s.ID AS section, m.ID AS module, pr.`Update`
             FROM progress pr
             INNER JOIN page p ON pr.PageId = p.ID
             INNER JOIN section s ON p.SectionId = s.ID
@@ -49,11 +42,11 @@ try {
             WHERE pr.Email = '".$db->escape($email)."'
             ORDER BY m.Ord, s.Ord, p.Ord";
 
-	$progress = $db->query_first($sql);        
+    $progress = $db->fetch_array($sql);        
 
 
     //get flags
-	$sql = "SELECT r.*, s.Title AS Section, p.Title AS Page, p.ID AS PageId, i.Question, m.ID AS module
+    $sql = "SELECT r.*, s.Title AS Section, p.Title AS Page, p.ID AS PageId, i.Question, m.ID AS module
             FROM response r
             INNER JOIN input    i    ON r.InputId    = i.ID
             INNER JOIN element  e    ON i.ID         = e.ElementId
@@ -64,7 +57,7 @@ try {
             AND r.Personal = 1
             ORDER BY m.Ord, s.Ord, p.Ord";
 
-    $flags = $db->query_first($sql);        
+    $flags = $db->fetch_array($sql);        
 
     //get notes
     $sql = "SELECT n.*, s.Title AS Section, p.Title AS Page, p.ID AS PageId, m.ID AS module
@@ -76,9 +69,9 @@ try {
             WHERE n.Email = '".$db->escape($email)."'
             ORDER BY m.Ord, s.Ord, p.Ord, e.ElementId";
 
-    $notes = $db->query_first($sql);
-	
-	$db->close();
+    $notes = $db->fetch_array($sql);
+    
+    $db->close();
 
 } catch (PDOException $e){
     echo $e->getMessage();
@@ -103,15 +96,16 @@ foreach($flags as $flag){
 }
 foreach($notes as $note){
     $id                         = $note['module'];
-    $_modules[$id]['notes'][]    = $note;
+    $_modules[$id]['notes'][]   = $note;
 }
 
 //calculate eta
+//TODO: Determine how to account for periods of inactivity
 $cur_mod    = $_modules[$progress[count($progress)-1]['module']]['Ord'];
 $rec_date   = date_create($progress[count($progress)-1]['Update']);
 $beg_date   = date_create($progress[0]['Update']);
 $dif_time   = date_diff($beg_date,$rec_date);
-$avg_time   = ($dif_time->format("%d") + ($dif_time->format("%m")*30) + ($dif_time->format("%Y")*365) ) / ($cur_mod <= 1 ? $cur_mod - 1 : 1);
+$avg_time   = ($dif_time->format("%d") + ($dif_time->format("%m")*30) + ($dif_time->format("%Y")*365) ) / ($cur_mod > 1 ? $cur_mod - 1 : 1);
 $tot_time   = $avg_time * count($modules);
 $eta        = date_add($beg_date, date_interval_create_from_date_string($tot_time.' days'));
 
@@ -133,7 +127,7 @@ foreach($_modules as $module){
     $str_bar .= '<div class="bar '.$module['status'].' '.$bar_class.'" id="'.$module['ID'].'" style="width:'.$bar_wid.'%;"></div>'.PHP_EOL;
     if($module['status'] == 'started'){
         $str_sta = '<div class="name">Module '.$module['Number'].'<br />'.$module['Name'].'</div>
-                    <a href="/crudoctrine/modules/?p='.$module['page'].'" class="corners-all ui-state-default">Continue<span class="ui-icon ui-icon-triangle-1-e"></span></a>';
+                    <a href="/modules/?p='.$module['page'].'" class="corners-all ui-state-default">Continue<span class="ui-icon ui-icon-triangle-1-e"></span></a>';
     }
     if($module['status'] != 'incomplete'){
         $str_mod .= '<div class="module" id="'.$module['ID'].'">
@@ -143,19 +137,23 @@ foreach($_modules as $module){
                     </div>
                     <span class="check"></span>
                     <div class="flagsnotes '.($module['Ord'] == $cur_mod ? 'active' : '').'">'.PHP_EOL;
-        foreach($module['flags'] as $flag){
-            $str_mod .=     '<div class="flag" id="'.$flag['ID'].'">
-                                <span class="icon"></span>
-                                <span class="question"><a href="/crudoctrine/modules/?p='.$flag['PageId'].'">'.$flag['Section'].' - '.$flag['Page'].'</a>: <br />'.$flag['Question'].'</span>
-                                <span class="response">'.$flag['Response'].'</span>
-                            </div>'.PHP_EOL;
+        if($flags){
+            foreach($module['flags'] as $flag){
+                $str_mod .=     '<div class="flag" id="'.$flag['ID'].'">
+                                    <span class="icon"></span>
+                                    <span class="question"><a href="/modules/?p='.$flag['PageId'].'">'.$flag['Section'].' - '.$flag['Page'].'</a>: <br />'.$flag['Question'].'</span>
+                                    <span class="response">'.$flag['Response'].'</span>
+                                </div>'.PHP_EOL;
+            }
         }
-        foreach($module['notes'] as $note){
-            $str_mod .=     '<div class="note" id="'.$note['ID'].'">
-                                <span class="icon"></span>
-                                <a href="/crudoctrine/modules/?p='.$note['PageId'].'">'.$note['Section'].' - '.$note['Page'].'</a>
-                                <span>'.$note['Note'].'</span>
-                            </div>'.PHP_EOL;
+        if($notes){
+            foreach($module['notes'] as $note){
+                $str_mod .=     '<div class="note" id="'.$note['ID'].'">
+                                    <span class="icon"></span>
+                                    <a href="/modules/?p='.$note['PageId'].'">'.$note['Section'].' - '.$note['Page'].'</a>
+                                    <span>'.$note['Note'].'</span>
+                                </div>'.PHP_EOL;
+            }
         }
         $str_mod .= '</div>'.PHP_EOL.'</div>'.PHP_EOL;
     }

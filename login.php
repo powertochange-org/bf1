@@ -17,27 +17,31 @@ try {
 
     $errors     = isset($_POST['errors'])   ? $_POST['errors'] : '';
 
+    require_once("config.inc.php"); 
+    require_once("Database.singleton.php");
+
     //check for form submission
     if($submit) {    //form was submitted, process data
 
-		// grab the existing $db object
-		$db=Database::obtain();
-		
-		$sql = "SELECT * FROM user WHERE Email = '".$db->escape($email)."' AND Password = '".$db->escape($pass)."'";
-		
+        //initialize the database object
+        $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
+        $db->connect();     
+        
+        $sql = "SELECT * FROM user WHERE Email = '".$db->escape($email)."' AND Password = '".$db->escape($pass)."'";
+        
         //get results
-		$result = $db->query_first($sql);        
+        $result = $db->query_first($sql);        
 
         //check result to verify login
         if(count($result) > 0){ //success
             //log user in
             session_start();
             $_SESSION['email']  = $email;
-            $_SESSION['fname']  = $result[0]['FName'];
-            $_SESSION['lname']  = $result[0]['LName'];
-            $_SESSION['type']   = $result[0]['Type'];
-            $_SESSION['region'] = $result[0]['Region'];
-            $_SESSION['loc']    = $result[0]['Loc'];
+            $_SESSION['fname']  = $result['FName'];
+            $_SESSION['lname']  = $result['LName'];
+            $_SESSION['type']   = $result['Type'];
+            $_SESSION['region'] = $result['Region'];
+            $_SESSION['loc']    = $result['Loc'];
 
             //$_SESSION['documentRoot']  = $_SERVER['REQUEST_URI'];
 
@@ -60,7 +64,7 @@ try {
 
             }
         }
-		$db->close();
+        $db->close();
     }
 } catch (PDOException $e) {
     echo $e->getMessage();

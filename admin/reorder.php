@@ -15,8 +15,9 @@ try {
 
     $errors     = isset($_POST['errors'])   ? $_POST['errors']                              : '';
 
-	// grab the existing $db object
-	$db=Database::obtain();
+    //initialize the database object
+    $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
+    $db->connect();
 
     foreach($xml->item as $item){
 

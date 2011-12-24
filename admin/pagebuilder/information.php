@@ -7,16 +7,17 @@
 
 try {
 
-	// grab the existing $db object
-	$db=Database::obtain();
+    //initialize the database object
+    $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
+    $db->connect();
 
     if (!$new){ //get data for existing page
 
         //get page information
-		$sql = "SELECT * FROM page WHERE ID = ".$id;
+        $sql = "SELECT * FROM page WHERE ID = ".$id;
 
         //execute query
-		//assign section information to array
+        //assign section information to array
         $result = $db->query_first($sql);
 
         //assign values
@@ -26,7 +27,7 @@ try {
         $visibility = $result['Visibility'];
     }
 
-	$db->close();
+    $db->close();
 
 } catch (PDOException $e) {
     echo $e->getMessage();
@@ -64,12 +65,17 @@ try {
         <input type="hidden" name="p" value="design" />
 
         <button name="submit" type="submit">PAGE DESIGN</button>
+        <button name="cancel" type="submit" onclick="cancelFunc();return(false);">CANCEL</button>
 
     </form>
 
 </div>
 
 <script type="text/javascript">
+
+    function cancelFunc(){
+        window.location.href = "/admin/?p=modules&id=<?php echo $moduleId; ?>";
+    }
 
     //validate form submission
     $('form').submit(function(){

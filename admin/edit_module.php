@@ -16,46 +16,50 @@ try {
     $number     = isset($_POST['number'])   ? $_POST['number']      : '';
     $title      = isset($_POST['title'])    ? $_POST['title']       : '';
     $order      = isset($_POST['order'])    ? $_POST['order']       : '';
-    $caption    = isset($_POST['caption'])  ? $_POST['caption']     : '';
+    //$caption    = isset($_POST['caption'])  ? $_POST['caption']     : '';
     $descr      = isset($_POST['descr'])    ? $_POST['descr']       : '';
-    $photo      = isset($_POST['photo'])    ? $_POST['photo']       : '';
+    //$photo      = isset($_POST['photo'])    ? $_POST['photo']       : '';
     $banner     = isset($_POST['banner'])   ? $_POST['banner']      : '';
     $homepage   = isset($_POST['homepage']) ? $_POST['homepage']    : '';
 
     $errors     = isset($_POST['errors'])   ? $_POST['errors'] : '';
 
-	// grab the existing $db object
-	$db=Database::obtain();
+    require_once("../config.inc.php"); 
+    require_once("../Database.singleton.php");
+
+    //initialize the database object
+    $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
+    $db->connect();
 
     //check for form submission
     if($submit){    //form was submitted, process data
 
         if($new){   //new module
 
-	        //prepare query
-	        $data['Number'] = (double)$number;
-	        $data['Name'] = $title;
-	        $data['Ord'] = (double)$order;
-	        $data['Caption'] = $caption;
-	        $data['Descr'] = $descr;
-	        $data['Photo'] = $photo;
-	        $data['Banner'] = $banner;
-	        $data['FrontImg'] = $homepage;
+            //prepare query
+            $data['Number'] = (double)$number;
+            $data['Name'] = $title;
+            $data['Ord'] = (double)$order;
+            //$data['Caption'] = $caption;
+            $data['Descr'] = $descr;
+            //$data['Photo'] = $photo;
+            $data['Banner'] = $banner;
+            $data['FrontImg'] = $homepage;
 
-	        //execute query
-	        $moduleId = $db->insert("module", $data);
+            //execute query
+            $moduleId = $db->insert("module", $data);
 
         } else {    //edit module
 
-	        //prepare query
-	        $data['Number'] = (double)$number;
-	        $data['Name'] = $title;
-	        $data['Ord'] = (double)$order;
-	        $data['Caption'] = $caption;
-	        $data['Descr'] = $descr;
-	        $data['Photo'] = $photo;
-	        $data['Banner'] = $banner;
-	        $data['FrontImg'] = $homepage;
+            //prepare query
+            $data['Number'] = (double)$number;
+            $data['Name'] = $title;
+            $data['Ord'] = (double)$order;
+            //$data['Caption'] = $caption;
+            $data['Descr'] = $descr;
+            //$data['Photo'] = $photo;
+            $data['Banner'] = $banner;
+            $data['FrontImg'] = $homepage;
 
             //execute query
             $db->update("module", $data, "ID = ".$db->escape($moduleId));
@@ -68,15 +72,15 @@ try {
             echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
             echo '<module>';
             echo '<new>'        .$new.                      '</new>';
-            echo '<id>'         .$moduleId.		    '</id>';
-            echo '<number>'     .$number.		    '</number>';
-            echo '<title>'      .$title.		    '</title>';
-            echo '<order>'      .$order.		    '</order>';
-            echo '<caption>'    .$caption.		    '</caption>';
-            echo '<descr>'      .$descr.		    '</descr>';
-            echo '<photo>'      .$photo.		    '</photo>';
-            echo '<banner>'     .$banner.		    '</banner>';
-            echo '<homepage>'   .$homepage.		    '</homepage>';
+            echo '<id>'         .$moduleId.         '</id>';
+            echo '<number>'     .$number.           '</number>';
+            echo '<title>'      .$title.            '</title>';
+            echo '<order>'      .$order.            '</order>';
+            //echo '<caption>'    .$caption.          '</caption>';
+            echo '<descr>'      .$descr.            '</descr>';
+            //echo '<photo>'      .$photo.            '</photo>';
+            echo '<banner>'     .$banner.           '</banner>';
+            echo '<homepage>'   .$homepage.         '</homepage>';
             echo '</module>';
 
             exit();
@@ -99,15 +103,15 @@ try {
         $number     = $result['Number'];
         $title      = $result['Name'];
         $order      = $result['Ord'];
-        $caption    = $result['Caption'];
+        //$caption    = $result['Caption'];
         $descr      = $result['Descr'];
-        $photo      = $result['Photo'];
+        //$photo      = $result['Photo'];
         $banner     = $result['Banner'];
         $homepage   = $result['FrontImg'];
 
     }
 
-	$db->close();
+    $db->close();
 
 } catch (PDOException $e) {
     echo $e->getMessage();
@@ -128,9 +132,9 @@ try {
             <div>
                 <label>Title</label><input type="text" name="title" value="<?php echo $title; ?>" /><a class="required"></a>
             </div>
-            <div>
+            <!--div>
                 <label>Caption</label><textarea name="caption"><?php echo $caption; ?></textarea>
-            </div>
+            </div-->
             <div>
                 <label>Description</label><textarea name="descr"><?php echo $descr; ?></textarea>
             </div>
@@ -138,9 +142,9 @@ try {
 
         <fieldset id="images" >
             <legend>Images</legend>
-            <div>
+            <!--div>
                 <label>Photo</label><input type="text" name="photo" class="filename" value="<?php echo $photo; ?>" /><button type="button" name ="photoBrowse" id="photoBrowse">Browse</button>
-            </div>
+            </div-->
             <div>
                 <label>Banner</label><input type="text" name="banner" class="filename" value="<?php echo $banner; ?>" /><button type="button" name ="bannerBrowse" id="bannerBrowse">Browse</button>
             </div>
@@ -171,11 +175,11 @@ try {
 
     //file uploads
     $('#photoBrowse').uploadify({
-        'uploader'  : '/crudoctrine/jquery/uploadify/uploadify.swf',
-        'script'    : '/crudoctrine/jquery/uploadify/uploadify.php',
-        'cancelImg' : '/crudoctrine/jquery/uploadify/cancel.png',
+        'uploader'  : '/jquery/uploadify/uploadify.swf',
+        'script'    : '/jquery/uploadify/uploadify.php',
+        'cancelImg' : '/jquery/uploadify/cancel.png',
         'auto'      : true,
-        'folder'    : '/crudoctrine/upload/images',
+        'folder'    : '/upload/images',
         'queueID'   : 'upload',
         'wmode'     : 'transparent',
         'onComplete': function(event, queueID, fileObj, response, data){
@@ -188,11 +192,11 @@ try {
     });
 
     $('#bannerBrowse').uploadify({
-        'uploader'  : '/crudoctrine/jquery/uploadify/uploadify.swf',
-        'script'    : '/crudoctrine/jquery/uploadify/uploadify.php',
-        'cancelImg' : '/crudoctrine/jquery/uploadify/cancel.png',
+        'uploader'  : '/jquery/uploadify/uploadify.swf',
+        'script'    : '/jquery/uploadify/uploadify.php',
+        'cancelImg' : '/jquery/uploadify/cancel.png',
         'auto'      : true,
-        'folder'    : '/crudoctrine/upload/images',
+        'folder'    : '/upload/images',
         'queueID'   : 'upload',
         'wmode'     : 'transparent',
         'onComplete': function(event, queueID, fileObj, response, data){
@@ -205,11 +209,11 @@ try {
     });
 
     $('#homepageBrowse').uploadify({
-        'uploader'  : '/crudoctrine/jquery/uploadify/uploadify.swf',
-        'script'    : '/crudoctrine/jquery/uploadify/uploadify.php',
-        'cancelImg' : '/crudoctrine/jquery/uploadify/cancel.png',
+        'uploader'  : '/jquery/uploadify/uploadify.swf',
+        'script'    : '/jquery/uploadify/uploadify.php',
+        'cancelImg' : '/jquery/uploadify/cancel.png',
         'auto'      : true,
-        'folder'    : '/crudoctrine/upload/images',
+        'folder'    : '/upload/images',
         'queueID'   : 'upload',
         'wmode'     : 'transparent',
         'onComplete': function(event, queueID, fileObj, response, data){
@@ -253,9 +257,9 @@ try {
                     number      : $('form input:[name=number]').val(),
                     title       : $('form input:[name=title]').val(), 
                     order       : $('form input:[name=order]').val(),
-                    caption     : $('form textarea:[name=caption]').val(),
+                    //caption     : $('form textarea:[name=caption]').val(),
                     descr       : $('form textarea:[name=descr]').val(),
-                    photo       : $('form input:[name=photo]').val(),
+                    //photo       : $('form input:[name=photo]').val(),
                     banner      : $('form input:[name=banner]').val(),
                     homepage    : $('form input:[name=homepage]').val()
                 },

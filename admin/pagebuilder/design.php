@@ -7,8 +7,9 @@
 
 try {
 
-	// grab the existing $db object
-	$db=Database::obtain();
+    //initialize the database object
+    $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
+    $db->connect();
 
     if(!$new){ //get elements for existing page
 
@@ -17,10 +18,10 @@ try {
         $right_elements = array();
 
         //get elements
-		$sql = "SELECT * FROM element WHERE PageId = ".$id." ORDER BY Ord";
-		//execute query
-		$db_elements = $db->fetch_array($sql);
-		
+        $sql = "SELECT * FROM element WHERE PageId = ".$id." ORDER BY Ord";
+        //execute query
+        $db_elements = $db->fetch_array($sql);
+        
         //get element content and construct element arrays
         foreach($db_elements as $db_element){
 
@@ -97,7 +98,7 @@ try {
 
     }
 
-	$db->close();
+    $db->close();
 
 } catch (PDOException $e) {
     echo $e->getMessage();
@@ -131,14 +132,14 @@ function insertElement($_id, $_type, $_content){
 ?>
 
 <!--metadata-->
-<script type="text/javascript" src="/crudoctrine/jquery/metadata/jquery.metadata.js"></script>
+<script type="text/javascript" src="/jquery/metadata/jquery.metadata.js"></script>
 <!--uploadify-->
-<script type="text/javascript" src="/crudoctrine/jquery/uploadify/jquery.uploadify.v2.1.0.js"></script>
-<script type="text/javascript" src="/crudoctrine/jquery/uploadify/swfobject.js"></script>
-<link rel="stylesheet" href="/crudoctrine/jquery/uploadify/uploadify.css" type="text/css" />
+<script type="text/javascript" src="/jquery/uploadify/jquery.uploadify.v2.1.0.js"></script>
+<script type="text/javascript" src="/jquery/uploadify/swfobject.js"></script>
+<link rel="stylesheet" href="/jquery/uploadify/uploadify.css" type="text/css" />
 <!--jwysiwyg-->
-<script type="text/javascript" src="/crudoctrine/jquery/jwysiwyg/jquery.wysiwyg.js"></script>
-<link rel="stylesheet" href="/crudoctrine/jquery/jwysiwyg/jquery.wysiwyg.css" type="text/css" />
+<script type="text/javascript" src="/jquery/jwysiwyg/jquery.wysiwyg.js"></script>
+<link rel="stylesheet" href="/jquery/jwysiwyg/jquery.wysiwyg.css" type="text/css" />
 
 <div>
 
@@ -772,11 +773,11 @@ function insertElement($_id, $_type, $_content){
 
         //file uploads
         $('#imageBrowse').uploadify({
-            'uploader'  : '/crudoctrine/jquery/uploadify/uploadify.swf',
-            'script'    : '/crudoctrine/jquery/uploadify/uploadify.php',
-            'cancelImg' : '/crudoctrine/jquery/uploadify/cancel.png',
+            'uploader'  : '/jquery/uploadify/uploadify.swf',
+            'script'    : '/jquery/uploadify/uploadify.php',
+            'cancelImg' : '/jquery/uploadify/cancel.png',
             'auto'      : true,
-            'folder'    : '/crudoctrine/upload/images',
+            'folder'    : '/upload/images',
             'queueID'   : 'imageupload',
             'wmode'     : 'transparent',
             'onComplete': function(event, queueID, fileObj, response, data){
@@ -790,11 +791,11 @@ function insertElement($_id, $_type, $_content){
         });
 
         $('#mediaBrowse').uploadify({
-            'uploader'  : '/crudoctrine/jquery/uploadify/uploadify.swf',
-            'script'    : '/crudoctrine/jquery/uploadify/uploadify.php',
-            'cancelImg' : '/crudoctrine/jquery/uploadify/cancel.png',
+            'uploader'  : '/jquery/uploadify/uploadify.swf',
+            'script'    : '/jquery/uploadify/uploadify.php',
+            'cancelImg' : '/jquery/uploadify/cancel.png',
             'auto'      : true,
-            'folder'    : '/crudoctrine/upload/media',
+            'folder'    : '/upload/media',
             'queueID'   : 'mediaupload',
             'wmode'     : 'transparent',
             'onComplete': function(event, queueID, fileObj, response, data){
@@ -974,7 +975,7 @@ function insertElement($_id, $_type, $_content){
         //main canvas
         var xmlMain = '<elements>';
 
-        //process elements
+        //process canvasmain elements
         $('#canvasmain .tool').each(function(index){
             var type    = $(this).attr('id');
             var id      = $(this).attr('eId');
@@ -1024,7 +1025,7 @@ function insertElement($_id, $_type, $_content){
         //right canvas
         var xmlRight = '<elements>';
 
-        //process elements
+        //process canvasright elements
         $('#canvasright .tool').each(function(index){
             var type    = $(this).attr('id');
             var id      = $(this).attr('eId');
@@ -1053,7 +1054,7 @@ function insertElement($_id, $_type, $_content){
         //trash
         var xmlTrash = '<elements>';
 
-        //process elements
+        //process trashbin elements
         $('#trashbin .tool').each(function(){
            var type    = $(this).attr('id');
            var id      = $(this).attr('eId');
@@ -1091,12 +1092,12 @@ function insertElement($_id, $_type, $_content){
                     close: function() {
                         $('embed').show();
                     }
-		        });
+                });
 
                 $("#save_dialog #message").html('Sending data...');
                 $("#progress #bar").progressbar({
-			       value: 20
-		        });
+                   value: 20
+                });
 
             },
             success: function(data, textStatus, XMLHttpRequest) {
@@ -1104,12 +1105,12 @@ function insertElement($_id, $_type, $_content){
                 $("#save_dialog #message").html('Data sent.');
                 $("#progress #bar").progressbar( "value" , 75 );
 
-                if(data == '1') {   //save successfull
+                if(data == '1') {//save successfull
 
                     $("#save_dialog #message").html('Save successfull!');
                     saved = true;
 
-                } else {            //save unsuccessfull
+                } else {//save unsuccessfull
 
                     $("#save_dialog #message").html('Save unsuccessfull, an unknown error occured.');
 

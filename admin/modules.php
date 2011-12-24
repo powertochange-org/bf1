@@ -12,15 +12,16 @@ try {
     
     global $modules;
     
-	// grab the existing $db object
-	$db=Database::obtain();
+    //initialize the database object
+    $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
+    $db->connect();
     
     //execute query and return to module array
     $sql = "SELECT * FROM module ORDER BY Ord";
-	//execute query
-	$modules = $db->fetch_array($sql);
+    //execute query
+    $modules = $db->fetch_array($sql);
 
-	$db->close();
+    $db->close();
     
 } catch (PDOException $e){
     echo $e->getMessage();

@@ -5,23 +5,29 @@
  * Campus Crusade for Christ
  */
 
+//if (!isset ($_COOKIE[ini_get('session.name')])) {
+    session_start();
+//}
+
+//page title
+$title = 'Welcome';
+
 //check for session
 $loggedin   = false;
 $email      = '';
 $fname      = '';
 $lname      = '';
 $type       = '';
-
-session_start();
+$userMessage = '';
 
 if(isset($_SESSION['email'])){
     $loggedin   = true;
     $email      = $_SESSION['email'];
-    $fname      = $_SESSION['fname'];
-    $lname      = $_SESSION['lname'];
-    $type       = $_SESSION['type'];
+    $fname      = isset($_SESSION['fname']) ? $_SESSION['fname']    : '';
+    $lname      = isset($_SESSION['lname']) ? $_SESSION['lname']    : '';
+    $type       = isset($_SESSION['type']) ? $_SESSION['type']      : '';
     $userMessage= 'Welcome '.$fname.'!';
-}
+} 
 
 require_once("config.inc.php"); 
 require_once("Database.singleton.php");
@@ -43,16 +49,16 @@ echo"<title>".$title." | Cru Doctrine</title>";
 <!--core-->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.js"></script>
 <!--ui-->
-<script type="text/javascript" src="jquery/ui/js/jquery-ui-1.8.custom.min.js"></script>
-<link type="text/css" href="jquery/ui/css/crudoctrine-grey/jquery-ui-1.8.1.custom.css" rel="Stylesheet" />
+<script type="text/javascript" src="/jquery/ui/js/jquery-ui-1.8.custom.min.js"></script>
+<link type="text/css" href="/jquery/ui/css/crudoctrine-grey/jquery-ui-1.8.1.custom.css" rel="Stylesheet" />
 <!--media-->
-<script type="text/javascript" src="jquery/media/jquery.media.js"></script>
+<script type="text/javascript" src="/jquery/media/jquery.media.js"></script>
 
 <!--END JQUERY-->
 
 <!--CSS-->
-<link rel="stylesheet" type="text/css" media="screen" href="css/layout.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="css/print.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="/css/layout.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="/css/print.css" />
 <!--END CSS-->
 
 </head>
@@ -61,35 +67,38 @@ echo"<title>".$title." | Cru Doctrine</title>";
 
 <div id="container"><!--PAGE CONTAINER-->
 
-    <div id="header"><!--HEADER-->
-        <div id="logo"></div>
-        <div id="title"></div>
-
-	<div id="navbar"><!--NAVBAR-->
-
-        <div id="userbox"><!--USERBOX-->
-
-              <div id="loginDialog" >
-                  <div id="form" class="shadow-medium corners-all">
-
-                  </div>
-                  <div id="tab"></div>
-              </div>
-              <div id="loginbox" class="ui-corner-top"><?php echo $loggedin ? $userMessage.' | <a href="logout.php" id="logout">LOG OUT</a>' : '<a href="login.php" id="login">LOG IN</a>'; ?></div>
-
-           </div><!--END USERBOX-->
-        <div class="option" ><a href="">WELCOME</a></div>
-	    <!--<div class="option" ><a href="profile/">MY PROFILE</a></div>-->
-	    <div class="option" ><a href="work/">MY WORK</a></div>
-	    <div class="option" ><a href="#">COMMUNITY</a></div>
-	    <div class="option" ><a href="#">RESOURCES</a></div>
-        <?php echo $_SESSION['type']=='super' ? '<div class="option" ><a href="admin/">ADMIN</a></div>' : ''; ?>
-
-	</div><!--ENDS NAVBAR-->
-
-    </div><!--ENDS HEADER-->
-
-
+   <div id="header">
+    <!--HEADER-->
+    <div id="logo"></div>
+    <div id="title"></div>
+    <div id="navbar">
+        <!--NAVBAR-->
+        <div id="userbox">
+            <!--USERBOX-->
+            <div id="loginDialog">
+                <div id="form" class="shadow-medium corners-all"></div>
+                <div id="tab"></div>
+            </div>
+            <div id="loginbox" class="ui-corner-top">
+                <?php echo $loggedin ? $userMessage.' | <a href="/logout.php" id="logout">LOG OUT</a>' : '<a href="/login.php" id="login">LOG IN</a>'; ?>
+            </div>
+        </div><!--END USERBOX-->
+        <div class="option">
+            <a href="/">WELCOME</a>
+        </div>
+        <!--<div class="option" ><a href="profile/">MY PROFILE</a></div>-->
+        <div class="option">
+            <a href="/work">MY WORK</a>
+        </div>
+        <div class="option">
+            <a href="/">COMMUNITY</a>
+        </div>
+        <div class="option">
+            <a href="/">RESOURCES</a>
+        </div>
+        <?php echo $type=='super' ? '<div class="option"><a href="/admin">ADMIN</a></div>' : ''; ?>
+    </div><!--ENDS NAVBAR-->
+   </div><!--ENDS HEADER-->
 
 <script type="text/javascript">
 

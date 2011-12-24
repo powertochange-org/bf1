@@ -5,11 +5,8 @@
  * Campus Crusade for Christ
  */
 
-//page title
-$title = 'Welcome';
-
 //header
-include_once('header.php');
+require('header.php');
 
 //get modules from db
 $modules = array();
@@ -19,22 +16,22 @@ try {
     global $modules;
 
     //initialize the database object
-	$db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
-	$db->connect();     
+    $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
+    $db->connect();
 
     $sql = "SELECT * FROM module ORDER BY Ord;";
 
-	//execute query and return to module array
+    //execute query and return to module array
     $modules = $db->fetch_array($sql);
 
-	$db->close();
+    $db->close();
 
 } catch (PDOException $e){
     echo $e->getMessage();
 }
 ?>
 
-<link rel="stylesheet" type="text/css" media="screen" href="css/home.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="/css/home.css" />
 
 <div id="content">
 
@@ -102,6 +99,5 @@ try {
 <?php
 
 //footer
-include('footer.php');
-
+require('footer.php');
 ?>

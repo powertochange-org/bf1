@@ -1,6 +1,5 @@
 /*
     Document   : pagebuilder.css
-    Author     : Keith Roehrenbeck
     Description: CSS specific to page builder page
 */
 
@@ -52,7 +51,7 @@
 
 #contentpane{
     margin: 0px auto;
-    width: 910px;
+    /*width: 910px;*/
     padding: 10px 20px;
 }
 

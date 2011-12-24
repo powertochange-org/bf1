@@ -28,8 +28,11 @@ $page       = array();
 
 try {
 
-	// grab the existing $db object
-	$db=Database::obtain();
+	global $module, $section, $page;
+
+    //initialize the database object
+    $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
+    $db->connect();
 
     //determine page content
     $mod = isset($_GET['m'])        ? $_GET['m']        : '';
@@ -103,7 +106,7 @@ try {
         //page type
         $pagetype = 'page';
 
-    } elseif($pag!=''){
+    } elseif($pag != ''){
 
         //get page, section, & module information
         $sql = "SELECT p.*, s.ModuleId, s.Title AS SectionTitle, s.Ord AS SectionOrder, m.Number, m.Name AS ModuleName, m.Ord AS ModuleOrder, m.Banner

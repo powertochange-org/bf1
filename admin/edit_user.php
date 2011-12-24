@@ -5,39 +5,43 @@
  * Campus Crusade for Christ
  */
 
+
+//get values
+$submit     = isset($_POST['submit'])   ? true                  : false;
+$ajax       = isset($_POST['ajax'])     ? true                  : false;
+
+$email      = isset($_GET['email'])     ? $_GET['email']        : '';
+$progress   = isset($_POST['progress']) ? $_POST['progress']    : '';
+$coach      = isset($_POST['coach'])    ? $_POST['coach']       : '';
+$status     = isset($_POST['status'])   ? $_POST['status']      : '';
+
+$errors     = isset($_POST['errors'])   ? $_POST['errors'] : '';
+
 try {
 
-    //get values
-    $submit     = isset($_POST['submit'])   ? true                  : false;
-    $ajax       = isset($_POST['ajax'])     ? true                  : false;
-
-    $email      = isset($_GET['email'])     ? $_GET['email']        : '';
-    $progress   = isset($_POST['progress']) ? $_POST['progress']    : '';
-    $coach      = isset($_POST['coach'])    ? $_POST['coach']       : '';
-    $status     = isset($_POST['status'])   ? $_POST['status']      : '';
-
-    $errors     = isset($_POST['errors'])   ? $_POST['errors'] : '';
-
-	// grab the existing $db object
-	$db=Database::obtain();
+    global $progress, $coach, $status;
+	
+	//initialize the database object
+    $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
+    $db->connect();
 
     //check for form submission
-    if($submit){    //form was submitted, process data
+    if($submit){//form was submitted, process data
 
         //update status
         //prepare query
         $data['Reg_Status'] = $status;
 
         //execute query
-        $db->update("user", $data, "ID = '".$db->escape($email)."'");
+        $db->update("user", $data, "Email = '".$db->escape($email)."'");
         
         //update progress
                 
         //update coach
-		//prepare query
-//      $data['Coach'] = $coach;
-		//execute query
-//		$db->update("coach", $data, "Student = '".$db->escape($email)."'");
+        //prepare query
+        $data['Coach'] = $coach;
+        //execute query
+        $db->update("coach", $data, "Student = '".$db->escape($email)."'");
 
         //if ajax, return user attributes as xml
         if ($ajax) {
@@ -45,10 +49,10 @@ try {
             header('Content-Type: application/xml; charset=ISO-8859-1');
             echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
             echo '<user>';
-            echo '<email>'      .$email.		    '</email>';
-            echo '<progress>'   .$progress.		    '</progress>';
-            echo '<coach>'      .$coach.		    '</coach>';
-            echo '<status>'     .$status.		    '</status>';
+            echo '<email>'      .$email.            '</email>';
+            echo '<progress>'   .$progress.         '</progress>';
+            echo '<coach>'      .$coach.            '</coach>';
+            echo '<status>'     .$status.           '</status>';
             echo '</user>';
 
             exit();
@@ -62,7 +66,7 @@ try {
     } else { //get data for user
 
         //get status
-        $sql        = "SELECT Reg_Status, FName, LName FROM user WHERE Email = ".$email;
+        $sql        = "SELECT Reg_Status, FName, LName FROM user WHERE Email = '".$db->escape($email)."'";
         $result     = $db->query_first($sql);
         $status     = $result['Reg_Status'];
         $name       = $result['FName'].' '.$result['LName'];
@@ -70,13 +74,13 @@ try {
         //get progress
         
         //get coach
-        $sql        = "SELECT Coach FROM coach WHERE Student = ".$email;
+        $sql        = "SELECT Coach FROM coach WHERE Student = '".$db->escape($email)."'";
         $result     = $db->query_first($sql);
         $coach      = $result['Coach'];
 
     }
 
-	$db->close();
+    $db->close();
 
 } catch (PDOException $e) {
     echo $e->getMessage();
@@ -100,7 +104,7 @@ try {
                 <label>Coach</label><input type="text" name="coach_input" value="" /><input type="hidden" name="coach" value="<?php echo $coach; ?>" />
             </div>
             <div>
-                <label>Account Status</label><input type="hidden" name="status" value="<?php echo $progress; ?>" /><a id="inactive" class="switch">Inactive</a><a id="active" class="switch">Active</a>
+                <label>Account Status</label><input type="hidden" name="status" value="<?php echo $status; ?>" /><a id="inactive" class="switch">Inactive</a><a id="active" class="switch">Active</a>
             </div>
         </fieldset>
 

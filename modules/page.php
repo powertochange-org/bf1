@@ -7,8 +7,9 @@
 
 try {
 
-	// grab the existing $db object
-	$db=Database::obtain();
+    //initialize the database object
+    $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
+    $db->connect();
 
     //get module sections & pages
 	$sql = "SELECT * FROM section WHERE ModuleId = " .(int)$module['ID']. " ORDER BY Ord ASC");

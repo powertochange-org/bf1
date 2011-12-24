@@ -15,8 +15,9 @@ try {
 
     global $module;
 
-	// grab the existing $db object
-	$db=Database::obtain();
+    //initialize the database object
+    $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
+    $db->connect();
 
     //get module information
     $sql = "SELECT * FROM module WHERE ID = ".$moduleId;
@@ -26,7 +27,7 @@ try {
 
     //get sections
     $sql = "SELECT * FROM section WHERE moduleId = ".$moduleId." ORDER BY Ord";
-	//execute query
+    //execute query
     $db_sections = $db->fetch_array($sql);
 
     //construct section array
@@ -38,9 +39,9 @@ try {
         $section['info'] = $db_section;
 
         //get corresponding pages
-	    $sql = "SELECT * FROM page WHERE sectionId = ".$sectionId." ORDER BY Ord";
-		//execute query
-	    $db_pages = $db->fetch_array($sql);
+        $sql = "SELECT * FROM page WHERE sectionId = ".$sectionId." ORDER BY Ord";
+        //execute query
+        $db_pages = $db->fetch_array($sql);
 
         //attach pages to section
         $section['pages'] = $db_pages;
@@ -51,7 +52,7 @@ try {
     //attach sections to module
     $module['sections'] = $sections;
 
-	$db->close();
+    $db->close();
 
 } catch (PDOException $e){
     echo $e->getMessage();
@@ -65,7 +66,7 @@ try {
     <div id="information">
 
         <form id="editModule" action="?p=modules&id=<?php echo $moduleId; ?>&request=edit_module" method="post">
-            <input type="hidden" name="order" value="<?php echo $module['info']['Ord']; ?>"
+            <input type="hidden" name="order" value="<?php echo $module['info']['Ord']; ?>"/>
             <button type="submit" value="submit" class="corners-all shadow-light"><span class="ui-icon ui-icon-pencil"></span>Edit</button>
         </form>
 
@@ -83,7 +84,7 @@ try {
     <div id="sections">
 
         <form id="addSection" action="?p=modules&id=<?php echo $moduleId; ?>&request=edit_section" method="post">
-            <input type="hidden" name="order" value="<?php echo count($module['sections']); ?>" />
+            <input type="hidden" name="order" value="<?php echo count($module['sections']); ?>"/>
             <button type="submit" value="submit" class="corners-all shadow-light"><span class="ui-icon ui-icon-plus"></span>Add Section</button>
         </form>
 
