@@ -2,21 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>currentDocument</key>
-	<string>admin/edit_module.php</string>
 	<key>documents</key>
 	<array>
 		<dict>
 			<key>filename</key>
 			<string>Database.singleton.php</string>
 			<key>lastUsed</key>
-			<date>2011-12-21T21:08:32Z</date>
+			<date>2011-12-29T12:46:31Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>config.inc.php</string>
 			<key>lastUsed</key>
-			<date>2011-12-15T04:43:26Z</date>
+			<date>2011-12-28T03:06:43Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -28,13 +28,13 @@
 			<key>filename</key>
 			<string>index.php</string>
 			<key>lastUsed</key>
-			<date>2011-12-17T20:04:38Z</date>
+			<date>2011-12-27T23:27:45Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>login.php</string>
 			<key>lastUsed</key>
-			<date>2011-12-20T12:43:25Z</date>
+			<date>2011-12-27T23:34:35Z</date>
 		</dict>
 		<dict>
 			<key>name</key>
@@ -59,42 +59,42 @@
 			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
 			<key>sourceDirectory</key>
 			<string>profile</string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>modules</string>
-			<key>regexFolderFilter</key>
-			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
-			<key>sourceDirectory</key>
-			<string>modules</string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>jquery</string>
-			<key>regexFolderFilter</key>
-			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
-			<key>sourceDirectory</key>
-			<string>jquery</string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>images</string>
-			<key>regexFolderFilter</key>
-			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
-			<key>sourceDirectory</key>
-			<string>images</string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>css</string>
-			<key>regexFolderFilter</key>
-			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
-			<key>sourceDirectory</key>
-			<string>css</string>
 		</dict>
 		<dict>
 			<key>expanded</key>
 			<true/>
+			<key>name</key>
+			<string>modules</string>
+			<key>regexFolderFilter</key>
+			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
+			<key>sourceDirectory</key>
+			<string>modules</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>jquery</string>
+			<key>regexFolderFilter</key>
+			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
+			<key>sourceDirectory</key>
+			<string>jquery</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>images</string>
+			<key>regexFolderFilter</key>
+			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
+			<key>sourceDirectory</key>
+			<string>images</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>css</string>
+			<key>regexFolderFilter</key>
+			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
+			<key>sourceDirectory</key>
+			<string>css</string>
+		</dict>
+		<dict>
 			<key>name</key>
 			<string>admin</string>
 			<key>regexFolderFilter</key>
@@ -106,7 +106,7 @@
 			<key>filename</key>
 			<string>header.php</string>
 			<key>lastUsed</key>
-			<date>2011-12-19T12:56:49Z</date>
+			<date>2011-12-27T23:34:45Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -118,13 +118,13 @@
 			<key>filename</key>
 			<string>login.css</string>
 			<key>lastUsed</key>
-			<date>2011-12-15T12:47:25Z</date>
+			<date>2011-12-27T23:34:20Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>php.ini</string>
 			<key>lastUsed</key>
-			<date>2011-11-28T03:00:40Z</date>
+			<date>2011-12-24T13:45:18Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -132,33 +132,20 @@
 			<key>lastUsed</key>
 			<date>2011-12-15T05:01:29Z</date>
 		</dict>
+		<dict>
+			<key>filename</key>
+			<string>test.php</string>
+			<key>lastUsed</key>
+			<date>2011-12-28T19:38:41Z</date>
+		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
-	<integer>132</integer>
+	<integer>126</integer>
 	<key>metaData</key>
-	<dict>
-		<key>admin/edit_module.php</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>21</integer>
-				<key>line</key>
-				<integer>27</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>115</integer>
-		</dict>
-	</dict>
-	<key>openDocuments</key>
-	<array>
-		<string>admin/edit_module.php</string>
-	</array>
+	<dict/>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{395, 4}, {743, 774}}</string>
+	<string>{{894, 404}, {725, 774}}</string>
 </dict>
 </plist>

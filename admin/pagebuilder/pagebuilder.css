@@ -147,19 +147,19 @@ form button{
 }
 
 #toolbox .textbox {
-    background-image: url('images/1.png');
+    background-image: url('images/pencil.png');
 }
 
 #toolbox .media {
-    background-image: url('images/18.png');
+    background-image: url('images/film.png');
 }
 
 #toolbox .image {
-    background-image: url('images/63.png');
+    background-image: url('images/image.png');
 }
 
 #toolbox .input {
-    background-image: url('images/2.png');
+    background-image: url('images/question-white.png');
 }
 
 #toolbox .groupbox {

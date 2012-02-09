@@ -18,6 +18,9 @@ $moduleOrd  = isset($_POST['moduleOrd'])    ? $_POST['moduleOrd']       : 0;
 $cur_date   = date( 'Y-m-d' );
 $errors     = isset($_POST['errors'])       ? $_POST['errors']          : '';
 
+require_once("../config.inc.php"); 
+require_once("../Database.singleton.php");
+
 //initialize the database object
 $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
 $db->connect();
@@ -26,10 +29,10 @@ $db->connect();
 if($submit){
 
     //mark current page complete
-	$data['Status'] = 'complete';
-	$data['Update'] = $cur_date;
-	
-	//execute query
+    $data['Status'] = COMPLETE;
+    $data['Update'] = $cur_date;
+    
+    //execute query
     $db->update("progress", $data, "Email = '".$db->escape($email)."' AND PageId = " .(int)$pageId);
     
     //get next page
@@ -39,35 +42,42 @@ if($submit){
             INNER JOIN module m ON s.ModuleId = m.ID
             WHERE   (p.Ord = ".($pageOrd + 1)." AND s.ID = ".$sectionId." AND m.ID = ".$moduleId.") OR
                     (p.Ord = 0 AND s.Ord = ".($sectionOrd + 1)." AND m.ID = ".$moduleId.") OR
-                    (p.Ord = 0 AND s.Ord = 0 AND m.Ord = ".($moduleOrd + 1).");");
+                    (p.Ord = 0 AND s.Ord = 0 AND m.Ord = ".($moduleOrd + 1).");";
 
-	//execute query 
+    //execute query 
     $next = $db->query_first($sql);
 
     if($db->affected_rows > 0){
         $nextId     = $next['Page'];
 
-        //mark next page started
-		$data['Email'] = $email;
-		$data['PageId'] = (int)$nextId;
-		$data['Status'] = 'started';
-		$data['Update'] = $cur_date;
+        //verify that this page is incomplete
+        $sql = "SELECT Status FROM progress WHERE PageId = ". (int)$nextId;
+        //execute query 
+        $newPageStatus = $db->query_first($sql);
+        if($newPageStatus["Status"] != COMPLETE) {
 
-		//execute query
-		$db->insert("progress", $data);
+            //mark next page started
+            $data['Email'] = $email;
+            $data['PageId'] = (int)$nextId;
+            $data['Status'] = 'started';
+            $data['Update'] = $cur_date;
+
+            //execute query
+            $db->insert("progress", $data);
+        }
         
-		$type   = $next['Module'] == $moduleId ? 'page' : 'module';
+        $type   = $next['Module'] == $moduleId ? 'page' : 'module';
         $id     = $type == 'page' ? $nextId : $next['Module'];
 
         //return next page
         header('Content-Type: application/xml; charset=ISO-8859-1');
         echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>".PHP_EOL;
         echo '<next>'.PHP_EOL;
-        echo    '<type>'       .$type.              '</type>'.PHP_EOL;
-        echo    '<id>'         .$id.		    '</id>'.PHP_EOL;
+        echo    '<type>'.$type.'</type>'.PHP_EOL;
+        echo    '<id>'.$id.'</id>'.PHP_EOL;
         echo '</next>'.PHP_EOL;
-
-    } else {
+    } 
+    else {
 
         //return end of modules
         header('Content-Type: application/xml; charset=ISO-8859-1');
@@ -78,9 +88,6 @@ if($submit){
         echo '</next>'.PHP_EOL;
 
     }
-
 }
-
 $db->close();
-
 ?>

@@ -9,4 +9,7 @@ define('DB_PASS', "root");
 
 //database name
 define('DB_DATABASE', "crudoctrine");
+
+//constants
+define("COMPLETE", "complete");
 ?>

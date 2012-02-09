@@ -6,23 +6,22 @@
  */
 
 try {
-
+        
     //initialize the database object
-    $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
-    $db->connect();
+    $db = Database::obtain();
 
     //get module sections & pages
-	$sql = "SELECT * FROM section WHERE ModuleId = " .(int)$module['ID']. " ORDER BY Ord ASC");
+    $sql = "SELECT * FROM section WHERE ModuleId = " .(int)$module['ID']. " ORDER BY Ord ASC";
 
-	//execute query 
-    $sections = $db->fetch_array($sql);	
+    //execute query 
+    $sections = $db->fetch_array($sql); 
 
     foreach($sections as $row){
         //get pages in section
-		$sql = "SELECT * FROM page WHERE SectionId = " .(int)$row['ID']. " ORDER BY Ord ASC");
+        $sql = "SELECT * FROM page WHERE SectionId = " .(int)$row['ID']. " ORDER BY Ord ASC";
 
-		//execute query 
-	    $pages = $db->fetch_array($sql);
+        //execute query 
+        $pages = $db->fetch_array($sql);
         $count = count($pages);
 
         //add to module if section has at least one page
@@ -38,9 +37,9 @@ try {
     $notes          = array();
 
     //get elements
-	$sql = "SELECT * FROM element WHERE PageId = ".$page['ID']." ORDER BY Ord";
-	//execute query 
-    $db_elements = $db->fetch_array($sql);	
+    $sql = "SELECT * FROM element WHERE PageId = ".$page['ID']." ORDER BY Ord";
+    //execute query 
+    $db_elements = $db->fetch_array($sql);  
 
     //get element content and construct element arrays
     foreach($db_elements as $db_element){
@@ -50,8 +49,8 @@ try {
         $elemType   = $db_element['Type'];
 
         //execute query
-		$sql = "SELECT * FROM ".$elemType." WHERE ID = ".$elemId;
-        $db_content = $db->fetch_array($sql);
+        $sql = "SELECT * FROM ".$elemType." WHERE ID = ".$elemId;
+        $db_content = $db->query_first($sql);
 
         //content string
         $content = '';
@@ -68,7 +67,7 @@ try {
                 $height     = $db_content['Height'];
                 $width      = $db_content['Width'];
                 $caption    = $db_content['Caption']    != ''? '<div class="caption">'.$db_content['Caption'].'</div>' : '';
-                $content    = '<div align="center"><div class="media {width:'.$width.', height:'.($height+16).' }" href="/crudoctrine'.$filename.'"></div>'.$caption.'</div>';
+                $content    = '<div align="center"><div class="media {width:'.$width.', height:'.($height+16).' }" href="'.$filename.'"></div>'.$caption.'</div>';
                 break;
 
             case 'image':   //image
@@ -76,7 +75,7 @@ try {
                 $height     = $db_content['Height']     != 0 ? 'height="'.$db_content['Height'].'"' : '';
                 $width      = $db_content['Width']      != 0 ? 'width="'.$db_content['Width'].'"'   : '';
                 $caption    = $db_content['Caption']    != ''? '<div class="caption">'.$db_content['Caption'].'</div>' : '';
-                $content    = '<div align="center"><img src="/crudoctrine'.$filename.'" '.$height.' '.$width.' />'.$caption.'</div>';
+                $content    = '<div align="center"><img src="'.$filename.'" '.$height.' '.$width.' />'.$caption.'</div>';
                 break;
 
             case 'input':   //input
@@ -121,14 +120,13 @@ try {
 
     //get notes
     //execute query
-	$sql = "SELECT n.ElementId FROM note n INNER JOIN element e ON n.ElementId = e.ElementId  WHERE e.PageId = ".$page['ID']." AND n.Email = '".$email."'";
+    $sql = "SELECT n.ElementId FROM note n INNER JOIN element e ON n.ElementId = e.ElementId  WHERE e.PageId = ".$page['ID']." AND n.Email = '".$email."'";
     $db_notes = $db->fetch_array($sql);
 
     //TODO: This doesn't seem right
-	foreach($db_notes as $db_note){
+    foreach($db_notes as $db_note){
         $notes[] = $db_note['ElementId'];
     }
- 	$db->close();
 
 } catch (PDOException $e){
     echo $e->getMessage();
@@ -278,7 +276,6 @@ function insertElement($_id, $_type, $_content){
 <script type="text/javascript">
 
     //notes
-
     $('.element a.note').toggle(
         function(){
             var id      = $(this).parent().attr('eid');
@@ -378,7 +375,7 @@ function insertElement($_id, $_type, $_content){
     function closeNote(id){
         $('.note#'+id).addClass('collapsed');
     }
-    
+
     function deleteNote(id){
         $('.note#'+id).find('textarea').val('');
         saveNote(id);
@@ -563,7 +560,6 @@ function insertElement($_id, $_type, $_content){
 
         var errors = '';
         $('#errors').fadeOut('fast').html(errors);
-
 
        //ensure inputs have been saved
        $('.input .response').each(function(){

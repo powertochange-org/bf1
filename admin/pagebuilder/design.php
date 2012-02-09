@@ -192,6 +192,7 @@ function insertElement($_id, $_type, $_content){
     <form id="saveForm" action="../?p=modules&id=<?php echo $moduleId; ?>" method="POST">
 
         <button type="submit" name="save">SAVE</button>
+        <button name="cancel" type="submit" onclick="cancelFunc();return(false);">CANCEL</button>
 
     </form>
 
@@ -480,7 +481,6 @@ function insertElement($_id, $_type, $_content){
 
         });
 
-
         //media editor
         $('#media_editor').dialog({
             autoOpen: false,
@@ -626,7 +626,6 @@ function insertElement($_id, $_type, $_content){
             }
 
         });
-
 
         //image editor
         $('#image_editor').dialog({
@@ -808,7 +807,6 @@ function insertElement($_id, $_type, $_content){
             }
         });
 
-
         //text editor
         $('#textbox_editor').dialog({
             autoOpen: false,
@@ -961,6 +959,10 @@ function insertElement($_id, $_type, $_content){
 <!-- SAVING -->
 <script type="text/javascript">
 
+    function cancelFunc(){
+        window.location.href = "/admin/?p=modules&id=<?php echo $moduleId; ?>";
+    }
+ 
     var saved = false;
 
     $('#saveForm').submit(function(){
@@ -971,7 +973,6 @@ function insertElement($_id, $_type, $_content){
     });
 
     function savePage() {
-
         //main canvas
         var xmlMain = '<elements>';
 
@@ -1107,12 +1108,12 @@ function insertElement($_id, $_type, $_content){
 
                 if(data == '1') {//save successfull
 
-                    $("#save_dialog #message").html('Save successfull!');
+                    $("#save_dialog #message").html('Save successful!');
                     saved = true;
 
                 } else {//save unsuccessfull
 
-                    $("#save_dialog #message").html('Save unsuccessfull, an unknown error occured.');
+                    $("#save_dialog #message").html('Save unsuccessful, an unknown error occurred.');
 
                 }
             },

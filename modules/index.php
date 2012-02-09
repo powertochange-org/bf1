@@ -14,7 +14,7 @@ if(isset($_SESSION['email'])){
 }
 
 if(!$auth){
-    header('Location: #login');
+    header('Location: /#login');
 }
 
 //get session values
@@ -26,9 +26,12 @@ $module     = array();
 $section    = array();
 $page       = array();
 
+require_once("../config.inc.php"); 
+require_once("../Database.singleton.php");
+
 try {
 
-	global $module, $section, $page;
+    global $module, $section, $page;
 
     //initialize the database object
     $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
@@ -55,7 +58,7 @@ try {
         } else{
 
             //get module information
-			$sql =  "SELECT *, s.ID AS FirstSection
+            $sql =  "SELECT *, s.ID AS FirstSection
                      FROM module m
                      INNER JOIN section s ON s.ModuleId = m.ID
                      WHERE m.ID = ".(int)$mod.
@@ -98,7 +101,7 @@ try {
         //page information
         $page['ID']         = $result['PageId'];
         $page['Order']      = $result['PageOrder'];
-        $page['visibility'] = $result['Visibility'];
+        $page['Visibility'] = $result['Visibility'];
         
         //page title
         $title = 'Module '.$module['Number'];
@@ -113,7 +116,7 @@ try {
                 FROM page p
                 INNER JOIN section s on p.SectionId = s.ID
                 INNER JOIN module m on s.ModuleId = m.Id
-                WHERE p.ID = ".(int)$pag.;
+                WHERE p.ID = ".(int)$pag;
 
         $result = $db->query_first($sql);
 
@@ -132,7 +135,7 @@ try {
         //page information
         $page['ID']         = $result['ID'];
         $page['Order']      = $result['Ord'];
-        $page['visibility'] = $result['Visibility'];
+        $page['Visibility'] = $result['Visibility'];
 
         //page title
         $title = 'Module '.$module['Number'];
@@ -182,8 +185,6 @@ try {
 //        header('Location: /crudoctrine/work/');
 //    }
 
-	$db->close();
-
 } catch (PDOException $e){
     echo $e->getMessage();
 }
@@ -220,8 +221,7 @@ include('../header.php');
 </script>
 
 <?php
-
+$db->close();
 //footer
 include('../footer.php');
-
 ?>

@@ -6,7 +6,6 @@
  */
 
 ?>
-
 <div id="module<?php echo str_replace('.', '', $module['Number']); ?>" class="module">
     <div id="background_img">
         <img src="<?php echo '../'.$module['Banner']; ?>"</img>

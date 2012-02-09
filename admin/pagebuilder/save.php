@@ -29,7 +29,6 @@ function processElements($_xml, $_loc, $_db){
     global $pageId;
 
     foreach ($_xml->element as $element) {
-
         //element attributes
         $elementId      = $element['id'];
         $elementType    = $element['type'];
@@ -41,46 +40,50 @@ function processElements($_xml, $_loc, $_db){
         //attach element to page
         if($insert) {//insert
 
-	        //prepare query
-	        $data['PageId'] = (int)$pageId;
-	        $data['Type'] = $elementType;
-	        $data['Ord'] = (int)$order;
-	        $data['Loc'] = $_loc;
+            //prepare query
+            $data = array();
+            $data['PageId'] = (int)$pageId;
+            $data['Type'] = $elementType;
+            $data['Ord'] = (int)$order;
+            $data['Loc'] = $_loc;
 
-	        //execute query
-	        $elementId = $_db->insert("element", $data);
-        } else { //update
-	
-	        //prepare query
-		    $data['Ord'] = (int)$order;
-	        $data['Loc'] = $_loc;
-	
-	        //execute query
-	        $_db->update("element", $data, "ElementId = " .(int)$elementId);	
+            //execute query
+            $elementId = $_db->insert("element", $data);
+        } else {//update
+    
+            //prepare query
+            $data = array();
+            $data['Ord'] = (int)$order;
+            $data['Loc'] = $_loc;
+    
+            //execute query
+            $_db->update("element", $data, "ElementId = " .(int)$elementId); 
         }
 
         //create type-specific element
         switch($elementType){
             case 'textbox':
                 //get values
-                $text       = $element->text;
+                $text = $element->text;
 
                 //save to db
                 if($insert) {//insert
 
-			        //prepare query
-			        $data['ID'] = (int)$elementId;
-			        $data['text'] = $text;
+                    //prepare query
+                    $data = array();
+                    $data['ID'] = (int)$elementId;
+                    $data['Text'] = $text;
 
-			        //execute query
-			        $textBoxId = $_db->insert("Textbox", $data);
-                } else { //update
+                    //execute query
+                    $textBoxId = $_db->insert("textbox", $data);
+                } else {//update
 
-			        //prepare query
-			        $data['text'] = $text;
+                    //prepare query
+                    $data = array();
+                    $data['Text'] = $text;
 
-			        //execute query
-			        $_db->update("Textbox", $data, "ID = " .(int)$elementId);	
+                    //execute query
+                    $_db->update("textbox", $data, "ID = " .(int)$elementId);
                 }
 
                 break;
@@ -94,26 +97,28 @@ function processElements($_xml, $_loc, $_db){
 
                 //save to db
                 if($insert) {//insert
-	
-			        //prepare query
-			        $data['ID'] = (int)$elementId;
-			        $data['Caption'] = $caption;
-					$data['filename'] = $url;
-					$data['height'] = (int)$height;
-					$data['width'] = (int)$width;
+    
+                    //prepare query
+                    $data = array();
+                    $data['ID'] = (int)$elementId;
+                    $data['Caption'] = $caption;
+                    $data['Filename'] = $url;
+                    $data['Height'] = (int)$height;
+                    $data['Width'] = (int)$width;
 
-			        //execute query
-			        $mediaId = $_db->insert("Media", $data);
+                    //execute query
+                    $mediaId = $_db->insert("media", $data);
                 } else {//update
-	
-			        //prepare query
-			        $data['Caption'] = $caption;
-					$data['filename'] = $url;
-					$data['height'] = (int)$height;
-					$data['width'] = (int)$width;
+    
+                    //prepare query
+                    $data = array();
+                    $data['Caption'] = $caption;
+                    $data['Filename'] = $url;
+                    $data['Height'] = (int)$height;
+                    $data['Width'] = (int)$width;
 
-			        //execute query
-			        $_db->update("Media", $data, "ID = " .(int)$elementId);	
+                    //execute query
+                    $_db->update("media", $data, "ID = " .(int)$elementId); 
                 }
 
                 break;
@@ -128,27 +133,28 @@ function processElements($_xml, $_loc, $_db){
                 //save to db
 
                 if($insert) {//insert
-	
-			        //prepare query
-			        $data['ID'] = (int)$elementId;
-			        $data['Caption'] = $caption;
-					$data['filename'] = $url;
-					$data['height'] = (int)$height;
-					$data['width'] = (int)$width;
+    
+                    //prepare query
+                    $data = array();
+                    $data['ID'] = (int)$elementId;
+                    $data['Caption'] = $caption;
+                    $data['Filename'] = $url;
+                    $data['Height'] = (int)$height;
+                    $data['Width'] = (int)$width;
 
-			        //execute query
-			        $imageId = $_db->insert("Image", $data);
+                    //execute query
+                    $imageId = $_db->insert("image", $data);
                 } else {//update
-	
-			        //prepare query
-			        $data['Caption'] = $caption;
-					$data['filename'] = $url;
-					$data['height'] = (int)$height;
-					$data['width'] = (int)$width;
+    
+                    //prepare query
+                    $data = array();
+                    $data['Caption'] = $caption;
+                    $data['Filename'] = $url;
+                    $data['Height'] = (int)$height;
+                    $data['Width'] = (int)$width;
 
-			        //execute query
-			        $_db->update("Image", $data, "ID = " .(int)$elementId);	
-
+                    //execute query
+                    $_db->update("image", $data, "ID = " .(int)$elementId); 
                 }
 
                 break;
@@ -156,31 +162,33 @@ function processElements($_xml, $_loc, $_db){
             case 'input':
                 //get values
                 $question   = $element->question;
-                $personal   = $element->personal == 'true'    ? true : false;
-                $coach      = $element->coach == 'true'       ? true : false;
+                $personal   = $element->personal == 'true' ? true : false;
+                $coach      = $element->coach == 'true'    ? true : false;
                 $min        = $element->min;
                 //save to db
                 if($insert) {//insert
-	
-			        //prepare query
-			        $data['ID'] = (int)$elementId;
-			        $data['question'] = $question;
-					$data['personal'] = (int)$personal;
-					$data['coach'] = (int)$coach;
-					$data['min'] = (int)$min;
+    
+                    //prepare query
+                    $data = array();
+                    $data['ID'] = (int)$elementId;
+                    $data['Question'] = $question;
+                    $data['Personal'] = (int)$personal;
+                    $data['Coach'] = (int)$coach;
+                    $data['Min'] = (int)$min;
 
-			        //execute query
-			        $inputId = $_db->insert("Input", $data);
+                    //execute query
+                    $inputId = $_db->insert("input", $data);
                 } else {//update
-	
-			        //prepare query
-			        $data['question'] = $question;
-					$data['personal'] = (int)$personal;
-					$data['coach'] = (int)$coach;
-					$data['min'] = (int)$min;
+    
+                    //prepare query
+                    $data = array();
+                    $data['Question'] = $question;
+                    $data['Personal'] = (int)$personal;
+                    $data['Coach'] = (int)$coach;
+                    $data['Min'] = (int)$min;
 
-			        //execute query
-			        $_db->update("Input", $data, "ID = " .(int)$elementId);	
+                    //execute query
+                    $_db->update("input", $data, "ID = " .(int)$elementId); 
                 }
 
                 break;
@@ -190,20 +198,22 @@ function processElements($_xml, $_loc, $_db){
                 $height     = $element->height;
                 //save to db
                 if($insert) {//insert
-	
-			        //prepare query
-			        $data['ID'] = (int)$elementId;
-					$data['Height'] = (int)$height;
+    
+                    //prepare query
+                    $data = array();
+                    $data['ID'] = (int)$elementId;
+                    $data['Height'] = (int)$height;
 
-			        //execute query
-			        $whitespaceId = $_db->insert("whitespace", $data);
+                    //execute query
+                    $whitespaceId = $_db->insert("whitespace", $data);
                 } else {//update
 
-			        //prepare query
-					$data['Height'] = (int)$height;
-					
-			        //execute query
-			        $_db->update("whitespace", $data, "ID = " .(int)$personal);	
+                    //prepare query
+                    $data = array();
+                    $data['Height'] = (int)$height;
+                    
+                    //execute query
+                    $_db->update("whitespace", $data, "ID = " .(int)$personal); 
                 }
 
                 break;
@@ -253,7 +263,7 @@ try {
         $data['Visibility'] = $visibility;
 
         //execute query
-        $pageId = $db->insert("Page", $data);
+        $pageId = $db->insert("page", $data);
     } else {//update
 
         //prepare query
@@ -278,12 +288,11 @@ try {
     $xml = simplexml_load_string($trash);
     emptyTrash($xml, $db);
 
-	$db->close();
+    $db->close();
 
     echo 1;
 
 } catch (PDOException $e) {
-
    echo "Error!: " . $e->getMessage() . "<br/>";
    die();
 }

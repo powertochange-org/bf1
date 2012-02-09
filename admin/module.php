@@ -149,9 +149,7 @@ try {
              }
 
         ?>
-
     </div>
-
 </div>
 
 <script type="text/javascript">
@@ -196,7 +194,7 @@ try {
             type: "post",
             data: {order : $('.section').size()},
             success: function(msg){
-                //append form to DOM and display and dialog
+                //append form to DOM and display dialog
                 $('#module').append(msg);
                 $('#editsection').dialog({
                     title: "New Section",

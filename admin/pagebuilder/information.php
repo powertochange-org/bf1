@@ -45,11 +45,11 @@ try {
             <div>
                 <label>Visibility</label>
                 <select name="visibility">
-                    <option value="blank"       <?php echo $visibility == ''         ? 'selected' : ''; ?>   >Select Visibility Level</option>
-                    <option value="intern"      <?php echo $visibility == 'intern'   ? 'selected' : ''; ?>   >Intern</option>
-                    <option value="student"     <?php echo $visibility == 'student'  ? 'selected' : ''; ?>   >Student</option>
-                    <option value="other"       <?php echo $visibility == 'other'    ? 'selected' : ''; ?>   >Other</option>
-                    <option value="all"         <?php echo $visibility == 'all'      ? 'selected' : ''; ?>   >All</option>
+                    <option value="Blank"       <?php echo $visibility == ''         ? 'selected' : ''; ?>   >Select Visibility Level</option>
+                    <option value="Intern"      <?php echo $visibility == 'Intern'   ? 'selected' : ''; ?>   >Intern</option>
+                    <option value="Student"     <?php echo $visibility == 'Student'  ? 'selected' : ''; ?>   >Student</option>
+                    <option value="Other"       <?php echo $visibility == 'Other'    ? 'selected' : ''; ?>   >Other</option>
+                    <option value="All"         <?php echo $visibility == 'All'      ? 'selected' : ''; ?>   >All</option>
                 </select><a class="required"></a>
             </div>
         </fieldset>
