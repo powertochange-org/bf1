@@ -147,8 +147,8 @@ try {
                 data: {
                     ajax        : true,
                     submit      : true,
-                    title       : $('form input:[name=title]').val(),
-                    order       : $('form input:[name=order]').val()
+                    title       : $('#editsection input:[name=title]').val(),
+                    order       : $('#editsection input:[name=order]').val()
                 },
                 dataType: "xml",
                 success: function(xml){

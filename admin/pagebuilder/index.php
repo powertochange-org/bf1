@@ -14,7 +14,7 @@ $new        = isset($_GET['page'])          ? false                 : true;
 $id         = isset($_GET['page'])          ? $_GET['page']         : '';
 $sectionId  = isset($_GET['section'])       ? $_GET['section']      : '';
 $moduleId   = isset($_GET['module'])        ? $_GET['module']       : '';
-$order      = isset($_GET['ord'])           ? $_GET['ord']          : '';
+$order      = isset($_GET['order'])         ? $_GET['order']        : '';
 
 $_title     = isset($_POST['title'])        ? $_POST['title']       : '';
 $visibility = isset($_POST['visibility'])   ? $_POST['visibility']  : '';

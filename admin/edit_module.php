@@ -24,6 +24,8 @@ try {
 
     $errors     = isset($_POST['errors'])   ? $_POST['errors'] : '';
 
+    $descr = stripslashes($descr);
+
     require_once("../config.inc.php"); 
     require_once("../Database.singleton.php");
 
@@ -133,7 +135,7 @@ try {
                 <label>Title</label><input type="text" name="title" value="<?php echo $title; ?>" /><a class="required"></a>
             </div>
             <!--div>
-                <label>Caption</label><textarea name="caption"><?php echo $caption; ?></textarea>
+                <label>Caption</label><textarea name="caption"><?php //echo $caption; ?></textarea>
             </div-->
             <div>
                 <label>Description</label><textarea name="descr"><?php echo $descr; ?></textarea>
@@ -143,7 +145,7 @@ try {
         <fieldset id="images" >
             <legend>Images</legend>
             <!--div>
-                <label>Photo</label><input type="text" name="photo" class="filename" value="<?php echo $photo; ?>" /><button type="button" name ="photoBrowse" id="photoBrowse">Browse</button>
+                <label>Photo</label><input type="text" name="photo" class="filename" value="<?php //echo $photo; ?>" /><button type="button" name ="photoBrowse" id="photoBrowse">Browse</button>
             </div-->
             <div>
                 <label>Banner</label><input type="text" name="banner" class="filename" value="<?php echo $banner; ?>" /><button type="button" name ="bannerBrowse" id="bannerBrowse">Browse</button>

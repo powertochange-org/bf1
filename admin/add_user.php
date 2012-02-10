@@ -18,6 +18,9 @@ try {
 
     $errors     = isset($_POST['errors'])   ? $_POST['errors'] : '';
 
+    require_once("../config.inc.php"); 
+    require_once("../Database.singleton.php");
+
     //initialize the database object
     $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
     $db->connect();
@@ -118,12 +121,12 @@ try {
     });
 
     //validate form submission
-    $('#edituser form').submit(function(){
+    $('#adduser form').submit(function(){
         var submit = false;
         var errors = '';
 
         if (errors !== ''){
-           $('#editmodule #errors').html(errors);
+           $('#adduser #errors').html(errors);
            submit = false;
         } else {
            submit = true;
@@ -131,7 +134,7 @@ try {
 
         if(submit){
             $.ajax({
-                url: 'edit_user.php?email=<?php echo $email; ?>',
+                url: 'add_user.php?email=<?php echo $email; ?>',
                 type: 'POST',
                 data: { 
                     ajax        : true,
@@ -153,7 +156,7 @@ try {
 
                     });
 
-                    $('#edituser').dialog("close");
+                    $('#adduser').dialog("close");
 
                 }
             });

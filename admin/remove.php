@@ -10,6 +10,8 @@ require_once("../Database.singleton.php");
 
 function deleteModule($id){
 
+    global $db;
+
     //delete attached sections
     $sql = "SELECT * FROM section WHERE ModuleId = ".$id;
     //execute query
@@ -26,6 +28,8 @@ function deleteModule($id){
 
 function deleteSection($id){
 
+    global $db;
+    
     //delete attached pages
     $sql = "SELECT * FROM page WHERE SectionId = ".$id;
     $pages = $db->fetch_array($sql);

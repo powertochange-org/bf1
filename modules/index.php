@@ -45,7 +45,8 @@ try {
 
     $pagetype = '';
 
-    if($mod!=''){
+    //transition to the next module
+	if($mod!=''){
 
         if($req!=''){
 
@@ -74,6 +75,7 @@ try {
 
         }
 
+    //transition to the next section
     } elseif($sec!=''){
 
         //get section, module, & first page information
@@ -109,6 +111,7 @@ try {
         //page type
         $pagetype = 'page';
 
+    //transition to the next page
     } elseif($pag != ''){
 
         //get page, section, & module information
