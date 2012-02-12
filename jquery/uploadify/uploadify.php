@@ -24,62 +24,62 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 if (!empty($_FILES)) {
-	$tempFile = $_FILES['Filedata']['tmp_name'];
-        $siteRoot = $_SERVER['DOCUMENT_ROOT'];
-	$targetPath = $siteRoot . $_REQUEST['folder'] . '/';
-	$targetFile =  str_replace('//','/',$targetPath) . $_FILES['Filedata']['name'];
-	
-	// $fileTypes  = str_replace('*.','',$_REQUEST['fileext']);
-	// $fileTypes  = str_replace(';','|',$fileTypes);
-	// $typesArray = split('\|',$fileTypes);
-	// $fileParts  = pathinfo($_FILES['Filedata']['name']);
-	
-	// if (in_array($fileParts['extension'],$typesArray)) {
-		// Uncomment the following line if you want to make the directory if it doesn't exist
-		mkdir(str_replace('//','/',$targetPath), 0755, true);
-		
-		move_uploaded_file($tempFile,$targetFile);
+    $tempFile = $_FILES['Filedata']['tmp_name'];    
+    $siteRoot = str_replace($_SERVER['SCRIPT_NAME'], '', $_SERVER['SCRIPT_FILENAME']);
+    $targetPath = $siteRoot . $_REQUEST['folder'] . '/';
+    $targetFile =  str_replace('//','/',$targetPath) . $_FILES['Filedata']['name'];
+    
+    // $fileTypes  = str_replace('*.','',$_REQUEST['fileext']);
+    // $fileTypes  = str_replace(';','|',$fileTypes);
+    // $typesArray = split('\|',$fileTypes);
+    // $fileParts  = pathinfo($_FILES['Filedata']['name']);
+    
+    // if (in_array($fileParts['extension'],$typesArray)) {
+        // Uncomment the following line if you want to make the directory if it doesn't exist
+        mkdir(str_replace('//','/',$targetPath), 0755, true);
+        
+        move_uploaded_file($tempFile,$targetFile);
                 
-                switch ($_FILES['Filedata']['error'])
-                {
-                     case 0:
-                             //$msg = "No Error"; // comment this out if you don't want a message to appear on success.
-                              //$msg = "Success!";
-                              break;
-                     case 1:
-                              $msg = "The file is bigger than this PHP installation allows";
-                              break;
-                      case 2:
-                              $msg = "The file is bigger than this form allows";
-                              break;
-                       case 3:
-                              $msg = "Only part of the file was uploaded";
-                              break;
-                       case 4:
-                             $msg = "No file was uploaded";
-                              break;
-                       case 6:
-                             $msg = "Missing a temporary folder";
-                              break;
-                       case 7:
-                             $msg = "Failed to write file to disk";
-                             break;
-                       case 8:
-                             $msg = "File upload stopped by extension";
-                             break;
-                       default:
-                            $msg = "unknown error ".$_FILES['Filedata']['error'];
-                            break;
-                }
+        switch ($_FILES['Filedata']['error'])
+        {
+             case 0:
+                     //$msg = "No Error"; // comment this out if you don't want a message to appear on success.
+                      //$msg = "Success!";
+                      break;
+             case 1:
+                      $msg = "The file is bigger than this PHP installation allows";
+                      break;
+              case 2:
+                      $msg = "The file is bigger than this form allows";
+                      break;
+               case 3:
+                      $msg = "Only part of the file was uploaded";
+                      break;
+               case 4:
+                     $msg = "No file was uploaded";
+                      break;
+               case 6:
+                     $msg = "Missing a temporary folder";
+                      break;
+               case 7:
+                     $msg = "Failed to write file to disk";
+                     break;
+               case 8:
+                     $msg = "File upload stopped by extension";
+                     break;
+               default:
+                    $msg = "unknown error ".$_FILES['Filedata']['error'];
+                    break;
+        }
 
-                If ($msg)
-                    $stringData = "Error: ".$_FILES['Filedata']['error']." Error Info: ".$msg;
-                else
-                   $stringData = "1"; // This is required for onComplete to fire on Mac OSX
-                echo $stringData;
+        if ($msg)
+            $stringData = "Error: ".$_FILES['Filedata']['error']." Error Info: ".$msg;
+        else
+           $stringData = "1"; // This is required for onComplete to fire on Mac OSX
+        echo $stringData;
 
-	// } else {
-	// 	echo 'Invalid file type.';
-	// }
+    // } else {
+    //  echo 'Invalid file type.';
+    // }
 }
 ?>

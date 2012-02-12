@@ -60,11 +60,11 @@ $page  .= '.php';
         <div id="leftmenu">
             <ul>
                 <li><a href="?p=modules" class="<?php   echo $_GET['p'] == 'modules'    ? 'active' : ''; ?>">Modules</a></li>
-                <!--li><a href="?p=articles" class="<?php  echo $_GET['p'] == 'articles'   ? 'active' : ''; ?>">Articles</a></li-->
-                <!--li><a href="?p=homepage" class="<?php  echo $_GET['p'] == 'homepage'   ? 'active' : ''; ?>">Home Page</a></li-->
+                <!--li><a href="?p=articles" class="<?php  //echo $_GET['p'] == 'articles'   ? 'active' : ''; ?>">Articles</a></li-->
+                <!--li><a href="?p=homepage" class="<?php  //echo $_GET['p'] == 'homepage'   ? 'active' : ''; ?>">Home Page</a></li-->
                 <li><a href="?p=users" class="<?php     echo $_GET['p'] == 'users'      ? 'active' : ''; ?>">Users</a></li>
                 <li><a href="?p=reports" class="<?php   echo $_GET['p'] == 'reports'    ? 'active' : ''; ?>">Reports</a></li>
-                <!--li><a href="?p=settings" class="<?php  echo $_GET['p'] == 'settings'   ? 'active' : ''; ?>">Settings</a></li-->
+                <!--li><a href="?p=settings" class="<?php  //echo $_GET['p'] == 'settings'   ? 'active' : ''; ?>">Settings</a></li-->
             </ul>
         </div>
 
