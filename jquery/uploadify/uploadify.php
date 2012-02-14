@@ -36,12 +36,13 @@ if (!empty($_FILES)) {
     
     // if (in_array($fileParts['extension'],$typesArray)) {
         // Uncomment the following line if you want to make the directory if it doesn't exist
-        mkdir(str_replace('//','/',$targetPath), 0755, true);
-        
+        if (!file_exists (str_replace('//','/',$targetPath))) {
+          mkdir(str_replace('//','/',$targetPath), 0755, true);
+        }
+
         move_uploaded_file($tempFile,$targetFile);
                 
-        switch ($_FILES['Filedata']['error'])
-        {
+        switch ($_FILES['Filedata']['error']) {
              case 0:
                      //$msg = "No Error"; // comment this out if you don't want a message to appear on success.
                       //$msg = "Success!";
