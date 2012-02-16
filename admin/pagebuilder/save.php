@@ -17,9 +17,9 @@ $main       = $_POST['main'];
 $right      = $_POST['right'];
 $trash      = $_POST['trash'];
 
-$main = str_replace('\"', '"', $main);
-$right = str_replace('\"', '"', $right);
-$trash = str_replace('\"', '"', $trash);
+$main = stripslashes($main);
+$right = stripslashes($right);
+$trash = stripslashes($trash);
 
 require_once("../../config.inc.php"); 
 require_once("../../Database.singleton.php");
