@@ -491,7 +491,7 @@ function insertElement($_id, $_type, $_content){
             buttons: {
                 "Ok": function() {
                     //assemble media tag
-                    var type = $(this).find('input:radio[name=src]:checked').val();
+                    var type = $(this).find('input:checked').val();
                     var src = $(this).find('input:text[name='+type+']').val();
 
                     var media = '<div align="center"><div class="media {';
@@ -534,7 +534,6 @@ function insertElement($_id, $_type, $_content){
                     $(this).dialog("close");
                 }
             },
-
             open: function(event, ui) {
 
                 $('embed').hide();
@@ -622,7 +621,6 @@ function insertElement($_id, $_type, $_content){
             },
 
             resize: function(event, ui) {
-
             }
 
         });
@@ -989,9 +987,9 @@ function insertElement($_id, $_type, $_content){
                     break;
 
                 case 'media':
-                    var url = $(this).find('.content').find('media').attr('src');
-                    var height = $(this).find('.content').find('media').attr('height');
-                    var width = $(this).find('.content').find('media').attr('width');
+                    var url = $(this).find('.content').find('.media').find('embed').attr('src');
+                    var height = $(this).find('.content').find('.media').find('embed').attr('height');
+                    var width = $(this).find('.content').find('.media').find('embed').attr('width');
                     var caption = $(this).find('.content').find('.caption').html();
                     xmlMain += '<url>'+url+'</url><height>'+height+'</height><width>'+width+'</width><caption>'+caption+'</caption>';
                     break;
