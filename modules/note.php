@@ -20,6 +20,9 @@ $h          = isset($_POST['h'])        ? $_POST['h']               : '';
 
 $errors     = isset($_POST['errors'])   ? $_POST['errors']          : '';
 
+require_once("../config.inc.php"); 
+require_once("../Database.singleton.php");
+
 //initialize the database object
 $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
 $db->connect();
@@ -27,11 +30,10 @@ $db->connect();
 //save note
 if($submit){
 
-    if($new){//new note
+    if($new) {//new note
         //prepare query
         $data['Email'] = $email;
         $data['ElementId'] = (int)$id;
-        $data['Type'] = 'note';
         $data['Note'] = $note;
         $data['_x'] = (int)$x;
         $data['_y'] = (int)$y;
@@ -41,8 +43,8 @@ if($submit){
         //execute query
         $primary_id = $db->insert("note", $data);
         
-    } else {    //edit note
-        if($note == ''){ //note is empty, delete
+    } else {//edit note
+        if($note == '') { //note is empty, delete
             //prepare query
             $sql = "DELETE FROM note WHERE Email = '".$db->escape($email)."' AND ElementId = " .(int)$id;
 
@@ -52,7 +54,6 @@ if($submit){
             echo 'Note Deleted';
         } else {
             //prepare query
-            $data['Type'] = 'note';
             $data['Note'] = $note;
             $data['_x'] = (int)$x;
             $data['_y'] = (int)$y;
@@ -66,7 +67,7 @@ if($submit){
         }
 
     }
-	$db->close();
+    $db->close();
     exit();
 }
 
@@ -75,7 +76,7 @@ if($submit){
 $sql = "SELECT * FROM note WHERE Email = '".$db->escape($email)."' AND ElementId = " .(int)$id;
 
 //execute query
-$_note = $db->fetch_array($sql);
+$_note = $db->query_first($sql);
 
 if(count($_note) > 1){
     $new    = false;

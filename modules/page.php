@@ -128,7 +128,7 @@ try {
         $notes[] = $db_note['ElementId'];
     }
 
-} catch (PDOException $e){
+} catch (PDOException $e) {
     echo $e->getMessage();
 }
 
