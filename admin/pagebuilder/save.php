@@ -234,6 +234,12 @@ function emptyTrash($_xml, $_db) {
         //remove if existing
         if($elementId > 0) {
 
+           if ($elementType == 'input'){
+                $sql = "DELETE FROM response WHERE InputId = ".(int)$elementId;
+                //execute query
+                $_db->query($sql);
+            }
+
             $sql = "DELETE FROM ".$elementType." WHERE ID = ".(int)$elementId;
             //execute query
             $_db->query($sql);
