@@ -50,13 +50,26 @@ function deletePage($id){
     //delete attached elements
     $sql = "SELECT * FROM element WHERE PageId = ".$id;
     $elements = $db->fetch_array($sql);
-    foreach($elements as $element){
+
+    foreach($elements as $element) {
+        if ($element['Type'] == 'input'){
+             $sql = "DELETE FROM response WHERE InputId = ".$element['ElementId'];
+             //execute query
+             $db->query($sql);
+         }
+
         $sql = "DELETE FROM ".$element['Type']." WHERE ID = ".$element['ElementId'];
         //execute query
         $db->query($sql);
+
         $sql = "DELETE FROM element WHERE ElementId = ".$element['ElementId'];
+        //execute query
         $db->query($sql);
     }
+
+    //delete progress
+    $sql = "DELETE FROM progress WHERE PageId = ".$id;
+    $db->query($sql);
 
     //delete page
     $sql = "DELETE FROM page WHERE ID = ".$id;
