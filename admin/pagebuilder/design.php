@@ -960,7 +960,7 @@ function insertElement($_id, $_type, $_content){
     function cancelFunc(){
         window.location.href = "/admin/?p=modules&id=<?php echo $moduleId; ?>";
     }
- 
+
     var saved = false;
 
     $('#saveForm').submit(function(){

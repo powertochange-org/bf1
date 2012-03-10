@@ -75,13 +75,22 @@
 #users #list .email{ float: left; height: 20px; padding: 5px 10px; margin: 10px; font-size: 14px; }
 #users #list .user .edit{ margin-right: 20px; }
 
-/* EDIT MODULE / EDIT SECTION */
-#editmodule, #editsection{ padding-top: 20px; }
-#editmodule fieldset, #editsection fieldset{ border: none; border-top: 1px solid #ccc; }
-#editmodule fieldset legend, #editsection fieldset legend{ font-size: 16px; padding: 0px 10px; }
-#editmodule fieldset div, #editsection fieldset div{ overflow: auto; width: 100%; height: auto; margin: 10px 0px; }
-#editmodule fieldset label, #editsection fieldset label{ font-size: 14px; float: left; width: 150px; height: 100%; vertical-align: middle; }
-#editmodule fieldset .required, #editsection fieldset .required{ width: 24px; height: 24px; margin: 5px 5px; background-image: url('images/001_30.png'); display: none; }
+/* EDIT USER */
+#edituser{ padding-top: 20px; }
+#edituser fieldset{ border: none; border-top: 1px solid #ccc; }
+#edituser fieldset legend { font-size: 14px; padding: 0px 10px; }
+#edituser fieldset div { overflow: auto; width: 100%; height: auto; margin: 10px 0px; }
+#edituser fieldset label { font-size: 14px; float: left; width: 150px; height: 100%; vertical-align: middle; }
+#edituser fieldset .required { width: 24px; height: 24px; margin: 5px 5px; background-image: url('images/001_30.png'); display: none; }
+#edituser form button { cursor: pointer; margin: 0px 2px; float: right; margin: 2px; border: none; font-size: 12px; }
+
+/* EDIT MODULE / EDIT SECTION / EDIT USER */
+#editmodule, #editsection, #edituser{ padding-top: 20px; }
+#editmodule fieldset, #editsection fieldset, #edituser fieldset{ border: none; border-top: 1px solid #ccc; }
+#editmodule fieldset legend, #editsection fieldset legend, #edituser fieldset legend { font-size: 16px; padding: 0px 10px; }
+#editmodule fieldset div, #editsection fieldset div, #edituser fieldset div { overflow: auto; width: 100%; height: auto; margin: 10px 0px; }
+#editmodule fieldset label, #editsection fieldset label, #edituser fieldset label { font-size: 14px; float: left; width: 150px; height: 100%; vertical-align: middle; }
+#editmodule fieldset .required, #editsection fieldset .required, #edituser fieldset .required { width: 24px; height: 24px; margin: 5px 5px; background-image: url('images/001_30.png'); display: none; }
 #editmodule #information input, #editmodule #information textarea, #editsection #information input { font-size: 14px; padding: 5px; width: 400px; float: left; border: 1px solid #ccc; }
 #editmodule #images input { font-size: 14px; padding: 5px; width: 275px; float: left; border: 1px solid #ccc; margin-right: 20px; }
 #editmodule #upload{ position: absolute; width: 400px; overflow: hidden; opacity: 0.8; padding-right: 50px; }

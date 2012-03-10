@@ -12,4 +12,10 @@ define('DB_DATABASE', "crudoctrine");
 
 //constants
 define("COMPLETE", "complete");
+define("STUDENT", "student");
+define("INTERN", "intern");
+define("COACH", "coach");
+define("REGIONAL_ADMIN", "regAdmin");
+define("SUPER", "super");
+define("OTHER","other");
 ?>

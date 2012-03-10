@@ -5,7 +5,7 @@
  * Campus Crusade for Christ
  */
 
-//get users from db
+//users
 $users = array();
 
 try {
@@ -16,8 +16,7 @@ try {
     $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
     $db->connect();
 
-    //execute query and return to module array
-    
+    //execute query and return to module array   
     $sql =   "SELECT u.Email, u.FName, u.LName, u.Type, u.Region AS Reg, u.Loc, u.Reg_Date, u.Reg_Status, r.Name AS Region, l.Name AS Location
              FROM user u
              INNER JOIN region r ON u.Region = r.ID
@@ -56,25 +55,22 @@ try {
         </div>
 
         <?php
-
             if(count($users) > 0){
                 foreach ($users as $row){
-                    echo '  <div class="user" id="'.$row['Email'].'">
-                                <div class="title corners-left">
-                                    <div class="usericon"></div>
-                                    <div class="name">'.$row['FName'].' '.$row['LName'].'</div>
-                                    <div class="location">'.$row['Loc'].'</div>
-                                </div>
-                                <div class="email">'.$row['Email'].'</div>
-                                <a class="edit ui-state-default corners-all" href="?p=edit_user&email='.$row['Email'].'"><span class="ui-icon ui-icon-pencil"></span>Edit</a>
-                            </div>';
+                    echo '<div class="user" id="'.$row['Email'].'">
+                            <div class="title corners-left">
+                              <div class="usericon"></div>
+                              <div class="name">'.$row['FName'].' '.$row['LName'].'</div>
+                              <div class="location">'.$row['Loc'].'</div>
+                            </div>
+                            <div class="email">'.$row['Email'].'</div>
+                              <a class="edit ui-state-default corners-all" href="" onclick="editUser(\''.$row['Email'].'\');return false">
+                              <span class="ui-icon ui-icon-pencil"></span>Edit</a>
+                          </div>';
                 }
             }
-
         ?>
-
     </div>
-
 </div>
 
 <script type="text/javascript">
@@ -111,7 +107,44 @@ try {
 
         //prevent form from submitting traditionaly
         return false;
-
     });
+
+    function editUser(email){
+        //get edit user form
+        $.ajax({
+            url: "edit_user.php",
+            type: "GET",
+            data: { 
+                email        : email,
+            },
+            dataType: "html",
+            success: function(msg){
+                //append form to DOM and display dialog
+                $('#users').append(msg);
+                $('#edituser').dialog({
+                    title: "Edit User",
+                    buttons: {
+                        "Ok": function() {
+                            $(this).find('form').submit();
+                        },
+                        "Cancel": function() {
+                            $(this).dialog("close");
+                        }
+                    },
+                    close: function(){
+                        $(this).dialog( "destroy" );
+                        $('#edituser').remove();
+                    },
+                    height: 650,
+                    width: 650,
+                    resizable: false,
+                    modal: true
+                });
+            }
+        });
+
+        //prevent form from submitting traditionaly
+        return false;
+    };
 
 </script>

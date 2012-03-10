@@ -34,7 +34,7 @@ try {
     $db->connect();
 
     //check for form submission
-    if($submit){    //form was submitted, process data
+    if($submit) {    //form was submitted, process data
 
         if($new){   //new module
 

@@ -40,10 +40,10 @@ try {
             header('Content-Type: application/xml; charset=ISO-8859-1');
             echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
             echo '<user>';
-            echo '<email>'      .$email.		    '</email>';
-            echo '<progress>'   .$progress.		    '</progress>';
-            echo '<coach>'      .$coach.		    '</coach>';
-            echo '<status>'     .$status.		    '</status>';
+            echo '<email>'      .$email.            '</email>';
+            echo '<progress>'   .$progress.         '</progress>';
+            echo '<coach>'      .$coach.            '</coach>';
+            echo '<status>'     .$status.           '</status>';
             echo '</user>';
 
             exit();
@@ -57,25 +57,25 @@ try {
     } else { //get data for user
 
         //get status
-		//prepare query
-		$sql = "SELECT Reg_Status, FName, LName FROM user WHERE Email = ".$email;
+        //prepare query
+        $sql = "SELECT Reg_Status, FName, LName FROM user WHERE Email = ".$email;
 
-		//execute query
-		$result     = $db->query_first($sql);
+        //execute query
+        $result     = $db->query_first($sql);
         $status     = $result['Reg_Status'];
         $name       = $result['FName'].' '.$result['LName'];
         
         //get progress
         
         //get coach
-		//prepare query
-		$sql = "SELECT Coach FROM coach WHERE Student = ".$email;
+        //prepare query
+        $sql = "SELECT Coach FROM coach WHERE Student = ".$email;
         $result     = $db->query_first($sql);
         $coach      = $result['Coach'];
 
     }
 
-	$db->close();
+    $db->close();
 
 } catch (PDOException $e) {
     echo $e->getMessage();
