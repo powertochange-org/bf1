@@ -6,7 +6,6 @@
  */
 
 try {
-
     //get values
     $submit     = isset($_POST['submit'])   ? true                  : false;
     $ajax       = isset($_POST['ajax'])     ? true                  : false;

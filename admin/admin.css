@@ -75,6 +75,15 @@
 #users #list .email{ float: left; height: 20px; padding: 5px 10px; margin: 10px; font-size: 14px; }
 #users #list .user .edit{ margin-right: 20px; }
 
+/* ADD USER */
+#adduser{ padding-top: 20px; }
+#adduser fieldset{ border: none; border-top: 1px solid #ccc; }
+#adduser fieldset legend { font-size: 14px; padding: 0px 10px; }
+#adduser fieldset div { overflow: auto; width: 100%; height: auto; margin: 10px 0px; }
+#adduser fieldset label { font-size: 14px; float: left; width: 150px; height: 100%; vertical-align: middle; }
+#adduser fieldset .required { width: 24px; height: 24px; margin: 5px 5px; background-image: url('images/001_30.png'); display: none; }
+#adduser form button { cursor: pointer; margin: 0px 2px; float: right; margin: 2px; border: none; font-size: 12px; }
+
 /* EDIT USER */
 #edituser{ padding-top: 20px; }
 #edituser fieldset{ border: none; border-top: 1px solid #ccc; }
