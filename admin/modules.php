@@ -30,7 +30,6 @@ try {
 ?>
 
 <div id="modules">
-
     <div id="list">
 
         <form id="createNew" action="?p=modules&request=edit_module" method="post">
@@ -53,11 +52,8 @@ try {
                             </div>';
                 }
             }
-
         ?>
-
     </div>
-
 </div>
 
 <script type="text/javascript">
@@ -103,7 +99,5 @@ try {
 
         //prevent form from submitting traditionaly
         return false;
-
     });
-
 </script>
