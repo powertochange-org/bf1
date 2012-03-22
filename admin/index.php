@@ -5,7 +5,7 @@
  * Campus Crusade for Christ
  */
 
-//ensure user authentication
+//check user authorization
 $auth = false;
 
 session_start();
@@ -16,6 +16,7 @@ if($_SESSION['type']=='super'){
 if(!$auth){
     header('Location: /#login');
 }
+//end check user authorization
 
 //page title
 $title  = 'Administration';
@@ -28,12 +29,11 @@ $page   = isset($_GET['p'])         ? $_GET['p']        : 'modules';    //p
 $page   = isset($_GET['request'])   ? $_GET['request']  : $page;        //request
 
 
-switch($page){                                                          //specific
+switch($page) {//specific
     case 'modules':
         if(isset($_GET['id'])){
             $page = 'module';
         }
-
         break;
 }
 
@@ -50,9 +50,7 @@ $page  .= '.php';
 <link rel="stylesheet" href="/jquery/uploadify/uploadify.css" type="text/css" />
 
 <div id="content">
-
     <div id="admin">
-
         <div id="pagetitle">
             Administration
         </div>
@@ -73,15 +71,11 @@ $page  .= '.php';
                 include($page);
             ?>
 
-
             <div id="confirm">
                 <div id="message"></div>
             </div>
-
         </div>
-
     </div>
-
 </div>
 
 <script type="text/javascript">
@@ -143,7 +137,7 @@ $page  .= '.php';
         });
     }
 
-     $('.remove').click(function(){
+     $('.remove').click(function() {
         //get values
         var type = $(this).parent().parent().attr('class');
         var id   = $(this).parent().parent().attr('id');
@@ -183,7 +177,6 @@ $page  .= '.php';
 </script>
 
 <?php
-
 //footer
 include('../footer.php');
 ?>

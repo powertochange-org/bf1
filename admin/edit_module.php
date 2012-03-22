@@ -73,14 +73,14 @@ try {
             header('Content-Type: application/xml; charset=ISO-8859-1');
             echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
             echo '<module>';
-            echo '<new>'        .$new.                      '</new>';
+            echo '<new>'        .$new.              '</new>';
             echo '<id>'         .$moduleId.         '</id>';
             echo '<number>'     .$number.           '</number>';
             echo '<title>'      .$title.            '</title>';
             echo '<order>'      .$order.            '</order>';
-            //echo '<caption>'    .$caption.          '</caption>';
+            //echo '<caption>'    .$caption.        '</caption>';
             echo '<descr>'      .$descr.            '</descr>';
-            //echo '<photo>'      .$photo.            '</photo>';
+            //echo '<photo>'      .$photo.          '</photo>';
             echo '<banner>'     .$banner.           '</banner>';
             echo '<homepage>'   .$homepage.         '</homepage>';
             echo '</module>';
@@ -90,10 +90,8 @@ try {
         } else {
 
             header ("Location: ?p=modules&id=".$moduleId);
-
         }
-
-    } else if (!$new){ //get data for existing module
+    } else if (!$new) { //get data for existing module
 
         //get module information
         $sql = "SELECT * FROM module WHERE ID = ".$moduleId;
@@ -110,7 +108,6 @@ try {
         //$photo      = $result['Photo'];
         $banner     = $result['Banner'];
         $homepage   = $result['FrontImg'];
-
     }
 
     $db->close();
@@ -119,7 +116,6 @@ try {
     echo $e->getMessage();
     exit();
 }
-
 ?>
 
 <div id="editmodule">

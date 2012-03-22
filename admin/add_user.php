@@ -18,7 +18,6 @@ try {
         $region     = isset($_POST['region'])        ? $_POST['region']      : '';
         $location   = isset($_POST['location'])      ? $_POST['location']    : '';
         $regDate    = isset($_POST['regDate'])       ? $_POST['regDate']     : '';
-        $status     = isset($_POST['status'])        ? $_POST['status']      : '';
         $coach      = isset($_POST['coach'])         ? $_POST['coach']       : '';
 
         $errors     = isset($_POST['errors'])        ? $_POST['errors']      : '';
@@ -42,7 +41,7 @@ try {
             $data['Region']     = $region;
             $data['Loc']        = $location;
             $data['Reg_Date']   = date('Ymd');
-            $data['Reg_Status'] = $status ? 'Active'  : 'Inactive';
+            $data['Reg_Status'] = ACTIVE;
 
             //execute query
             $db->insert("user", $data);
@@ -74,7 +73,6 @@ try {
                 echo '<region>'     .$region.      '</region>';
                 echo '<location>'   .$location.    '</location>';
                 echo '<regDate>'    .$regDate.     '</regDate>';
-                echo '<status>'     .$status.      '</status>';
                 echo '<coach>'      .$coach.       '</coach>';
                 echo '</user>';
 
@@ -149,11 +147,12 @@ try {
           </div>
           <!--div>
             <label>Registration Date</label>
-            <input type="text" name="regDate" value="<?php echo $regDate; ?>" />
+            <input type="text" name="regDate" value="<?php //echo $regDate; ?>" />
           </div-->
-          <div>
-            <input type="checkbox" name="status" value="" "checked"/><label> Active </label>
-          </div>
+          <!--div>
+            <label> Active </label>
+            <input type="checkbox" name="status" value="" "checked"/>
+          </div-->
           <div>
               <label>Coach</label>
               <select name="coach">
@@ -257,7 +256,6 @@ try {
                     type        : $('form select:[name=type]').val(),
                     region      : $('form input:[name=region]').val(),
                     location    : $('form input:[name=location]').val(),
-                    status      : $('form input:checkbox[name=status]').attr('checked'),
                     coach       : $('form select:[name=coach]').val()
                 },
                 dataType: "xml",
@@ -271,9 +269,10 @@ try {
                         var type        = $(this).find('type').text();
                         var region      = $(this).find('region').text();
                         var location    = $(this).find('location').text();
-                        var status      = $(this).find('status').text();
                         var coach       = $(this).find('coach').text();
                     });
+                    $('#list').append('<div class="user" id="'+email+'"><div class="title corners-left"><div class="usericon"></div><div class="name">'+firstName+ ' ' +lastName+'</div><div class="location">'+location+'</div></div><div class="email">'+email+'</div><a class="edit ui-state-default corners-all" href="" onclick="editUser(\''+email+'\');return false"><span class="ui-icon ui-icon-pencil"></span>Edit</a></div>');
+
                     $('#adduser').dialog("close");
                 }
             });

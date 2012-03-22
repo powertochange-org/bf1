@@ -5,12 +5,9 @@
  * Campus Crusade for Christ
  */
 
-//users
-$users = array();
-
 try {
-
-    global $users;
+    //users
+    $users = array();
 
     //initialize the database object
     $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
@@ -26,33 +23,30 @@ try {
     $users = $db->fetch_array($sql);
     
     $db->close();
-} catch (PDOException $e){
+} catch (PDOException $e) {
     echo $e->getMessage();
 }
-
 ?>
-
 <div id="users">
-
     <div id="list">
 
         <form id="createNew" action="?p=users&request=add_user" method="post">
             <button type="submit" value="submit" class="corners-all shadow-light"><span class="ui-icon ui-icon-plus"></span>Add User</button>
         </form>
 
-        <form id="search" action="" method="get">
+        <!--form id="search" action="" method="get">
             <input type="hidden" name="p" value="users" />
             <input type="text" name="search" /><button type="submit" class="ui-state-default corners-right"><div></div></button>
-        </form>
+        </form-->
 
-        <div id="legend">
+        <!--div id="legend">
             <div id="ga"><a></a>Global</div>
             <div id="ra"><a></a>Regional</div>
             <div id="ic"><a></a>Intern Coach</div>
             <div id="st"><a></a>Staff</div>
             <div id="in"><a></a>Intern</div>
             <div id="ot"><a></a>Other</div>
-        </div>
+        </div-->
 
         <?php
             if(count($users) > 0){
@@ -64,7 +58,7 @@ try {
                               <div class="location">'.$row['Loc'].'</div>
                             </div>
                             <div class="email">'.$row['Email'].'</div>
-                              <a class="edit ui-state-default corners-all" href="" onclick="editUser(\''.$row['Email'].'\');return false">
+                              <a class="edit ui-state-default corners-all" href="?p=users&request=edit_user&email='.$row['Email'].'" onclick="editUser(\''.$row['Email'].'\');return false">
                               <span class="ui-icon ui-icon-pencil"></span>Edit</a>
                           </div>';
                 }
