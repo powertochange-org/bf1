@@ -18,4 +18,7 @@ define("COACH", "coach");
 define("REGIONAL_ADMIN", "regAdmin");
 define("SUPER", "super");
 define("OTHER","other");
+define("ACTIVE", "Active");
+define("INACTIVE", "Inactive");
+define("WELCOME_PAGE", "welcome.php");
 ?>
