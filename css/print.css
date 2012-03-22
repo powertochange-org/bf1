@@ -14,8 +14,8 @@ a, button {
     text-decoration: none;
 }
 
-a{ color: #696D66; }
-a:hover{ color: #000; }
+a { color: #696D66; }
+a:hover { color: #000; }
 
 /*  CONTAINER */
 
@@ -24,12 +24,9 @@ a:hover{ color: #000; }
 #navbar .option a, #userbox a {
     text-transform: uppercase;
     font-size: 15px;
-    
 }
 
-#navbar .option a:hover, #userbox a:hover {
-    
-}
+#navbar .option a:hover, #userbox a:hover {}
 
 #pagetitle {
     text-transform: capitalize;
@@ -40,17 +37,11 @@ a:hover{ color: #000; }
 }
 
 /*  CONTENT */
-#content {
+#content {}
 
-}
+#leftmenu{}
 
-#leftmenu{
-
-}
-
-#leftmenu ul{
-
-}
+#leftmenu ul{}
 
 #leftmenu li a{
     color: #666666;
@@ -61,11 +52,10 @@ a:hover{ color: #000; }
     color: #000;
 }
 
-#leftmenu li span{
-
-}
+#leftmenu li span{}
 
 /*  FOOTER  */
-#footer {
+#footer, #footer #links a{
     font-size: 10px;
+    text-decoration: none;
 }

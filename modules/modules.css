@@ -23,7 +23,6 @@
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
     /* For IE 8*/
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
-
 }
 .module #continue{ position: absolute; display: inline-block; margin-left: 720px; margin-top: 355px; }
 .module #continue a{ display: block; padding: 5px 10px; font-size: 16px; height: 22px; }

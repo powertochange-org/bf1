@@ -12,7 +12,6 @@ require('header.php');
 $modules = array();
 
 try {
-
     global $modules;
 
     //initialize the database object
@@ -26,21 +25,18 @@ try {
 
     $db->close();
 
-} catch (PDOException $e){
+} catch (PDOException $e) {
     echo $e->getMessage();
 }
 ?>
 
 <link rel="stylesheet" type="text/css" media="screen" href="/css/home.css" />
-
 <div id="content">
-
-    <div id="slider">
-
-        <?php
-
-            if(count($modules) > 0){
-                foreach ($modules as $module){
+    <?php
+        if($loggedin) {
+            if(count($modules) > 0) {
+                echo '<div id="slider">';
+                foreach ($modules as $module) {
                     if($module['Number'] > 1) {
                         echo '  <div id="module'.str_replace('.', '', $module['Number']).'" class="module">
                                     <div class="slide">
@@ -52,16 +48,15 @@ try {
                                     </div>
                                 </div>';
                     }
-                    
                 }
+                echo '</div>';
             }
-
-        ?>
-
-    </div>
-
+        }
+        else {
+          include(WELCOME_PAGE);
+        }
+    ?>
 </div>
-
 <script type="text/javascript">
 
     $(function(){
@@ -97,7 +92,6 @@ try {
 
 </script>
 <?php
-
 //footer
 require('footer.php');
 ?>

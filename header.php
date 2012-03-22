@@ -5,7 +5,7 @@
  * Campus Crusade for Christ
  */
 
-//if (!isset ($_COOKIE[ini_get('session.name')])) {
+//if (!isset ($_COOKIE['PHPSESSID'])) {
     session_start();
 //}
 
@@ -13,14 +13,14 @@
 $title = 'Welcome';
 
 //check for session
-$loggedin   = false;
-$email      = '';
-$fname      = '';
-$lname      = '';
-$type       = '';
+$loggedin    = false;
+$email       = '';
+$fname       = '';
+$lname       = '';
+$type        = '';
 $userMessage = '';
 
-if(isset($_SESSION['email'])){
+if(isset($_SESSION['email'])) {
     $loggedin   = true;
     $email      = $_SESSION['email'];
     $fname      = isset($_SESSION['fname']) ? $_SESSION['fname']    : '';
@@ -53,23 +53,20 @@ echo"<title>".$title." | Cru Doctrine</title>";
 <link type="text/css" href="/jquery/ui/css/crudoctrine-grey/jquery-ui-1.8.1.custom.css" rel="Stylesheet" />
 <!--media-->
 <script type="text/javascript" src="/jquery/media/jquery.media.js"></script>
-
 <!--END JQUERY-->
 
 <!--CSS-->
 <link rel="stylesheet" type="text/css" media="screen" href="/css/layout.css" />
 <link rel="stylesheet" type="text/css" media="screen" href="/css/print.css" />
 <!--END CSS-->
-
 </head>
 
 <body>
-
-<div id="container"><!--PAGE CONTAINER-->
-
-   <div id="header">
+<!--PAGE CONTAINER-->
+<div id="container">
     <!--HEADER-->
-    <div id="logo"></div>
+   <div id="header">
+    <a href="/"><div id="logo"></div></a>
     <div id="title"></div>
     <div id="navbar">
         <!--NAVBAR-->
@@ -79,26 +76,38 @@ echo"<title>".$title." | Cru Doctrine</title>";
                 <div id="form" class="shadow-medium corners-all"></div>
                 <div id="tab"></div>
             </div>
-            <div id="loginbox" class="ui-corner-top">
-                <?php echo $loggedin ? $userMessage.' | <a href="/logout.php" id="logout">LOG OUT</a>' : '<a href="/login.php" id="login">LOG IN</a>'; ?>
+            <div id="registerDialog">
+                <div id="form" class="shadow-medium corners-all"></div>
+                <div id="tab"></div>
             </div>
-        </div><!--END USERBOX-->
-        <div class="option">
-            <a href="/">WELCOME</a>
+            <div id="loginbox" class="ui-corner-top">
+                <?php echo $loggedin ? $userMessage.' | <a href="/logout.php" id="logout">LOG OUT</a>' : '<a href="/login.php" id="login">LOG IN</a> | <a href="/register.php" id="register">REGISTER</a>'; ?>
+            </div>
         </div>
-        <!--<div class="option" ><a href="profile/">MY PROFILE</a></div>-->
-        <div class="option">
-            <a href="/work">MY WORK</a>
-        </div>
-        <div class="option">
-            <a href="/">COMMUNITY</a>
-        </div>
-        <div class="option">
-            <a href="/">RESOURCES</a>
-        </div>
-        <?php echo $type=='super' ? '<div class="option"><a href="/admin">ADMIN</a></div>' : ''; ?>
-    </div><!--ENDS NAVBAR-->
-   </div><!--ENDS HEADER-->
+        <!--END USERBOX-->
+        <div class="option" ><a href="about.php">ABOUT</a></div>
+        <?php
+          if($loggedin) {
+            //echo '<div class="option" ><a href="profile/">MY PROFILE</a></div>';
+            echo '<div class="option">
+                    <a href="/">HOME</a>
+                  </div>
+                   <div class="option">
+                    <a href="/work">MY WORK</a>
+                  </div>
+                  <!--div class="option">
+                    <a href="/">COMMUNITY</a>
+                  </div>
+                  <div class="option">
+                    <a href="/">RESOURCES</a>
+                  </div-->';
+            echo $type=='super' ? '<div class="option"><a href="/admin">ADMIN</a></div>' : '';
+         }
+        ?>
+    </div>
+    <!--ENDS NAVBAR-->
+   </div>
+   <!--ENDS HEADER-->
 
 <script type="text/javascript">
 
@@ -120,6 +129,17 @@ echo"<title>".$title." | Cru Doctrine</title>";
         function(){
             $('#loginbox').removeClass('active');
             $('#loginDialog').hide(100);
+        }
+    );
+
+    $('#loginbox #register').toggle(
+        function(){
+            register();
+            return false;
+        },
+        function(){
+            $('#loginbox').removeClass('active');
+            $('#registerDialog').hide(100);
         }
     );
 
@@ -155,4 +175,17 @@ echo"<title>".$title." | Cru Doctrine</title>";
        });
     }
 
+    function register() {
+        $.ajax({
+            url: "register.php",
+            dataType: "html",
+            type: "post",
+            success: function(msg){
+                //show register form
+                $('#registerDialog #form').html(msg);
+                $('#loginbox').addClass('active');
+                $('#registerDialog').show(100);
+           }
+        });
+    }
 </script>

@@ -14,13 +14,13 @@ try {
     $pass       = isset($_POST['pass'])     ? $_POST['pass']        : '';
     $redir      = isset($_POST['redir'])    ? $_POST['redir']       : '';
 
-    $errors     = isset($_POST['errors'])   ? $_POST['errors'] : '';
+    $errors     = isset($_POST['errors'])   ? $_POST['errors']      : '';
 
     require_once("config.inc.php"); 
     require_once("Database.singleton.php");
 
     //check for form submission
-    if($submit) {    //form was submitted, process data
+    if($submit) { //form was submitted, process data
 
         //initialize the database object
         $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
@@ -32,7 +32,7 @@ try {
         $result = $db->query_first($sql);        
 
         //check result to verify login
-        if(count($result) > 0){ //success
+        if(count($result) > 0) { //success
             //log user in
             session_start();
             $_SESSION['email']  = $email;
@@ -57,10 +57,8 @@ try {
 
             //if ajax, return error
             if ($ajax) {
-
                 echo 'error';
                 exit();
-
             }
         }
         $db->close();
@@ -69,15 +67,11 @@ try {
     echo $e->getMessage();
     exit();
 }
-
 ?>
 
-<link rel="stylesheet" type="text/css" media="screen" href="login.css" />
-
+<link rel="stylesheet" type="text/css" media="screen" href="/css/login.css" />
 <div id="login">
-
     <form action="login.php" method="post">
-
         <fieldset id="credentials">
             <legend>Please Login</legend>
             <div>
@@ -86,6 +80,7 @@ try {
             <div>
                 <label>Password</label><input type="password" name="pass" value="<?php echo $pass; ?>" /><a class="required"></a>
             </div>
+            <div>
         </fieldset>
 
         <fieldset id="feedback">
@@ -93,24 +88,21 @@ try {
         </fieldset>
 
         <button type="submit" name="submit" class="ui-state-default ui-corner-all">Login<span class="ui-icon ui-icon-circle-triangle-e"></span></button>
-
     </form>
-
 </div>
 
 <script type="text/javascript">
-
     //hide submit button
-//    $(function() {
-//        $('form button:[name=submit]').hide();
-//    });
+    /*$(function() {
+        $('form button:[name=submit]').hide();
+    });*/
 
     //validate form submission
-    $('#login form').submit(function(){
+    $('#login form').submit(function() {
         var submit = false;
         var errors = '';
 
-        if ($('#login input:[name=email]').val().length == 0){
+        if ($('#login input:[name=email]').val().length == 0) {
             $('#login input:[name=email]').css('border-color', 'orange').siblings('a').css('display','inline-block');
             errors += '<div>Please enter your email.</div>';
         }
@@ -120,14 +112,14 @@ try {
             errors += '<div>Please enter your password.</div>';
         }
 
-        if (errors !== ''){
+        if (errors !== '') {
            $('#login #errors').html(errors);
            submit = false;
         } else {
            submit = true;
         }
 
-        if(submit){
+        if(submit) {
             $.ajax({
                 url: 'login.php',
                 type: 'POST',
@@ -138,25 +130,20 @@ try {
                     pass       : $('form input:[name=pass]').val()
                 },
                 dataType: "html",
-                success: function(msg){
-
+                success: function(msg) {
                     if(msg != 'error') {
                         $('#loginbox  #login').click();
                         $('#header').html($(msg).find('#header').html());
                     } else {
                         $('#login #errors').html('<div>Login failed. Please check your email and password.</div>')
                     }
-
                 }
             });
         }
-
         return false;
-
     });
 
     //jquery class interaction states
-
     $('button').addClass('ui-state-default');
 
     $('.ui-state-default').hover(
@@ -167,5 +154,4 @@ try {
             $(this).removeClass("ui-state-hover");
         }
     );
-
 </script>
