@@ -1,0 +1,32 @@
+/*
+    Document   : welcome.css
+    Description: CSS to the welcome page
+*/
+.ui-icon:hover{ opacity:0.75; }
+
+/* WELCOME */
+.welcome { width: 880px; height: 400px; margin: 5px auto; margin-bottom: -5px; overflow: hidden; }
+.welcome #background_img { position: absolute; }
+.welcome #title { margin: 10px; }
+.welcome #title #number, .welcome #title #name { color: #fff; display: inline-block; font-size: 34px; text-transform: uppercase; font-weight:500; }
+.welcome #description a {color: #fff; text-decoration:underline; font-size: 13px;}
+.welcome #description { position: relative; top: 175px; left: 125px; width: 600px; padding: 10px; font-size: 13px; color: #fff;
+    /* Fallback for web browsers that don't support RGBa */
+    background: rgb(120, 120, 120);
+    /* RGBa with 0.6 opacity */
+    background: rgba(120, 120, 120, 0.80);
+    /* For IE 5.5 - 7*/
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
+    /* For IE 8*/
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
+}
+.welcome #continue { position: absolute; display: inline-block; margin-left: 720px; margin-top: 355px; }
+.welcome #continue a { display: block; padding: 5px 10px; font-size: 16px; height: 22px; }
+.welcome #continue .ui-icon { float: right; margin: 3px 10px; margin-right: 0px; }
+
+/* ABOUT */
+.about { width: 880px; min-height: 600px; margin: 5px auto; margin-bottom: -5px; overflow: hidden; }
+.about #title { margin: 10px; }
+.about #title #name { color: #fff; display: inline-block; font-size: 34px; text-transform: uppercase; font-weight:500; }
+.about #banner { height: 115px; }
+.about #description { position: relative; top: 5px; left: 25px; width: 800px; padding: 10px; font-size: 13px;}
