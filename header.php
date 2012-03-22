@@ -85,25 +85,25 @@ echo"<title>".$title." | Cru Doctrine</title>";
             </div>
         </div>
         <!--END USERBOX-->
-        <div class="option" ><a href="about.php">ABOUT</a></div>
         <?php
           if($loggedin) {
             //echo '<div class="option" ><a href="profile/">MY PROFILE</a></div>';
-            echo '<div class="option">
-                    <a href="/">HOME</a>
+            echo '<div id="hometab" class="option">
+                    <a id="home" href="/">HOME</a>
                   </div>
-                   <div class="option">
-                    <a href="/work">MY WORK</a>
+                   <div id="myworktab" class="option">
+                    <a id="mywork" href="/work">MY WORK</a>
                   </div>
-                  <!--div class="option">
-                    <a href="/">COMMUNITY</a>
+                  <!--div id="communitytab" class="option">
+                    <a id="community" href="/">COMMUNITY</a>
                   </div>
-                  <div class="option">
-                    <a href="/">RESOURCES</a>
+                  <div id="resourcestab" class="option">
+                    <a id="resources" href="/">RESOURCES</a>
                   </div-->';
-            echo $type=='super' ? '<div class="option"><a href="/admin">ADMIN</a></div>' : '';
+            echo $type=='super' ? '<div id="admintab" class="option"><a id="admin" href="/admin">ADMIN</a></div>' : '';
          }
         ?>
+        <div id="abouttab" class="option" ><a id="about" href="/about.php">ABOUT</a></div>
     </div>
     <!--ENDS NAVBAR-->
    </div>

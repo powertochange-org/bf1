@@ -66,7 +66,7 @@ try {
             $result = $db->query_first($sql);        
 
             //check result to verify login
-            if(count($result) > 0) { // login succeeded
+            if(!$result == 0) { // login succeeded
                 //log user in
                 session_start();
                 $_SESSION['email']  = $email;
@@ -270,6 +270,7 @@ try {
                     if(msg != 'error') {
                         $('#loginbox #register').click();
                         $('#header').html($(msg).find('#header').html());
+                        window.location.reload(true);
                     } else {
                         $('#register #errors').html('<div>Registration failed. Please check that you provided all the required information.</div>')
                     }

@@ -32,7 +32,7 @@ try {
         $result = $db->query_first($sql);        
 
         //check result to verify login
-        if(count($result) > 0) { //success
+        if(!$result == 0) { //success
             //log user in
             session_start();
             $_SESSION['email']  = $email;
@@ -134,6 +134,7 @@ try {
                     if(msg != 'error') {
                         $('#loginbox  #login').click();
                         $('#header').html($(msg).find('#header').html());
+                        window.location.reload(true);
                     } else {
                         $('#login #errors').html('<div>Login failed. Please check your email and password.</div>')
                     }
