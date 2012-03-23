@@ -16,7 +16,7 @@ try {
         $password   = isset($_POST['password'])      ? $_POST['password']    : '';
         $type       = isset($_POST['type'])          ? $_POST['type']        : '';
         $region     = isset($_POST['region'])        ? $_POST['region']      : '';
-        $location   = isset($_POST['location'])      ? $_POST['location']    : '';
+        //$location   = isset($_POST['location'])      ? $_POST['location']    : '';
         $regDate    = isset($_POST['regDate'])       ? $_POST['regDate']     : '';
         $coach      = isset($_POST['coach'])         ? $_POST['coach']       : '';
 
@@ -39,7 +39,7 @@ try {
             $data['Password']   = $password;
             $data['Type']       = $type;
             $data['Region']     = $region;
-            $data['Loc']        = $location;
+            //$data['Loc']        = $location;
             $data['Reg_Date']   = date('Ymd');
             $data['Reg_Status'] = ACTIVE;
 
@@ -74,7 +74,7 @@ try {
                 $_SESSION['lname']  = $result['LName'];
                 $_SESSION['type']   = $result['Type'];
                 $_SESSION['region'] = $result['Region'];
-                $_SESSION['loc']    = $result['Loc'];
+                //$_SESSION['loc']    = $result['Loc'];
 
                 //if ajax, return user attributes as xml
                 if ($ajax) {
@@ -148,19 +148,16 @@ try {
                  <option value="intern"      <?php echo $type == 'intern'   ? 'selected' : ''; ?>   >Intern</option>
                  <option value="student"     <?php echo $type == 'student'  ? 'selected' : ''; ?>   >Student</option>
                  <option value="coach"       <?php echo $type == 'coach'    ? 'selected' : ''; ?>   >Coach</option>
-                 <option value="regAdmin"    <?php echo $type == 'regAdmin' ? 'selected' : ''; ?>   >Regional Admin</option>
-                 <option value="other"       <?php echo $type == 'other'    ? 'selected' : ''; ?>   >Other</option>
-                 <option value="super"       <?php echo $type == 'super'    ? 'selected' : ''; ?>   >Super</option>
              </select><a class="required"></a>
           </div>
           <div>
             <label>Region</label>
             <input type="text" name="region" value="<?php echo $region; ?>" />
           </div>
-          <div>
+          <!--div>
             <label>Location</label>
-            <input type="text" name="location" value="<?php echo $location; ?>" />
-          </div>
+            <input type="text" name="location" value="<?php //echo $location; ?>" />
+          </div-->
           <div>
               <label>Coach</label>
               <select name="coach">
@@ -262,7 +259,7 @@ try {
                     password    : $('#register form input:[name=password]').val(),
                     type        : $('#register form select:[name=type]').val(),
                     region      : $('#register form input:[name=region]').val(),
-                    location    : $('#register form input:[name=location]').val(),
+                    //location    : $('#register form input:[name=location]').val(),
                     coach       : $('#register form select:[name=coach]').val()
                 },
                 dataType: "html",

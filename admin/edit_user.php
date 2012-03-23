@@ -17,7 +17,7 @@ try {
     $password   = isset($_POST['password'])      ? $_POST['password']    : '';
     $type       = isset($_POST['type'])          ? $_POST['type']        : '';
     $region     = isset($_POST['region'])        ? $_POST['region']      : '';
-    $location   = isset($_POST['location'])      ? $_POST['location']    : '';
+    //$location   = isset($_POST['location'])      ? $_POST['location']    : '';
     $regDate    = isset($_POST['regDate'])       ? $_POST['regDate']     : '';
     $status     = isset($_POST['status'])        ? $_POST['status']      : '';
     $progress   = isset($_POST['progress'])      ? $_POST['progress']    : '';
@@ -42,7 +42,7 @@ try {
         //$data['Password']   = $password;
         $data['Type']       = $type;
         $data['Region']     = $region;
-        $data['Loc']        = $location;
+        //$data['Loc']        = $location;
         $data['Reg_Date']   = $regDate;
         $data['Reg_Status'] = $status ? 'Active'  : 'Inactive';
 
@@ -92,7 +92,7 @@ try {
             echo '<password>'   .$password.    '</password>';
             echo '<type>'       .$type.        '</type>';
             echo '<region>'     .$region.      '</region>';
-            echo '<location>'   .$location.    '</location>';
+            //echo '<location>'   .$location.    '</location>';
             echo '<regDate>'    .$regDate.     '</regDate>';
             echo '<status>'     .$status.      '</status>';
             echo '<progress>'   .$progress.    '</progress>';
@@ -117,7 +117,7 @@ try {
         $password   = $result['Password'];
         $type       = $result['Type'];
         $region     = $result['Region'];
-        $location   = $result['Loc'];
+        //$location   = $result['Loc'];
         $regDate    = $result['Reg_Date'];
         $status     = $result['Reg_Status'];
         
@@ -184,10 +184,10 @@ catch (PDOException $e) {
             <label>Region</label>
             <input type="text" name="region" value="<?php echo $region; ?>" />
           </div>
-          <div>
+          <!--div>
             <label>Location</label>
-            <input type="text" name="location" value="<?php echo $location; ?>" />
-          </div>
+            <input type="text" name="location" value="<?php //echo $location; ?>" />
+          </div-->
           <div>
             <label>Registration Date</label>
             <input type="text" name="regDate" readonly="readonly" value="<?php echo $regDate; ?>" />
@@ -302,7 +302,7 @@ catch (PDOException $e) {
                     //password    : $('form input:[name=password]').val(),
                     type        : $('form select:[name=type]').val(),
                     region      : $('form input:[name=region]').val(),
-                    location    : $('form input:[name=location]').val(),
+                    //location    : $('form input:[name=location]').val(),
                     regDate     : $('form input:[name=regDate]').val(),
                     status      : $('form input:checkbox[name=status]').attr('checked'),
                     //progress    : $('form input:[name=progress]').val(),
@@ -318,7 +318,7 @@ catch (PDOException $e) {
                         //var password    = $(this).find('password').text();
                         var type        = $(this).find('type').text();
                         var region      = $(this).find('region').text();
-                        var location    = $(this).find('location').text();
+                        //var location    = $(this).find('location').text();
                         var regDate     = $(this).find('regDate').text();
                         var status      = $(this).find('status').text();
                         //var progress    = $(this).find('progress').text();

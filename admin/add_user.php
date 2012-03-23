@@ -16,7 +16,7 @@ try {
         $password   = isset($_POST['password'])      ? $_POST['password']    : '';
         $type       = isset($_POST['type'])          ? $_POST['type']        : '';
         $region     = isset($_POST['region'])        ? $_POST['region']      : '';
-        $location   = isset($_POST['location'])      ? $_POST['location']    : '';
+        //$location   = isset($_POST['location'])      ? $_POST['location']    : '';
         $regDate    = isset($_POST['regDate'])       ? $_POST['regDate']     : '';
         $coach      = isset($_POST['coach'])         ? $_POST['coach']       : '';
 
@@ -39,7 +39,7 @@ try {
             $data['Password']   = $password;
             $data['Type']       = $type;
             $data['Region']     = $region;
-            $data['Loc']        = $location;
+            //$data['Loc']        = $location;
             $data['Reg_Date']   = date('Ymd');
             $data['Reg_Status'] = ACTIVE;
 
@@ -71,7 +71,7 @@ try {
                 echo '<password>'   .$password.    '</password>';
                 echo '<type>'       .$type.        '</type>';
                 echo '<region>'     .$region.      '</region>';
-                echo '<location>'   .$location.    '</location>';
+                //echo '<location>'   .$location.    '</location>';
                 echo '<regDate>'    .$regDate.     '</regDate>';
                 echo '<coach>'      .$coach.       '</coach>';
                 echo '</user>';
@@ -141,10 +141,10 @@ try {
             <label>Region</label>
             <input type="text" name="region" value="<?php echo $region; ?>" />
           </div>
-          <div>
+          <!--div>
             <label>Location</label>
-            <input type="text" name="location" value="<?php echo $location; ?>" />
-          </div>
+            <input type="text" name="location" value="<?php //echo $location; ?>" />
+          </div-->
           <!--div>
             <label>Registration Date</label>
             <input type="text" name="regDate" value="<?php //echo $regDate; ?>" />
@@ -255,7 +255,7 @@ try {
                     password    : $('form input:[name=password]').val(),
                     type        : $('form select:[name=type]').val(),
                     region      : $('form input:[name=region]').val(),
-                    location    : $('form input:[name=location]').val(),
+                    //location    : $('form input:[name=location]').val(),
                     coach       : $('form select:[name=coach]').val()
                 },
                 dataType: "xml",
@@ -268,10 +268,10 @@ try {
                         var password    = $(this).find('password').text();
                         var type        = $(this).find('type').text();
                         var region      = $(this).find('region').text();
-                        var location    = $(this).find('location').text();
+                        //var location    = $(this).find('location').text();
                         var coach       = $(this).find('coach').text();
                     });
-                    $('#list').append('<div class="user" id="'+email+'"><div class="title corners-left"><div class="usericon"></div><div class="name">'+firstName+ ' ' +lastName+'</div><div class="location">'+location+'</div></div><div class="email">'+email+'</div><a class="edit ui-state-default corners-all" href="" onclick="editUser(\''+email+'\');return false"><span class="ui-icon ui-icon-pencil"></span>Edit</a></div>');
+                    $('#list').append('<div class="user" id="'+email+'"><div class="title corners-left"><div class="usericon"></div><div class="name">'+firstName+ ' ' +lastName+'</div><div class="email">'+email+'</div><a class="edit ui-state-default corners-all" href="" onclick="editUser(\''+email+'\');return false"><span class="ui-icon ui-icon-pencil"></span>Edit</a></div>');
 
                     $('#adduser').dialog("close");
                 }

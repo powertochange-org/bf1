@@ -55,7 +55,6 @@ try {
                             <div class="title corners-left">
                               <div class="usericon"></div>
                               <div class="name">'.$row['FName'].' '.$row['LName'].'</div>
-                              <div class="location">'.$row['Loc'].'</div>
                             </div>
                             <div class="email">'.$row['Email'].'</div>
                               <a class="edit ui-state-default corners-all" href="?p=users&request=edit_user&email='.$row['Email'].'" onclick="editUser(\''.$row['Email'].'\');return false">
