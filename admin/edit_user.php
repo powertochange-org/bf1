@@ -135,6 +135,13 @@ try {
                      ORDER BY LName;";
 
         $coaches = $db->fetch_array($sql);
+
+        //get regions for selection
+        $sql     =  "SELECT ID, Name
+                     FROM  region
+                     ORDER BY Name;";
+
+        $regions = $db->fetch_array($sql);
     }
     $db->close();
 } 
@@ -181,8 +188,19 @@ catch (PDOException $e) {
              </select><a class="required"></a>
           </div>
           <div>
-            <label>Region</label>
-            <input type="text" name="region" value="<?php echo $region; ?>" />
+              <label>Region</label>
+              <select name="region">
+                <option value=""   <?php echo $region == '' ? 'selected' : ''; ?>   >Select A Region</option>
+            <?php
+                if(count($regions) > 0){
+                    foreach ($regions as $row){
+                        echo '<option value="'.$row['ID'].'" ';
+                        echo $region == $row['ID'] ? ' selected>' : ''.'>';
+                        echo $row['Name'].'</option>';
+                    }
+                }
+            ?>
+            </select>
           </div>
           <!--div>
             <label>Location</label>
@@ -301,7 +319,7 @@ catch (PDOException $e) {
                     //oldEmail    : <?php //echo $email; ?>,
                     //password    : $('form input:[name=password]').val(),
                     type        : $('form select:[name=type]').val(),
-                    region      : $('form input:[name=region]').val(),
+                    region      : $('form select:[name=region]').val(),
                     //location    : $('form input:[name=location]').val(),
                     regDate     : $('form input:[name=regDate]').val(),
                     status      : $('form input:checkbox[name=status]').attr('checked'),

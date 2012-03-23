@@ -92,6 +92,13 @@ try {
                          ORDER BY LName;";
 
             $coaches = $db->fetch_array($sql);
+
+            //get regions for selection
+            $sql     =  "SELECT ID, Name
+                         FROM  region
+                         ORDER BY Name;";
+
+            $regions = $db->fetch_array($sql);
         }
         $db->close();
     } 
@@ -138,8 +145,18 @@ try {
              </select><a class="required"></a>
           </div>
           <div>
-            <label>Region</label>
-            <input type="text" name="region" value="<?php echo $region; ?>" />
+              <label>Region</label>
+              <select name="region">
+                <option value=""   <?php echo $region == '' ? 'selected' : ''; ?>   >Select A Region</option>
+            <?php
+                if(count($regions) > 0){
+                    foreach ($regions as $row){
+                        echo '<option value="'.$row['ID'].'" >';
+                        echo $row['Name'].'</option>';
+                    }
+                }
+            ?>
+            </select>
           </div>
           <!--div>
             <label>Location</label>
@@ -254,7 +271,7 @@ try {
                     email       : $('form input:[name=email]').val(),
                     password    : $('form input:[name=password]').val(),
                     type        : $('form select:[name=type]').val(),
-                    region      : $('form input:[name=region]').val(),
+                    region      : $('form select:[name=region]').val(),
                     //location    : $('form input:[name=location]').val(),
                     coach       : $('form select:[name=coach]').val()
                 },

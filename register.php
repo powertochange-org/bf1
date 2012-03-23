@@ -107,6 +107,13 @@ try {
                          ORDER BY LName;";
 
             $coaches = $db->fetch_array($sql);
+
+            //get regions for selection
+            $sql     =  "SELECT ID, Name
+                         FROM  region
+                         ORDER BY Name;";
+
+            $regions = $db->fetch_array($sql);
         }
         $db->close();
     } 
@@ -151,8 +158,18 @@ try {
              </select><a class="required"></a>
           </div>
           <div>
-            <label>Region</label>
-            <input type="text" name="region" value="<?php echo $region; ?>" />
+              <label>Region</label>
+              <select name="region">
+                <option value=""   <?php echo $region == '' ? 'selected' : ''; ?>   >Select A Region</option>
+            <?php
+                if(count($regions) > 0){
+                    foreach ($regions as $row){
+                        echo '<option value="'.$row['ID'].'" >';
+                        echo $row['Name'].'</option>';
+                    }
+                }
+            ?>
+            </select><a class="required"></a>
           </div>
           <!--div>
             <label>Location</label>
@@ -205,27 +222,27 @@ try {
 
         if ($('#register form input:[name=firstName]').val().length == 0) {
             $('#register form input:[name=firstName]').css('border-color', 'orange').siblings('a').css('display','inline-block');
-            errors += '<div>Please enter a first name for this user.</div>';
+            errors += '<div>Please enter a first name.</div>';
         }
 
         if ($('#register form input:[name=lastName]').val().length == 0) {
             $('#register form input:[name=lastName]').css('border-color', 'orange').siblings('a').css('display','inline-block');
-            errors += '<div>Please enter a last name for this user.</div>';
+            errors += '<div>Please enter a last name.</div>';
         }
 
         if ($('#register form input:[name=email]').val().length == 0) {
             $('#register form input:[name=email]').css('border-color', 'orange').siblings('a').css('display','inline-block');
-            errors += '<div>Please enter an email address for this user.</div>';
+            errors += '<div>Please enter an email address.</div>';
         }
 
         if ($('#register form input:[name=password]').val().length == 0) {
             $('#register form input:[name=password]').css('border-color', 'orange').siblings('a').css('display','inline-block');
-            errors += '<div>Please enter a password for this user.</div>';
+            errors += '<div>Please enter a password.</div>';
         }
 
         if ($('#register form input:[name=confirmPassword]').val().length == 0) {
             $('#register form input:[name=confirmPassword]').css('border-color', 'orange').siblings('a').css('display','inline-block');
-            errors += '<div>Please enter a confirm password for this user.</div>';
+            errors += '<div>Please enter a confirm password.</div>';
         }
 
         if ($('#register form input:[name=password]').val() != $('#register form input:[name=confirmPassword]').val()) {
@@ -236,7 +253,12 @@ try {
 
         if ($('#register form select:[name=type]').val().length == 0) {
             $('#register form select:[name=type]').css('border-color', 'orange').siblings('a').css('display','inline-block');
-            errors += '<div>Please select a type for this user.</div>';
+            errors += '<div>Please select a type.</div>';
+        }
+
+        if ($('#register form select:[name=region]').val().length == 0) {
+            $('#register form select:[name=region]').css('border-color', 'orange').siblings('a').css('display','inline-block');
+            errors += '<div>Please select a region.</div>';
         }
 
         if (errors !== ''){
@@ -258,7 +280,7 @@ try {
                     email       : $('#register form input:[name=email]').val(),
                     password    : $('#register form input:[name=password]').val(),
                     type        : $('#register form select:[name=type]').val(),
-                    region      : $('#register form input:[name=region]').val(),
+                    region      : $('#register form select:[name=region]').val(),
                     //location    : $('#register form input:[name=location]').val(),
                     coach       : $('#register form select:[name=coach]').val()
                 },
