@@ -47,7 +47,7 @@ echo"<title>".$title." | Cru Doctrine</title>";
 
 <!--JQUERY-->
 <!--core-->
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <!--ui-->
 <script type="text/javascript" src="/jquery/ui/js/jquery-ui-1.8.custom.min.js"></script>
 <link type="text/css" href="/jquery/ui/css/crudoctrine-grey/jquery-ui-1.8.1.custom.css" rel="Stylesheet" />

@@ -28,6 +28,7 @@ if (!empty($_FILES)) {
     $siteRoot = str_replace($_SERVER['SCRIPT_NAME'], '', $_SERVER['SCRIPT_FILENAME']);
     $targetPath = $siteRoot . $_REQUEST['folder'] . '/';
     $targetFile =  str_replace('//','/',$targetPath) . $_FILES['Filedata']['name'];
+    $msg = "";
     
     // $fileTypes  = str_replace('*.','',$_REQUEST['fileext']);
     // $fileTypes  = str_replace(';','|',$fileTypes);
@@ -73,12 +74,13 @@ if (!empty($_FILES)) {
                     break;
         }
 
-        if ($msg)
+        if ($msg != "") {
             $stringData = "Error: ".$_FILES['Filedata']['error']." Error Info: ".$msg;
-        else
+        }
+        else {
            $stringData = "1"; // This is required for onComplete to fire on Mac OSX
+        }
         echo $stringData;
-
     // } else {
     //  echo 'Invalid file type.';
     // }
