@@ -6,12 +6,11 @@
  */
 
 try {
-
     //initialize the database object
     $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
     $db->connect();
 
-    if(!$new){ //get elements for existing page
+    if(!$new) { //get elements for existing page
 
         //element arrays
         $main_elements  = array();
@@ -23,7 +22,7 @@ try {
         $db_elements = $db->fetch_array($sql);
         
         //get element content and construct element arrays
-        foreach($db_elements as $db_element){
+        foreach($db_elements as $db_element) {
 
             //get element id and type
             $elemId     = $db_element['ElementId'];
@@ -36,7 +35,7 @@ try {
             //content string
             $content = '';
 
-            switch($elemType){
+            switch($elemType) {
 
                 case 'textbox':     //textbox
                     $content    = $db_content['Text'];
@@ -46,15 +45,15 @@ try {
                     $filename   = $db_content['Filename'];
                     $height     = $db_content['Height'];
                     $width      = $db_content['Width'];
-                    $caption    = $db_content['Caption']    != ''? '<div class="caption">'.$db_content['Caption'].'</div>' : '';
-                    $content    = '<div align="center"><div class="media {width:'.$width.', height:'.$height.' }" href="'.$filename.'"></div>'.$caption.'</div>';
+                    $caption    = $db_content['Caption']    != '' ? '<div class="caption">'.$db_content['Caption'].'</div>' : '';
+                    $content    = '<div align="center"><div class="media {width:'.$width.', height:'.$height.' }" href="'.$filename.'" data-href="'.$filename.'"></div>'.$caption.'</div>';
                     break;
 
                 case 'image':       //image
                     $filename   = $db_content['Filename'];
-                    $height     = $db_content['Height']     != 0 ? 'height="'.$db_content['Height'].'"' : '';
-                    $width      = $db_content['Width']      != 0 ? 'width="'.$db_content['Width'].'"'   : '';
-                    $caption    = $db_content['Caption']    != ''? '<div class="caption">'.$db_content['Caption'].'</div>' : '';
+                    $height     = $db_content['Height']      != 0 ? 'height="'.$db_content['Height'].'"' : '';
+                    $width      = $db_content['Width']       != 0 ? 'width="'.$db_content['Width'].'"'   : '';
+                    $caption    = $db_content['Caption']    != '' ? '<div class="caption">'.$db_content['Caption'].'</div>' : '';
                     $content    = '<div align="center"><img src="'.$filename.'" '.$height.' '.$width.' />'.$caption.'</div>';
                     break;
 
@@ -69,11 +68,10 @@ try {
                     $content   .= '</div>';
                     break;
 
-                case 'whitespace':   //whitespace
+                case 'whitespace':  //whitespace
                     $height     = $db_content['Height'];
                     $content    = '<div style="height: '.$height.'px;"></div>';
                     break;
-
             }
 
             //construct element
@@ -106,8 +104,7 @@ try {
 }
 
 //function to insert element
-function insertElement($_id, $_type, $_content){
-
+function insertElement($_id, $_type, $_content) {
     //fill template
     $element  = '<div id="'.$_type.'" class="'.$_type.' tool" eId="'.$_id.'">'.PHP_EOL;
     $element .= '   <div class="element">'.PHP_EOL;
@@ -125,10 +122,7 @@ function insertElement($_id, $_type, $_content){
 
     //add to DOM
     echo $element;
-
 }
-
-
 ?>
 
 <!--metadata-->
@@ -140,6 +134,8 @@ function insertElement($_id, $_type, $_content){
 <!--jwysiwyg-->
 <script type="text/javascript" src="/jquery/jwysiwyg/jquery.wysiwyg.js"></script>
 <link rel="stylesheet" href="/jquery/jwysiwyg/jquery.wysiwyg.css" type="text/css" />
+<!--jwplayer-->
+<script type="text/javascript" src="/jquery/jwplayer/jwplayer.js"></script>
 
 <div>
 
@@ -190,10 +186,8 @@ function insertElement($_id, $_type, $_content){
     </div>
 
     <form id="saveForm" action="../?p=modules&id=<?php echo $moduleId; ?>" method="POST">
-
         <button type="submit" name="save">SAVE</button>
         <button name="cancel" type="submit" onclick="cancelFunc();return(false);">CANCEL</button>
-
     </form>
 
     <div id="textbox_editor">
@@ -344,7 +338,7 @@ function insertElement($_id, $_type, $_content){
 <!-- UI CONTROLS -->
 <script type="text/javascript">
 
-    function openEditor(type){
+    function openEditor(type) {
         var div = '#'+type+'_editor';
         $(div).dialog('open');
     }
@@ -407,6 +401,8 @@ function insertElement($_id, $_type, $_content){
         makeSortable();
 
         //initialize media elements
+        $.fn.media.mapFormat('mp3','quicktime');
+        $.fn.media.mapFormat('flv','quicktime');
         $('div.media').media({
             attrs:     { wmode: 'opaque', scale: 'aspect' },
             params:    { wmode: 'opaque', scale: 'aspect' }
@@ -444,7 +440,6 @@ function insertElement($_id, $_type, $_content){
             },
 
             open: function(event, ui) {
-
                 $('embed').hide();
 
                 if($('.editing').find('.content').html().length > 0) {
@@ -475,9 +470,7 @@ function insertElement($_id, $_type, $_content){
                 $('.editing').removeClass('editing');
             },
 
-            resize: function(event, ui) {
-
-            }
+            resize: function(event, ui) {}
 
         });
 
@@ -512,7 +505,7 @@ function insertElement($_id, $_type, $_content){
                     }
 
                     //close media div
-                    media += '}" href="'+src+'"></div>';
+                    media += '}" href="'+src+'" data-href="'+src+'"></div>';
 
                     //add caption if applicable
                     if(caption.length > 0){
@@ -535,29 +528,27 @@ function insertElement($_id, $_type, $_content){
                 }
             },
             open: function(event, ui) {
-
                 $('embed').hide();
 
                 $(this).find('#size').selectable({
                     filter: '.size',
-                    selected: function(){
-
+                    selected: function() {
                         //small
                         if($(this).find('.ui-selected').hasClass('small')){
                             $(this).find('input').val('200');
-                            $(this).find('input').attr("disabled", true);
+                            $(this).find('input').prop("disabled", true);
                         }
 
                         //medium
                         if($(this).find('.ui-selected').hasClass('medium')){
                             $(this).find('input').val('400');
-                            $(this).find('input').attr("disabled", true);
+                            $(this).find('input').prop("disabled", true);
                         }
 
                         //small
                         if($(this).find('.ui-selected').hasClass('large')){
                             $(this).find('input').val('600');
-                            $(this).find('input').attr("disabled", true);
+                            $(this).find('input').prop("disabled", true);
                         }
 
                         //small
@@ -565,34 +556,34 @@ function insertElement($_id, $_type, $_content){
                             $(this).find('input').val('');
                             $(this).find('input').removeAttr("disabled");
                         }
-
                     }
                 });
 
                 $(this).find('.custom').addClass('ui-selected');
 
                 //check for existing content
-                if($('.editing .content').html().length !== 0){
-
+                if($('.editing .content').html().length !== 0) {
                     //get source
-                    var src = $('.editing .content').find('media').attr('href');
+                    var src = $('.editing .content').find('.media').attr('data-href');
 
                     //determine if local or external
-                    if (src.substring(0, 4) == 'http') {
-                        //external
-                        $(this).find('input:radio[value=upload]').attr('checked', false);
-                        $(this).find('input:radio[value=url]').attr('checked', true);
-                        $(this).find('input:text[name=url]').val(src);
-                    } else {
-                        //local
-                        $(this).find('input:radio[value=upload]').attr('checked', true);
-                        $(this).find('input:radio[value=url]').attr('checked', false);
-                        $(this).find('input:text[name=upload]').val(src);
+                    if (src != undefined) {
+                        if (src.substring(0, 4) == 'http') {
+                            //external
+                            $(this).find('input:radio[value=upload]').prop('checked', false);
+                            $(this).find('input:radio[value=url]').prop('checked', true);
+                            $(this).find('input:text[name=url]').val(src);
+                        } else {
+                            //local
+                            $(this).find('input:radio[value=upload]').prop('checked', true);
+                            $(this).find('input:radio[value=url]').prop('checked', false);
+                            $(this).find('input:text[name=upload]').val(src);
+                        }
                     }
 
                     //set height & width
-                    var height = $('.editing .content').find('media').attr('height');
-                    var width = $('.editing .content').find('media').attr('width');
+                    var height = $('.editing .content').find('.media').find('object').attr('height');
+                    var width = $('.editing .content').find('.media').find('object').attr('width');
                     $(this).find('input:text[name=height]').val(height);
                     $(this).find('input:text[name=width]').val(width);
 
@@ -604,25 +595,21 @@ function insertElement($_id, $_type, $_content){
             },
 
             close: function(event, ui) {
-
                 $('embed').show();
 
                 //clear values
-                $(this).find('input:radio[value=upload]').attr('checked', true);
-                $(this).find('input:radio[value=url]').attr('checked', false);
+                $(this).find('input:radio[value=upload]').prop('checked', true);
+                $(this).find('input:radio[value=url]').prop('checked', false);
                 $(this).find('input:text[name=upload]').val('');
                 $(this).find('input:text[name=url]').val('');
                 $(this).find('input:text[name=height]').val('');
                 $(this).find('input:text[name=width]').val('');
                 $(this).find('textarea[name=caption]').val('');
-                
 
                 $('.editing').removeClass('editing');
             },
 
-            resize: function(event, ui) {
-            }
-
+            resize: function(event, ui) {}
         });
 
         //image editor
@@ -676,7 +663,6 @@ function insertElement($_id, $_type, $_content){
             },
 
             open: function(event, ui) {
-
                 $('embed').hide();
 
                 $(this).find('#size').selectable({
@@ -719,16 +705,18 @@ function insertElement($_id, $_type, $_content){
                     var src = $('.editing .content').find('img').attr('src');
 
                     //determine if local or external
-                    if (src.substring(0, 4) == 'http') {
-                        //external
-                        $(this).find('input:radio[value=upload]').attr('checked', false);
-                        $(this).find('input:radio[value=url]').attr('checked', true);
-                        $(this).find('input:text[name=url]').val(src);
-                    } else {
-                        //local
-                        $(this).find('input:radio[value=upload]').attr('checked', true);
-                        $(this).find('input:radio[value=url]').attr('checked', false);
-                        $(this).find('input:text[name=upload]').val(src);
+                    if (src != undefined) {
+                        if (src.substring(0, 4) == 'http') {
+                            //external
+                            $(this).find('input:radio[value=upload]').prop('checked', false);
+                            $(this).find('input:radio[value=url]').prop('checked', true);
+                            $(this).find('input:text[name=url]').val(src);
+                        } else {
+                            //local
+                            $(this).find('input:radio[value=upload]').prop('checked', true);
+                            $(this).find('input:radio[value=url]').prop('checked', false);
+                            $(this).find('input:text[name=upload]').val(src);
+                        }
                     }
 
                     //set height & width if set in html
@@ -762,9 +750,7 @@ function insertElement($_id, $_type, $_content){
                 $('.editing').removeClass('editing');
             },
 
-            resize: function(event, ui) {
-
-            }
+            resize: function(event, ui) {}
 
         });
 
@@ -795,7 +781,7 @@ function insertElement($_id, $_type, $_content){
             'folder'    : '/upload/media',
             'queueID'   : 'mediaupload',
             'wmode'     : 'transparent',
-            'onComplete': function(event, queueID, fileObj, response, data){
+            'onComplete': function(event, queueID, fileObj, response, data) {
                 if (response == '1') {
                     $('#media_editor').find('input:text[name=upload]').val(fileObj.filePath);
                     $('#media_editor').find('input:radio[value=upload]').attr('checked', true);
@@ -824,7 +810,6 @@ function insertElement($_id, $_type, $_content){
             },
 
             open: function(event, ui) {
-
                 $('embed').hide();
 
                 //add textarea
@@ -843,16 +828,13 @@ function insertElement($_id, $_type, $_content){
             },
 
             close: function(event, ui) {
-
                 $('embed').show();
 
                 $(this).children().remove();
                 $('.editing').removeClass('editing');
             },
 
-            resize: function(event, ui) {
-
-            }
+            resize: function(event, ui) {}
 
         });       
 
@@ -903,7 +885,7 @@ function insertElement($_id, $_type, $_content){
 
             }
         });
-        
+
         $('#canvasright').droppable({
             accept: '.input, .whitespace',
 
@@ -987,9 +969,9 @@ function insertElement($_id, $_type, $_content){
                     break;
 
                 case 'media':
-                    var url = $(this).find('.content').find('.media').find('embed').attr('src');
-                    var height = $(this).find('.content').find('.media').find('embed').attr('height');
-                    var width = $(this).find('.content').find('.media').find('embed').attr('width');
+                    var url = $(this).find('.content').find('.media').find('object').attr('data');
+                    var height = $(this).find('.content').find('.media').find('object').attr('height');
+                    var width = $(this).find('.content').find('.media').find('object').attr('width');
                     var caption = $(this).find('.content').find('.caption').html();
                     xmlMain += '<url>'+url+'</url><height>'+height+'</height><width>'+width+'</width><caption>'+caption+'</caption>';
                     break;
@@ -1076,8 +1058,7 @@ function insertElement($_id, $_type, $_content){
                         trash:      xmlTrash
             }),
             cache: false,
-            beforeSend: function(XMLHttpRequest){
-
+            beforeSend: function(XMLHttpRequest) {
                 $("#save_dialog").dialog({
                     modal: true,
                     title: 'Saving Page',
@@ -1100,36 +1081,24 @@ function insertElement($_id, $_type, $_content){
 
             },
             success: function(data, textStatus, XMLHttpRequest) {
-
                 $("#save_dialog #message").html('Data sent.');
                 $("#progress #bar").progressbar( "value" , 75 );
 
-                if(data == '1') {//save successfull
-
+                if(data == '1') { //save successfull
                     $("#save_dialog #message").html('Save successful!');
                     saved = true;
-
-                } else {//save unsuccessfull
-
+                } else { //save unsuccessfull
                     $("#save_dialog #message").html('Save unsuccessful, an unknown error occurred.');
-
                 }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
-
                 $("#save_dialog #message").html('Save unsuccessfull, an error occured');
-                $("#progress #bar").progressbar( "value" , 75 );
-                
+                $("#progress #bar").progressbar( "value" , 75 );                
             },
-            complete: function(XMLHttpRequest, textStatus){
-
+            complete: function(XMLHttpRequest, textStatus) {
                 $("#progress #bar").progressbar( "value" , 100 );
-
                 $( "#save_dialog" ).dialog( "option", "buttons", { "Ok": function() { $('#saveForm').submit(); } } );
-
             }
         });
-
     }
-
 </script>

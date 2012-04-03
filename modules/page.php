@@ -6,7 +6,6 @@
  */
 
 try {
-        
     //initialize the database object
     $db = Database::obtain();
 
@@ -236,6 +235,9 @@ function insertElement($_id, $_type, $_content){
 
     //$('textarea').elastic();
 
+    //initialize media elements
+    $.fn.media.mapFormat('mp3','quicktime');
+    $.fn.media.mapFormat('flv','quicktime');
     $('div.media').media({
         attrs:     { wmode: 'opaque', scale: 'aspect' },
         params:    { wmode: 'opaque', scale: 'aspect' }
