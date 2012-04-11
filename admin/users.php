@@ -7,6 +7,7 @@
 
 try {
     //get session values
+    $email  = isset($_SESSION['email']) ? $_SESSION['email']  : '';
     $type   = isset($_SESSION['type']) ? $_SESSION['type']  : '';
     $region = isset($_SESSION['region']) ? $_SESSION['region']  : '';
 
@@ -41,7 +42,13 @@ try {
                   WHERE u.Region = ".$region."
                   ORDER BY Region, u.LName;";
     } else {
-
+        $sql =   "SELECT u.Email, u.FName, u.LName, u.Password, u.Type AS TypeID, u.Region AS RegionID, u.Loc, u.Reg_Date, u.Reg_Status, r.Name AS Region, t.Name AS Type, c.Coach AS Coach_Email
+                  FROM user u
+                  INNER JOIN region r ON u.Region = r.ID
+                  INNER JOIN user_type t ON u.Type = t.ID
+                  LEFT JOIN coach c ON u.Email = c.Student
+                  WHERE c.Coach = '".$db->escape($email)."'
+                  ORDER BY Region, u.LName;";
     }
     $users = $db->fetch_array($sql);
 
@@ -67,29 +74,26 @@ try {
                  FROM  user
                  WHERE Type < ".STUDENT."
                  ORDER BY LName;";
-
     $coaches = $db->fetch_array($sql);
 
     //get regions for selection
     $sql     =  "SELECT ID, Name
                  FROM  region
                  ORDER BY Name;";
-
     $regions = $db->fetch_array($sql);
 
     //get user types for selection
     $sql = '';
     if ($type == SUPER) {
-        $sql     =  "SELECT ID, Name
-                     FROM  user_type
-                     ORDER BY Name;";
+        $sql =  "SELECT ID, Name
+                 FROM  user_type
+                 ORDER BY Name;";
     } else {
-        $sql     =  "SELECT ID, Name
-                     FROM  user_type
-                     WHERE ID > ".REGIONAL_ADMIN."
-                     ORDER BY Name;";
+        $sql =  "SELECT ID, Name
+                 FROM  user_type
+                 WHERE ID > ".REGIONAL_ADMIN."
+                 ORDER BY Name;";
     }
-
     $user_types = $db->fetch_array($sql);
 
     $db->close();
