@@ -6,6 +6,10 @@
  */
 
 try {
+    //get session values
+    $type   = isset($_SESSION['type']) ? $_SESSION['type']  : '';
+    $region = isset($_SESSION['region']) ? $_SESSION['region']  : '';
+
     //users
     $users = array();
     //coaches
@@ -19,14 +23,26 @@ try {
     $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
     $db->connect();
 
-    //get users   
-    $sql =   "SELECT u.Email, u.FName, u.LName, u.Password, u.Type AS TypeID, u.Region AS RegionID, u.Loc, u.Reg_Date, u.Reg_Status, r.Name AS Region, t.Name AS Type, c.Coach AS Coach_Email
-              FROM user u
-              INNER JOIN region r ON u.Region = r.ID
-              INNER JOIN user_type t ON u.Type = t.ID
-              LEFT JOIN coach c ON u.Email = c.Student
-              ORDER BY Region, u.LName;";
+    //get users
+    $sql = null;
+    if ($type == SUPER) {
+        $sql =   "SELECT u.Email, u.FName, u.LName, u.Password, u.Type AS TypeID, u.Region AS RegionID, u.Loc, u.Reg_Date, u.Reg_Status, r.Name AS Region, t.Name AS Type, c.Coach AS Coach_Email
+                  FROM user u
+                  INNER JOIN region r ON u.Region = r.ID
+                  INNER JOIN user_type t ON u.Type = t.ID
+                  LEFT JOIN coach c ON u.Email = c.Student
+                  ORDER BY Region, u.LName;";
+    } else if ($type == REGIONAL_ADMIN){
+        $sql =   "SELECT u.Email, u.FName, u.LName, u.Password, u.Type AS TypeID, u.Region AS RegionID, u.Loc, u.Reg_Date, u.Reg_Status, r.Name AS Region, t.Name AS Type, c.Coach AS Coach_Email
+                  FROM user u
+                  INNER JOIN region r ON u.Region = r.ID
+                  INNER JOIN user_type t ON u.Type = t.ID
+                  LEFT JOIN coach c ON u.Email = c.Student
+                  WHERE u.Region = ".$region."
+                  ORDER BY Region, u.LName;";
+    } else {
 
+    }
     $users = $db->fetch_array($sql);
 
     //get assigned coach
@@ -62,9 +78,17 @@ try {
     $regions = $db->fetch_array($sql);
 
     //get user types for selection
-    $sql     =  "SELECT ID, Name
-                 FROM  user_type
-                 ORDER BY Name;";
+    $sql = '';
+    if ($type == SUPER) {
+        $sql     =  "SELECT ID, Name
+                     FROM  user_type
+                     ORDER BY Name;";
+    } else {
+        $sql     =  "SELECT ID, Name
+                     FROM  user_type
+                     WHERE ID > ".REGIONAL_ADMIN."
+                     ORDER BY Name;";
+    }
 
     $user_types = $db->fetch_array($sql);
 

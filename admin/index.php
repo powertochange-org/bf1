@@ -28,8 +28,8 @@ $title  = 'Administration';
 include('../header.php');
 
 //get page
-$page   = isset($_GET['p'])         ? $_GET['p']        : 'modules';    //p
-$page   = isset($_GET['request'])   ? $_GET['request']  : $page;        //request
+$page   = isset($_GET['p'])         ? $_GET['p']        : 'users';   //p
+$page   = isset($_GET['request'])   ? $_GET['request']  : $page;     //request
 
 
 switch($page) {//specific
@@ -66,14 +66,18 @@ $page  .= '.php';
         </div>
 
         <div id="leftmenu">
-            <ul>
-                <li><a href="?p=modules" class="<?php   echo $_GET['p'] == 'modules'    ? 'active' : ''; ?>">Modules</a></li>
-                <!--li><a href="?p=articles" class="<?php  //echo $_GET['p'] == 'articles'   ? 'active' : ''; ?>">Articles</a></li-->
-                <!--li><a href="?p=homepage" class="<?php  //echo $_GET['p'] == 'homepage'   ? 'active' : ''; ?>">Home Page</a></li-->
-                <li><a href="?p=users" class="<?php     echo $_GET['p'] == 'users'      ? 'active' : ''; ?>">Users</a></li>
-                <li><a href="?p=reports" class="<?php   echo $_GET['p'] == 'reports'    ? 'active' : ''; ?>">Reports</a></li>
-                <!--li><a href="?p=settings" class="<?php  //echo $_GET['p'] == 'settings'   ? 'active' : ''; ?>">Settings</a></li-->
-            </ul>
+          <ul>
+            <?php
+              if ($type == SUPER ) {
+                echo ($_GET['p'] == 'modules') ? '<li><a href="?p=modules" class="active">Modules</a></li>' : '<li><a href="?p=modules" class="">Modules</a></li>';
+              }
+            ?>
+            <!--li><a href="?p=articles" class="<?php //echo $_GET['p'] == 'articles' ? 'active' : ''; ?>">Articles</a></li-->
+            <!--li><a href="?p=homepage" class="<?php //echo $_GET['p'] == 'homepage' ? 'active' : ''; ?>">Home Page</a></li-->
+            <li><a href="?p=users" class="<?php echo $_GET['p'] == 'users' ? 'active' : ''; ?>">Users</a></li>
+            <li><a href="?p=reports" class="<?php echo $_GET['p'] == 'reports' ? 'active' : ''; ?>">Reports</a></li>
+            <!--li><a href="?p=settings" class="<?php  //echo $_GET['p'] == 'settings'   ? 'active' : ''; ?>">Settings</a></li-->
+          </ul>
         </div>
 
         <div id="contentpane">

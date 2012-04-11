@@ -118,7 +118,7 @@ try {
             //get user types for selection
             $sql     =  "SELECT ID, Name
                          FROM  user_type
-                         WHERE ID > ".SUPER."
+                         WHERE ID > ".REGIONAL_ADMIN."
                          ORDER BY Name;";
 
             $user_types = $db->fetch_array($sql);
