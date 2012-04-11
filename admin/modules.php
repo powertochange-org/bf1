@@ -34,7 +34,7 @@ try {
 
         <form id="createNew" action="?p=modules&request=edit_module" method="post">
             <input type="hidden" class="ui-corner-left" name="order" value="<?php echo count($modules); ?>" />
-            <button type="submit" class="ui-corner-right corners-all shadow-light" value="submit"><span class="ui-icon ui-icon-plus"></span>Add Module</button>
+            <button type="submit" class="ui-corner-right corners-all shadow-light button" value="submit"><span class="ui-icon ui-icon-plus"></span>Add Module</button>
         </form>
 
         <?php
@@ -48,7 +48,7 @@ try {
                                 </div>
                                 <div class="descr">'.$row['Descr'].'</div>
                                 <div class="drag ui-icon ui-icon-grip-solid-horizontal"></div>
-                                <a class="edit ui-state-default corners-all" href="?p=modules&id='.$row['ID'].'"><span class="ui-icon ui-icon-pencil"></span>Edit</a>
+                                <a class="edit ui-state-default corners-all button" href="?p=modules&id='.$row['ID'].'"><span class="ui-icon ui-icon-pencil"></span>Edit</a>
                             </div>';
                 }
             }

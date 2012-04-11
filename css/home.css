@@ -4,7 +4,7 @@
 */
 
 #slider {
-    width: 875px;
+    width: 975px;
     height: 300px;
     margin: 30px auto;
     overflow: hidden;
@@ -123,8 +123,12 @@
     background-color: #717A76;
 }
 
-#module41 .label {
+#module33 .label {
     background-color: #55402C;
+}
+
+#module41 .label {
+    background-color: #6A9968;
 }
 
 #module42 .label {
@@ -155,12 +159,16 @@
     color: #887562;
 }
 
-#module32 .name {
+#module32 .name { 
     color: #717A76;
 }
 
-#module41 .name {
+#module33 .name { 
     color: #55402C;
+}
+
+#module41 .name {
+    color: #6A9968;
 }
 
 #module42 .name {

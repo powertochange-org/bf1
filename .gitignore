@@ -35,7 +35,5 @@ Thumbs.db
 
 # Local Test Utilities #
 ########################
-test.php
-mail_test.php
-report_test.php
+*test.php
 crudoctrine.tmproj

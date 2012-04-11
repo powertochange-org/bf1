@@ -53,6 +53,8 @@ echo"<title>".$title." | Cru Doctrine</title>";
 <link type="text/css" href="/jquery/ui/css/crudoctrine-grey/jquery-ui-1.8.1.custom.css" rel="Stylesheet" />
 <!--media-->
 <script type="text/javascript" src="/jquery/media/jquery.media.js"></script>
+<!--validation-->
+<script type="text/javascript" src="/jquery/validation/jquery.validate.min.js"></script>
 <!--END JQUERY-->
 
 <!--CSS-->
@@ -100,7 +102,7 @@ echo"<title>".$title." | Cru Doctrine</title>";
                   <div id="resourcestab" class="option">
                     <a id="resources" href="/">RESOURCES</a>
                   </div-->';
-            echo $type=='super' ? '<div id="admintab" class="option"><a id="admin" href="/admin">ADMIN</a></div>' : '';
+            echo ($type == SUPER || $type == REGIONAL_ADMIN || $type == COACH) ? '<div id="admintab" class="option"><a id="admin" href="/admin">ADMIN</a></div>' : '';
          }
         ?>
         <div id="abouttab" class="option" ><a id="about" href="/about.php">ABOUT</a></div>

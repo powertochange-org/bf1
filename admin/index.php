@@ -5,11 +5,14 @@
  * Campus Crusade for Christ
  */
 
+require_once("../config.inc.php"); 
+require_once("../Database.singleton.php");
+
 //check user authorization
 $auth = false;
 
 session_start();
-if($_SESSION['type']=='super'){
+if($_SESSION['type'] == SUPER || $_SESSION['type'] == REGIONAL_ADMIN || $_SESSION['type'] == COACH){
     $auth = true;
 }
 
@@ -48,6 +51,13 @@ $page  .= '.php';
 <script type="text/javascript" src="/jquery/uploadify/jquery.uploadify.v2.1.0.js"></script>
 <script type="text/javascript" src="/jquery/uploadify/swfobject.js"></script>
 <link rel="stylesheet" href="/jquery/uploadify/uploadify.css" type="text/css" />
+<!--datatables-->
+<script type="text/javascript" src="/jquery/datatables/media/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="/jquery/datatables/media/css/jquery.dataTables.css" type="text/css" />
+<script type="text/javascript" src="/jquery/datatables/extras/TableTools/media/js/TableTools.min.js"></script>
+<link rel="stylesheet" href="/jquery/datatables/extras/TableTools/media/css/TableTools.css" type="text/css" />
+<script type="text/javascript" src="/jquery/datatables-editable/media/js/jquery.jeditable.js"></script>
+<script type="text/javascript" src="/jquery/datatables-editable/media/js/jquery.dataTables.editable.js"></script>
 
 <div id="content">
     <div id="admin">
@@ -92,8 +102,7 @@ $page  .= '.php';
 
     }
 
-    function reorder(type, items){
-
+    function reorder(type, items) {
         //construct xml to send
         var xml = '<items>';
 
@@ -158,7 +167,6 @@ $page  .= '.php';
         autoOpen: false,
         resizable: false,
         modal: true
-
     });
 
     //jquery class interaction states

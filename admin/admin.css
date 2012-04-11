@@ -9,16 +9,16 @@
 /* MAIN */
 #admin { margin: 30px auto; min-height: 300px; width: 880px; overflow: hidden; }
 #pagetitle { margin: 30px 100px; font-size: 20px; font-weight: bold; }
-#contentpane{ position: relative; display: inline-block; width: 720px; padding: 10px 20px; overflow: hidden; }
-#contentpane .ui-icon{ float: left; width: 16px; height: 16px; margin-left: -5px; margin-right: 5px; }
-#contentpane button, #contentpane a{ font-size: 10px; color: #000; background-color: #ddd; padding: 2px 10px; }
+#contentpane { position: relative; display: inline-block; width: 720px; padding: 10px 20px; overflow: hidden; }
+#contentpane .ui-icon { float: left; width: 16px; height: 16px; margin-left: -5px; margin-right: 5px; }
+#contentpane .button { font-size: 10px; color: #000; background-color: #ddd; padding: 2px 10px; }
 #contentpane button:hover, #contentpane a:hover { background-color: #bbb; }
-#contentpane button { cursor: pointer; margin: 0px 2px; float: right; margin-top: -20px; border: none; }
+#contentpane .button { cursor: pointer; margin: 0px 2px; float: right; margin-top: -20px; border: none; }
 #contentpane .edit{ height: 16px; margin: 5px 5px; float: right; }
 
 /* MODULES & USERS */
 #modules #list, #users #list { width: 100%; border-top: 1px solid #ccc; margin: 10px 5px; padding: 10px; min-height: 200px; }
-#modules #list button, #users #list button { margin-bottom: 20px; }
+#modules #list button { margin-bottom: 20px; }
 #modules #list .module, #users #list .user { margin: 7px 0px; width: 100%; background: #fff; overflow: auto; }
 #modules #list .module .title, #users #list .user .title { float: left; height: 50px; background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ddd), to(#ccc)); border-right: 1px dotted #ccc; }
 #modules #list .module .edit, #users #list .user .edit{ margin: 14px 5px; }
@@ -76,30 +76,30 @@
 #users #list .user .edit{ margin-right: 20px; }
 
 /* ADD USER */
-#adduser{ padding-top: 20px; }
-#adduser fieldset{ border: none; border-top: 1px solid #ccc; }
-#adduser fieldset legend { font-size: 14px; padding: 0px 10px; }
-#adduser fieldset div { overflow: auto; width: 100%; height: auto; margin: 10px 0px; }
-#adduser fieldset label { font-size: 14px; float: left; width: 150px; height: 100%; vertical-align: middle; }
-#adduser fieldset .required { width: 24px; height: 24px; margin: 5px 5px; background-image: url('images/001_30.png'); display: none; }
-#adduser form button { cursor: pointer; margin: 0px 2px; float: right; margin: 2px; border: none; font-size: 12px; }
+#formAddNewRow{ padding-top: 20px; }
+#formAddNewRow fieldset{ border: none; border-top: 1px solid #ccc; }
+#formAddNewRow fieldset legend { font-size: 14px; padding: 0px 10px; }
+#formAddNewRow fieldset div { overflow: auto; width: 100%; height: auto; margin: 10px 0px; }
+#formAddNewRow fieldset label { font-size: 14px; float: left; width: 150px; height: 100%; vertical-align: middle; }
+/*#formAddNewRow fieldset .required { width: 24px; height: 24px; margin: 5px 5px; background-image: url('images/001_30.png'); display: none; }*/
+#formAddNewRow button { cursor: pointer; margin: 0px 2px; float: right; margin: 2px; border: none; font-size: 12px; }
 
 /* EDIT USER */
-#edituser{ padding-top: 20px; }
-#edituser fieldset{ border: none; border-top: 1px solid #ccc; }
-#edituser fieldset legend { font-size: 14px; padding: 0px 10px; }
-#edituser fieldset div { overflow: auto; width: 100%; height: auto; margin: 10px 0px; }
-#edituser fieldset label { font-size: 14px; float: left; width: 150px; height: 100%; vertical-align: middle; }
-#edituser fieldset .required { width: 24px; height: 24px; margin: 5px 5px; background-image: url('images/001_30.png'); display: none; }
-#edituser form button { cursor: pointer; margin: 0px 2px; float: right; margin: 2px; border: none; font-size: 12px; }
+#formEditUser{ padding-top: 20px; }
+#formEditUser fieldset{ border: none; border-top: 1px solid #ccc; }
+#formEditUser fieldset legend { font-size: 14px; padding: 0px 10px; }
+#formEditUser fieldset div { overflow: auto; width: 100%; height: auto; margin: 10px 0px; }
+#formEditUser fieldset label { font-size: 14px; float: left; width: 150px; height: 100%; vertical-align: middle; }
+/*#formEditUser fieldset .required { width: 24px; height: 24px; margin: 5px 5px; background-image: url('images/001_30.png'); display: none; }*/
+#formEditUser button { cursor: pointer; margin: 0px 2px; float: right; margin: 2px; border: none; font-size: 12px; }
 
-/* EDIT MODULE / EDIT SECTION / EDIT USER */
-#editmodule, #editsection, #edituser{ padding-top: 20px; }
-#editmodule fieldset, #editsection fieldset, #edituser fieldset{ border: none; border-top: 1px solid #ccc; }
-#editmodule fieldset legend, #editsection fieldset legend, #edituser fieldset legend { font-size: 16px; padding: 0px 10px; }
-#editmodule fieldset div, #editsection fieldset div, #edituser fieldset div { overflow: auto; width: 100%; height: auto; margin: 10px 0px; }
-#editmodule fieldset label, #editsection fieldset label, #edituser fieldset label { font-size: 14px; float: left; width: 150px; height: 100%; vertical-align: middle; }
-#editmodule fieldset .required, #editsection fieldset .required, #edituser fieldset .required { width: 24px; height: 24px; margin: 5px 5px; background-image: url('images/001_30.png'); display: none; }
+/* EDIT MODULE / EDIT SECTION */
+#editmodule, #editsection { padding-top: 20px; }
+#editmodule fieldset, #editsection fieldset { border: none; border-top: 1px solid #ccc; }
+#editmodule fieldset legend, #editsection fieldset legend { font-size: 16px; padding: 0px 10px; }
+#editmodule fieldset div, #editsection fieldset div { overflow: auto; width: 100%; height: auto; margin: 10px 0px; }
+#editmodule fieldset label, #editsection fieldset label { font-size: 14px; float: left; width: 150px; height: 100%; vertical-align: middle; }
+#editmodule fieldset .required, #editsection fieldset .required { width: 24px; height: 24px; margin: 5px 5px; background-image: url('images/001_30.png'); display: none; }
 #editmodule #information input, #editmodule #information textarea, #editsection #information input { font-size: 14px; padding: 5px; width: 400px; float: left; border: 1px solid #ccc; }
 #editmodule #images input { font-size: 14px; padding: 5px; width: 275px; float: left; border: 1px solid #ccc; margin-right: 20px; }
 #editmodule #upload{ position: absolute; width: 400px; overflow: hidden; opacity: 0.8; padding-right: 50px; }

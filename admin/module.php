@@ -67,7 +67,7 @@ try {
 
         <form id="editModule" action="?p=modules&id=<?php echo $moduleId; ?>&request=edit_module" method="post">
             <input type="hidden" name="order" value="<?php echo $module['info']['Ord']; ?>"/>
-            <button type="submit" value="submit" class="corners-all shadow-light"><span class="ui-icon ui-icon-pencil"></span>Edit</button>
+            <button type="submit" value="submit" class="corners-all shadow-light button"><span class="ui-icon ui-icon-pencil"></span>Edit</button>
         </form>
 
         <div id="title">
@@ -85,7 +85,7 @@ try {
 
         <form id="addSection" action="?p=modules&id=<?php echo $moduleId; ?>&request=edit_section" method="post">
             <input type="hidden" name="order" value="<?php echo count($module['sections']); ?>"/>
-            <button type="submit" value="submit" class="corners-all shadow-light"><span class="ui-icon ui-icon-plus"></span>Add Section</button>
+            <button type="submit" value="submit" class="corners-all shadow-light button"><span class="ui-icon ui-icon-plus"></span>Add Section</button>
         </form>
 
         <?php
@@ -105,13 +105,13 @@ try {
                 echo '<div class="drag ui-icon ui-icon-grip-solid-horizontal"></div>';
 
                 //remove section
-                echo '<a class="remove corners-all" href="#"><span class="ui-icon ui-icon-minus"></span> Remove</a>';
+                echo '<a class="remove corners-all button" href="#"><span class="ui-icon ui-icon-minus"></span> Remove</a>';
 
                 //add page button
-                echo '<a class="addpage corners-right" href="pagebuilder?section='.$section['info']['ID'].'&module='.$moduleId.'&order='.(count($section['pages'])).'"><span class="ui-icon ui-icon-plus"></span> Add Page</a>';
+                echo '<a class="addpage corners-right button" href="pagebuilder?section='.$section['info']['ID'].'&module='.$moduleId.'&order='.(count($section['pages'])).'"><span class="ui-icon ui-icon-plus"></span> Add Page</a>';
 
                 //edit section
-                echo '<a class="edit corners-left" href="?p=modules&id='.$moduleId.'&request=edit_section&sid='.$section['info']['ID'].'"><span class="ui-icon ui-icon-pencil"></span> Edit</a>';
+                echo '<a class="edit corners-left button" href="?p=modules&id='.$moduleId.'&request=edit_section&sid='.$section['info']['ID'].'"><span class="ui-icon ui-icon-pencil"></span> Edit</a>';
 
                 echo '</div>';
                 
@@ -129,7 +129,7 @@ try {
                     echo '<div class="drag ui-icon ui-icon-grip-solid-horizontal"></div>';
 
                     //remove page
-                    echo '<a class="remove corners-all" href="#"><span class="ui-icon ui-icon-minus"></span> Remove</a>';
+                    echo '<a class="remove corners-all button" href="#"><span class="ui-icon ui-icon-minus"></span> Remove</a>';
 
                     //edit page
                     echo '<form action="pagebuilder" method="get">
@@ -137,7 +137,7 @@ try {
                             <input type="hidden" name="section" value="'.$page['SectionId'].'" />
                             <input type="hidden" name="module" value="'.$moduleId.'" />
                             <input type="hidden" name="order" value="'.$page['Ord'].'" />
-                            <button type="submit" class="edit corners-all"><span class="ui-icon ui-icon-pencil"></span>Edit</button>
+                            <button type="submit" class="edit corners-all button"><span class="ui-icon ui-icon-pencil"></span>Edit</button>
                           </form>';
 
                     echo '</div>';

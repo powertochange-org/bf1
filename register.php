@@ -6,104 +6,104 @@
  */
 
 try {
-        //get values
-        $submit     = isset($_POST['submit'])        ? true                  : false;
-        $ajax       = isset($_POST['ajax'])          ? true                  : false;
+      //get values
+      $submit     = isset($_POST['submit'])        ? true                  : false;
+      $ajax       = isset($_POST['ajax'])          ? true                  : false;
 
-        $email      = isset($_POST['email'])         ? $_POST['email']       : '';
-        $firstName  = isset($_POST['firstName'])     ? $_POST['firstName']   : '';
-        $lastName   = isset($_POST['lastName'])      ? $_POST['lastName']    : '';
-        $password   = isset($_POST['password'])      ? $_POST['password']    : '';
-        $type       = isset($_POST['type'])          ? $_POST['type']        : '';
-        $region     = isset($_POST['region'])        ? $_POST['region']      : '';
-        //$location   = isset($_POST['location'])      ? $_POST['location']    : '';
-        $regDate    = isset($_POST['regDate'])       ? $_POST['regDate']     : '';
-        $coach      = isset($_POST['coach'])         ? $_POST['coach']       : '';
+      $email      = isset($_POST['email'])         ? $_POST['email']       : '';
+      $firstName  = isset($_POST['firstName'])     ? $_POST['firstName']   : '';
+      $lastName   = isset($_POST['lastName'])      ? $_POST['lastName']    : '';
+      $password   = isset($_POST['password'])      ? $_POST['password']    : '';
+      $type       = isset($_POST['type'])          ? $_POST['type']        : '';
+      $region     = isset($_POST['region'])        ? $_POST['region']      : '';
+      //$location   = isset($_POST['location'])      ? $_POST['location']    : '';
+      $regDate    = isset($_POST['regDate'])       ? $_POST['regDate']     : '';
+      $coach      = isset($_POST['coach'])         ? $_POST['coach']       : '';
 
-        $errors     = isset($_POST['errors'])        ? $_POST['errors']      : '';
+      $errors     = isset($_POST['errors'])        ? $_POST['errors']      : '';
 
-        require_once("config.inc.php"); 
-        require_once("Database.singleton.php");
+      require_once("config.inc.php"); 
+      require_once("Database.singleton.php");
 
-        //initialize the database object
-        $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
-        $db->connect();
+      //initialize the database object
+      $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
+      $db->connect();
 
-        //check for form submission
-        if($submit) { //form was submitted, process data
-            //create user
+      //check for form submission
+      if($submit) { //form was submitted, process data
+          //create user
+          //prepare query
+          $data['Email']      = $email;
+          $data['FName']      = $firstName;
+          $data['LName']      = $lastName;
+          $data['Password']   = $password;
+          $data['Type']       = $type;
+          $data['Region']     = $region;
+          //$data['Loc']        = $location;
+          $data['Reg_Date']   = date('Ymd');
+          $data['Reg_Status'] = ACTIVE;
+
+          //execute query
+          $db->insert("user", $data);
+
+          if ($coach != '') {
+            //create coach
             //prepare query
-            $data['Email']      = $email;
-            $data['FName']      = $firstName;
-            $data['LName']      = $lastName;
-            $data['Password']   = $password;
-            $data['Type']       = $type;
-            $data['Region']     = $region;
-            //$data['Loc']        = $location;
-            $data['Reg_Date']   = date('Ymd');
-            $data['Reg_Status'] = ACTIVE;
+            $data = array();
+            $data['Coach'] = $coach;
+            $data['Student'] = $email;
+            $data['Year'] = date('Y');
+            $data['Type'] = COACH;
 
             //execute query
-            $db->insert("user", $data);
+            $db->insert("coach", $data);
+          }
 
-            if ($coach != '') {
-              //create coach
-              //prepare query
-              $data = array();
-              $data['Coach'] = $coach;
-              $data['Student'] = $email;
-              $data['Year'] = date('Y');
-              $data['Type'] = COACH;
+          //verify that user exists (login)
+          $sql = "SELECT * FROM user WHERE Email = '".$db->escape($email)."' AND Password = '".$db->escape($password)."'";
 
-              //execute query
-              $db->insert("coach", $data);
-            }
+          //get results
+          $result = $db->query_first($sql);        
 
-            //verify that user exists (login)
-            $sql = "SELECT * FROM user WHERE Email = '".$db->escape($email)."' AND Password = '".$db->escape($password)."'";
+          //check result to verify login
+          if(!$result == 0) { // login succeeded
+              //log user in
+              session_start();
+              $_SESSION['email']  = $email;
+              $_SESSION['fname']  = $result['FName'];
+              $_SESSION['lname']  = $result['LName'];
+              $_SESSION['type']   = $result['Type'];
+              $_SESSION['region'] = $result['Region'];
+              //$_SESSION['loc']    = $result['Loc'];
 
-            //get results
-            $result = $db->query_first($sql);        
+              //if ajax, return user attributes as xml
+              if ($ajax) {
+                  $db->close();
+                  header ("Location: /");
+                  exit();
+              } else {
+                  $db->close();
+                  header ("Location: /");
+                  exit();
+              }
+          } else { //login failed
+              //return errors
+              $errors .= 'Registration failed. Please check that you provided all the required information.';
 
-            //check result to verify login
-            if(!$result == 0) { // login succeeded
-                //log user in
-                session_start();
-                $_SESSION['email']  = $email;
-                $_SESSION['fname']  = $result['FName'];
-                $_SESSION['lname']  = $result['LName'];
-                $_SESSION['type']   = $result['Type'];
-                $_SESSION['region'] = $result['Region'];
-                //$_SESSION['loc']    = $result['Loc'];
-
-                //if ajax, return user attributes as xml
-                if ($ajax) {
-                    $db->close();
-                    header ("Location: /");
-                    exit();
-                } else {
-                    $db->close();
-                    header ("Location: /");
-                    exit();
-                }
-            } else { //login failed
-                //return errors
-                $errors .= 'Registration failed. Please check that you provided all the required information.';
-
-                //if ajax, return error
-                if ($ajax) {
-                    echo 'error';
-                    $db->close();
-                    exit();
-                }
-            }
+              //if ajax, return error
+              if ($ajax) {
+                  echo 'error';
+                  $db->close();
+                  exit();
+              }
+          }
         }
         else { //get data for user creation
 
             //get coaches for selection
             $sql     =  "SELECT Email, FName, LName
                          FROM  user
-                         WHERE Type NOT IN ('student', 'intern')
+                         WHERE Type < ".STUDENT."
                          ORDER BY LName;";
 
             $coaches = $db->fetch_array($sql);
@@ -114,6 +114,14 @@ try {
                          ORDER BY Name;";
 
             $regions = $db->fetch_array($sql);
+
+            //get user types for selection
+            $sql     =  "SELECT ID, Name
+                         FROM  user_type
+                         WHERE ID > ".SUPER."
+                         ORDER BY Name;";
+
+            $user_types = $db->fetch_array($sql);
         }
         $db->close();
     } 
@@ -151,16 +159,21 @@ try {
           <div>
              <label>Type</label>
              <select name="type">
-                 <option value=""            <?php echo $type == ''         ? 'selected' : ''; ?>   >Select User Type</option>
-                 <option value="intern"      <?php echo $type == 'intern'   ? 'selected' : ''; ?>   >Intern</option>
-                 <option value="student"     <?php echo $type == 'student'  ? 'selected' : ''; ?>   >Student</option>
-                 <option value="coach"       <?php echo $type == 'coach'    ? 'selected' : ''; ?>   >Coach</option>
+                 <option value="" 'selected'>Select User Type</option>
+                 <?php
+                   if(count($user_types) > 0){
+                     foreach ($user_types as $row){
+                       echo '<option value="'.$row['ID'].'" >';
+                       echo $row['Name'].'</option>';
+                     }
+                   }
+                 ?>
              </select><a class="required"></a>
           </div>
           <div>
               <label>Region</label>
               <select name="region">
-                <option value=""   <?php echo $region == '' ? 'selected' : ''; ?>   >Select A Region</option>
+                <option value="" 'selected'>Select A Region</option>
             <?php
                 if(count($regions) > 0){
                     foreach ($regions as $row){
@@ -178,7 +191,7 @@ try {
           <div>
               <label>Coach</label>
               <select name="coach">
-                <option value=""   <?php echo $coach == '' ? 'selected' : ''; ?>   >Select A Coach</option>
+                <option value="" 'selected'>Select A Coach</option>
             <?php
                 if(count($coaches) > 0){
                     foreach ($coaches as $row){
