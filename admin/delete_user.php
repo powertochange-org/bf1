@@ -20,20 +20,23 @@ try {
   $sql     = "SELECT COUNT(*) from coach where Student = '".$db->escape($id)."'";
   $result  = $db->query_first($sql);
   if ($result['COUNT(*)'] > 0) {
-    //delete coach record
+    //delete coach record(s)
     $sql = "DELETE FROM coach WHERE Student = '".$db->escape($id)."'";
     $db->query($sql);
+  }
 
-    //delete user record
-    $sql = "DELETE FROM user WHERE Email = '".$db->escape($id)."'";
-    $db->query($sql);   
+  //determine whether this user is a coach
+  $sql     = "SELECT COUNT(*) from coach where Coach = '".$db->escape($id)."'";
+  $result  = $db->query_first($sql);
+  if ($result['COUNT(*)'] > 0) {
+    //delete coach record(s)
+    $sql = "DELETE FROM coach WHERE Coach = '".$db->escape($id)."'";
+    $db->query($sql);
   }
-  else {
-    //delete user record
-    //delete user record
-    $sql = "DELETE FROM user WHERE Email = '".$db->escape($id)."'";
-    $db->query($sql); 
-  }
+
+  //delete user record
+  $sql = "DELETE FROM user WHERE Email = '".$db->escape($id)."'";
+  $db->query($sql); 
 
   $db->close();
 } 
