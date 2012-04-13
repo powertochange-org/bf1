@@ -9,7 +9,6 @@ require_once("../config.inc.php");
 require_once("../Database.singleton.php");
 
 try {
-
     //get values
     $ajax       = isset($_POST['ajax'])     ? true : false;
 
@@ -25,13 +24,12 @@ try {
     $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
     $db->connect();
 
-    foreach($xml->item as $item){
-
+    foreach($xml->item as $item) {
         //get values
         $id     = $item['id'];
         $order  = $item['order'];
 
-        echo $id.' -> '.$order.PHP_EOL;
+        /*echo $id.' -> '.$order.PHP_EOL;*/
 
         //prepare query
         $data['Ord'] = (double)$order;
@@ -44,9 +42,7 @@ try {
 
     //if ajax, return success
     if ($ajax) {
-
         echo 1;
-
     }
 
 } catch (PDOException $e) {
