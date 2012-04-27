@@ -46,34 +46,25 @@ include('../header.php');
         <div id="contentpane">
             <?php
                 $page = '';
-                if(isset($_GET['p'])){
-                    switch($_GET['p']){
-
+                if(isset($_GET['p'])) {
+                    switch($_GET['p']) {
                         case 'info':
                            $page = 'information.php';
 
                         case 'settings':
                             $page = 'settings.php';
-
                     }
                 } else {
-
                     $page = 'information.php';
-
-                }
-                
+                }                
                 include($page);
             ?>
         </div>
-
     </div>
-
 </div>
-
 <script type="text/javascript">
 
     function load(page) {
-
         $.ajax({
            type: "POST",
            url: page,
@@ -81,15 +72,10 @@ include('../header.php');
                $('#contentpane').html(msg);
            }
         });
-
     }
 
 </script>
-
-
 <?php
-
 //footer
 include('../footer.php');
-
 ?>

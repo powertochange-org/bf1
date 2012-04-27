@@ -69,13 +69,13 @@ $page  .= '.php';
           <ul>
             <?php
               if ($type == SUPER ) {
-                echo ($_GET['p'] == 'modules') ? '<li><a href="?p=modules" class="active">Modules</a></li>' : '<li><a href="?p=modules" class="">Modules</a></li>';
+                echo ($page == 'modules') ? '<li><a href="?p=modules" class="active">Modules</a></li>' : '<li><a href="?p=modules" class="">Modules</a></li>';
               }
             ?>
             <!--li><a href="?p=articles" class="<?php //echo $_GET['p'] == 'articles' ? 'active' : ''; ?>">Articles</a></li-->
             <!--li><a href="?p=homepage" class="<?php //echo $_GET['p'] == 'homepage' ? 'active' : ''; ?>">Home Page</a></li-->
-            <li><a href="?p=users" class="<?php echo $_GET['p'] == 'users' ? 'active' : ''; ?>">Users</a></li>
-            <li><a href="?p=reports" class="<?php echo $_GET['p'] == 'reports' ? 'active' : ''; ?>">Reports</a></li>
+            <li><a href="?p=users" class="<?php echo $page == 'users' ? 'active' : ''; ?>">Users</a></li>
+            <li><a href="?p=reports" class="<?php echo $page == 'reports' ? 'active' : ''; ?>">Reports</a></li>
             <!--li><a href="?p=settings" class="<?php  //echo $_GET['p'] == 'settings'   ? 'active' : ''; ?>">Settings</a></li-->
           </ul>
         </div>
@@ -95,7 +95,6 @@ $page  .= '.php';
 <script type="text/javascript">
 
     function load(page) {
-
         $.ajax({
            type: "POST",
            url: page,
@@ -103,7 +102,6 @@ $page  .= '.php';
                $('#contentpane').html(msg);
            }
         });
-
     }
 
     function reorder(type, items) {

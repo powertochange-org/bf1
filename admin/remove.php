@@ -20,6 +20,11 @@ function deleteModule($id){
         deleteSection($section['ID']);
     }
     
+
+    //delete progress
+    $sql = "DELETE FROM progress WHERE ID = ".$id." AND Type = '".MODULE."'";
+    $db->query($sql);
+
     //delete module
     $sql = "DELETE FROM module WHERE ID= ".$id;
     //execute query
@@ -68,7 +73,7 @@ function deletePage($id){
     }
 
     //delete progress
-    $sql = "DELETE FROM progress WHERE PageId = ".$id;
+    $sql = "DELETE FROM progress WHERE ID = ".$id." AND Type = '".PAGE."'";
     $db->query($sql);
 
     //delete page
@@ -77,7 +82,6 @@ function deletePage($id){
 }
 
 try {
-
     //get values
     $ajax       = isset($_POST['ajax'])     ? true : false;
 

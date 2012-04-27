@@ -30,7 +30,6 @@ require_once("../config.inc.php");
 require_once("../Database.singleton.php");
 
 try {
-
     global $module, $section, $page;
 
     //initialize the database object
@@ -46,38 +45,37 @@ try {
     $pagetype = '';
 
     //transition to the next module
-	if($mod!=''){
-
-        if($req!=''){
-
+	if($mod!='') {
+        if($req!='') {
             //page title
             $title = 'Module '.$mod.' '.$req;
             
             //page type
             $pagetype = $req;
-
-        } else{
-
+        } 
+        else {
             //get module information
-            $sql =  "SELECT *, s.ID AS FirstSection
+            $sql =  "SELECT m.ID, m.Number, m.Name, m.Ord, m.Descr, m.Banner, m.FrontImg, s.ID AS FirstSection
                      FROM module m
                      INNER JOIN section s ON s.ModuleId = m.ID
-                     WHERE m.ID = ".(int)$mod.
-                     " ORDER BY s.Ord ASC";
+                     WHERE m.ID = ".(int)$mod."
+                     AND s.Ord = 0";
 
             $module = $db->query_first($sql);
 
-            //page title
-            $title = 'Module '.$module['Number'];
-            
-            //page type
-            $pagetype = 'module';
+            if($db->affected_rows > 0) {
+                //page title
+                $title = 'Module '.$module['Number'];
 
+                //page type
+                $pagetype = MODULE;
+            } else {
+              header('Location: /work');
+            }
         }
-
     //transition to the next section
-    } elseif($sec!=''){
-
+    } 
+    elseif($sec!='') {
         //get section, module, & first page information
         $sql = "SELECT s.*, m.Number, m.Name AS ModuleName, m.Ord AS ModuleOrder, m.Banner, p.ID AS PageId, p.Ord AS PageOrder, p.Visibility
                 FROM section s 
@@ -109,11 +107,11 @@ try {
         $title = 'Module '.$module['Number'];
         
         //page type
-        $pagetype = 'page';
+        $pagetype = PAGE;
 
     //transition to the next page
-    } elseif($pag != ''){
-
+    } 
+    elseif($pag != '') {
         //get page, section, & module information
         $sql = "SELECT p.*, s.ModuleId, s.Title AS SectionTitle, s.Ord AS SectionOrder, m.Number, m.Name AS ModuleName, m.Ord AS ModuleOrder, m.Banner
                 FROM page p
@@ -144,51 +142,92 @@ try {
         $title = 'Module '.$module['Number'];
 
         //page type
-        $pagetype='page';
-
-    } else{
-
+        $pagetype = PAGE;
+    } 
+    else {
         //page title
         $title = 'Modules';
 
         //page type
-        $pagetype='directory';
-
+        $pagetype = 'directory';
     }
-
-    //fetch user progress to validate loading page
-    $sql = "SELECT pr.Status, p.Ord AS page, s.Ord AS section, m.Ord AS module
-            FROM progress pr
-            INNER JOIN page p ON pr.PageId = p.ID
-            INNER JOIN section s ON p.SectionId = s.ID
-            INNER JOIN module m ON s.ModuleId = m.ID
-            WHERE pr.Email = '".$db->escape($email)."'
-            ORDER BY m.Ord, s.Ord, p.Ord";
-
-    $progress = $db->query_first($sql);
 
     //ensure user has proper access to loading page
     $auth = false;
 
-    switch($pagetype){
-        case 'module':
-            $auth = $progress['module'] >= $module['Ord'] ? true : false;
-            break;
+    if ($pagetype == PAGE) {
+      //fetch user progress to validate loading page
+      $sql = "SELECT pr.Status, p.Ord AS Page, s.Ord AS Section, m.Ord AS Module
+              FROM progress pr
+              INNER JOIN page p ON pr.ID = p.ID
+              INNER JOIN section s ON p.SectionId = s.ID
+              INNER JOIN module m ON s.ModuleId = m.ID
+              WHERE pr.Email = '".$db->escape($email)."'
+              AND pr.Type = '".PAGE."'
+              AND pr.ID = ".$page['ID'];
 
-        case 'page':
-            if($progress['module']>=$module['Order']){
-                if($progress['section'] >= $section['Order']){
-                    $auth = $progress['page'] >= $page['Order'] ? true : false;
-                }
-            }
-            break;
+      $progress = $db->query_first($sql);
+
+      if($progress['Module'] >= $module['Order']) {
+          if($progress['Section'] >= $section['Order']) {
+              $auth = $progress['Page'] >= $page['Order'] ? true : false;
+          }
+      }
+    } 
+    else {
+      //fetch user progress to validate loading page
+      $sql = "SELECT pr.Status, m.Ord AS Module
+              FROM progress pr
+              INNER JOIN module m ON pr.ID = m.ID
+              WHERE pr.Email = '".$db->escape($email)."'
+              AND pr.Type = '".MODULE."'
+              AND pr.ID = ".$module['ID'];
+
+      $progress = $db->query_first($sql);
+
+      //seed progress with the first page
+      if ($db->affected_rows > 0) {
+        $auth = $progress['Module'] >= $module['Ord'] ? true : false;
+      } 
+      else {
+        //get the first page ID
+        $sql     = "SELECT p.ID AS Page
+                    FROM page p
+                    INNER JOIN section s ON p.SectionId = s.ID
+                    INNER JOIN module m ON s.ModuleId = m.ID
+                    WHERE (p.Ord = 0 AND s.Ord = 0 AND m.Ord = ".$module['Ord'].");";
+
+        $result  = $db->query_first($sql);
+
+        //insert the first page progress record
+        $data = array();
+        $data['Email']  = $email;
+        $data['ID'] = $result['Page'];
+        $data['Type'] = PAGE;
+        $data['Status'] = STARTED;
+        $data['Update'] = date( 'Y-m-d' );
+        //execute query
+        $db->insert("progress", $data);
+
+        //insert the first module progress record
+        $data = array();
+        $data['Email']  = $email;
+        $data['ID'] = $module['ID'];
+        $data['Type'] = MODULE;
+        $data['Status'] = STARTED;
+        $data['Update'] = date( 'Y-m-d' );
+        //execute query
+        $db->insert("progress", $data);
+
+        $auth = true;
+      }
     }
 
-//    if(!$auth){
-//        header('Location: /crudoctrine/work/');
-//    }
+    if(!$auth) {
+        header('Location: /work');
+    }
 
-} catch (PDOException $e){
+} catch (PDOException $e) {
     echo $e->getMessage();
 }
 
@@ -209,9 +248,7 @@ include('../header.php');
 </div>
 
 <script type="text/javascript">
-
     //jquery class interaction states
-
     $('.ui-state-default').hover(
         function(){
             $(this).addClass("ui-state-hover");
@@ -220,7 +257,6 @@ include('../header.php');
             $(this).removeClass("ui-state-hover");
         }
     );
-
 </script>
 
 <?php

@@ -15,7 +15,7 @@ try {
     //execute query 
     $sections = $db->fetch_array($sql); 
 
-    foreach($sections as $row){
+    foreach($sections as $row) {
         //get pages in section
         $sql = "SELECT * FROM page WHERE SectionId = " .(int)$row['ID']. " ORDER BY Ord ASC";
 
@@ -41,7 +41,7 @@ try {
     $db_elements = $db->fetch_array($sql);  
 
     //get element content and construct element arrays
-    foreach($db_elements as $db_element){
+    foreach($db_elements as $db_element) {
 
         //get element id and type
         $elemId     = $db_element['ElementId'];
@@ -122,8 +122,7 @@ try {
     $sql = "SELECT n.ElementId FROM note n INNER JOIN element e ON n.ElementId = e.ElementId  WHERE e.PageId = ".$page['ID']." AND n.Email = '".$email."'";
     $db_notes = $db->fetch_array($sql);
 
-    //TODO: This doesn't seem right
-    foreach($db_notes as $db_note){
+    foreach($db_notes as $db_note) {
         $notes[] = $db_note['ElementId'];
     }
 
@@ -132,7 +131,7 @@ try {
 }
 
 //function to insert element
-function insertElement($_id, $_type, $_content){
+function insertElement($_id, $_type, $_content) {
 
     //fill template
     $element  = '<div id="'.$_type.$_id.'" class="'.$_type.' element" eId="'.$_id.'">'.PHP_EOL;
@@ -145,11 +144,8 @@ function insertElement($_id, $_type, $_content){
 
 }
 ?>
-
 <script src="/jquery/elastic/jquery.elastic-1.6.js" type="text/javascript" charset="utf-8"></script>
-
 <div id="module<?php echo str_replace('.', '', $module['Number']); ?>" class="page">
-
     <div id="title">
         <div id="number">Module <?php echo $module['Number']; ?></div>
         <div id="name"><?php echo $module['Name']; ?></div>
@@ -228,7 +224,6 @@ function insertElement($_id, $_type, $_content){
         <form id="submit" action="#" method="post"><button type="submit" class="shadow-light corners-all ui-state-default">Continue<span class="ui-icon ui-icon-triangle-1-e"></span></button></form>
         <div class="clear"></div>
     </div>
-
 </div>
 
 <script type="text/javascript">
@@ -263,12 +258,12 @@ function insertElement($_id, $_type, $_content){
         }
     );
 
-    function colapse(object){
+    function colapse(object) {
         object.addClass('ui-icon-triangle-1-e').removeClass('ui-icon-triangle-1-s');
         object.siblings('.pages').slideUp('fast');
     }
 
-    function expand(object){
+    function expand(object) {
         object.addClass('ui-icon-triangle-1-s').removeClass('ui-icon-triangle-1-e');
         object.siblings('.pages').slideDown('fast');
     }
@@ -279,7 +274,7 @@ function insertElement($_id, $_type, $_content){
 
     //notes
     $('.element a.note').toggle(
-        function(){
+        function() {
             var id      = $(this).parent().attr('eid');
             var note    = $('.note#'+id);
             if(note.length > 0){
@@ -290,20 +285,19 @@ function insertElement($_id, $_type, $_content){
             $(this).addClass('close').removeClass('add').removeClass('open');
             
         },
-        function(){
+        function() {
             var id = $(this).parent().attr('eid');
             closeNote(id);
             $(this).addClass('open').removeClass('close');
         }
     );
 
-    function getPosition(id){
+    function getPosition(id) {
         var y  = ($('div:[eid='+id+']').position().top) - ($('div.element:first').position().top);
         return y;
     }
 
-    function getNote(id){
-
+    function getNote(id) {
         //get note
         $.ajax({
             url: "note.php",
@@ -332,7 +326,7 @@ function insertElement($_id, $_type, $_content){
         });
     }
 
-    function newNote(id){
+    function newNote(id) {
         //get target position
         var y = getPosition(id);
 
@@ -370,20 +364,20 @@ function insertElement($_id, $_type, $_content){
         });
     }
 
-    function openNote(id){
+    function openNote(id) {
         $('.note#'+id).removeClass('collapsed');
     }
 
-    function closeNote(id){
+    function closeNote(id) {
         $('.note#'+id).addClass('collapsed');
     }
 
-    function deleteNote(id){
+    function deleteNote(id) {
         $('.note#'+id).find('textarea').val('');
         saveNote(id);
     }
 
-    function saveNote(id){
+    function saveNote(id) {
         //get values
         var _note   = $('.note#'+id);
         var note    = _note.find('textarea').val();
@@ -428,7 +422,7 @@ function insertElement($_id, $_type, $_content){
 <script type="text/javascript">
 
     //input responses
-    $('.input.element').each(function(){
+    $('.input.element').each(function() {
         var id   = $(this).attr('eid');
         getResponse(id);
         $(this).find('textarea, input').change(function(){
@@ -442,7 +436,7 @@ function insertElement($_id, $_type, $_content){
         });
     });
 
-    function responseAlert(id, type, message){
+    function responseAlert(id, type, message) {
         var alert   = $('#input'+id).find('.alert');
         var remove  = type == 'error' ? 'success' : 'error';
         var color   = type == 'error' ? 'red' : 'green';
@@ -455,7 +449,7 @@ function insertElement($_id, $_type, $_content){
         });
     }
 
-    function getResponse(id){
+    function getResponse(id) {
 
         //get response
         $.ajax({
@@ -501,7 +495,7 @@ function insertElement($_id, $_type, $_content){
 
     }
 
-    function saveResponse(id){
+    function saveResponse(id) {
         //get values
         var input       = $('#input'+id);
         var response    = input.find('textarea').val();
@@ -558,21 +552,21 @@ function insertElement($_id, $_type, $_content){
 <script type="text/javascript">
 
     //submitting & updating progress
-    $('#bottom #submit').submit(function(){
+    $('#bottom #submit').submit(function() {
 
         var errors = '';
         $('#errors').fadeOut('fast').html(errors);
 
        //ensure inputs have been saved
-       $('.input .response').each(function(){
+       $('.input .response').each(function() {
            if(!$(this).hasClass('saved')){
                //input not saved
-               errors = 'Please enter a response to the above question(s).<br />';
+               errors = 'Please enter a response to the above question(s).<br/>';
            }
        });
 
        //if no errors, update progress and go to next page
-       if(errors.length == 0){
+       if(errors.length == 0) {
            $.ajax({
                 url: "progress.php",
                 type: "POST",
@@ -584,20 +578,19 @@ function insertElement($_id, $_type, $_content){
                         sectionOrd: <?php echo "'".$section['Order']."'"; ?>,
                         moduleOrd:   <?php echo "'".$module['Order']."'"; ?>},
                 dataType: "xml",
-                success: function(xml){
-                    $(xml).find('next').each(function(){
-
+                success: function(xml) {
+                    $(xml).find('next').each(function() {
                         //get values
                         var type        = $(this).find('type').text();
                         var id          = $(this).find('id').text();
 
                         var url         = "/modules/?";
                         switch(type){
-                            case 'page':
+                            case <?php echo "'".PAGE."'"; ?>:
                                 url    += 'p';
                                 break;
 
-                            case 'module':
+                            case <?php echo "'".MODULE."'"; ?>:
                                 url    += 'm';
                                 break;
                         }
@@ -606,7 +599,6 @@ function insertElement($_id, $_type, $_content){
                         //update href, remove handler, and trigger
                         $('#bottom #submit').attr('action',url).unbind('submit');
                         $('#bottom #submit').submit();
-                        
                     });
                 }
             });

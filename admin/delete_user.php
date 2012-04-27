@@ -34,6 +34,10 @@ try {
     $db->query($sql);
   }
 
+  //delete user progress records
+  $sql = "DELETE FROM progress WHERE Email = '".$db->escape($id)."'";
+  $db->query($sql); 
+
   //delete user record
   $sql = "DELETE FROM user WHERE Email = '".$db->escape($id)."'";
   $db->query($sql); 

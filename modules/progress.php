@@ -26,14 +26,15 @@ $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE);
 $db->connect();
 
 //update progress
-if($submit){
+if($submit) {
 
     //mark current page complete
+    $data = array();
     $data['Status'] = COMPLETE;
     $data['Update'] = $cur_date;
     
     //execute query
-    $db->update("progress", $data, "Email = '".$db->escape($email)."' AND PageId = " .(int)$pageId);
+    $db->update("progress", $data, "Email = '".$db->escape($email)."' AND ID = ".(int)$pageId." AND TYPE = '".$db->escape(PAGE)."'");
     
     //get next page
     $sql = "SELECT p.ID AS Page, s.ID AS Section, m.ID AS Module
@@ -43,32 +44,63 @@ if($submit){
             WHERE   (p.Ord = ".($pageOrd + 1)." AND s.ID = ".$sectionId." AND m.ID = ".$moduleId.") OR
                     (p.Ord = 0 AND s.Ord = ".($sectionOrd + 1)." AND m.ID = ".$moduleId.") OR
                     (p.Ord = 0 AND s.Ord = 0 AND m.Ord = ".($moduleOrd + 1).");";
-
     //execute query 
     $next = $db->query_first($sql);
 
-    if($db->affected_rows > 0){
-        $nextId     = $next['Page'];
+    if($db->affected_rows > 0) {
+        $type   = $next['Module'] == $moduleId ? PAGE : MODULE;
+        $id     = $type == PAGE ? $next['Page'] : $next['Module'];
 
-        //verify that this page is incomplete
-        $sql = "SELECT Status FROM progress WHERE PageId = ". (int)$nextId;
+        //verify that next page is incomplete
+        $sql = "SELECT Status 
+                FROM progress 
+                WHERE ID = ".(int)$next['Page']."
+                AND Email = '".$db->escape($email)."' 
+                AND TYPE = '".$db->escape(PAGE)."'";
         //execute query 
         $newPageStatus = $db->query_first($sql);
-        if($newPageStatus["Status"] != COMPLETE) {
-
+        if($db->affected_rows == 0) {
             //mark next page started
-            $data['Email'] = $email;
-            $data['PageId'] = (int)$nextId;
-            $data['Status'] = 'started';
+            $data = array();
+            $data['Email']  = $email;
+            $data['ID'] = (int)$next['Page'];
+            $data['Type'] = PAGE;
+            $data['Status'] = STARTED;
             $data['Update'] = $cur_date;
 
             //execute query
             $db->insert("progress", $data);
         }
-        
-        $type   = $next['Module'] == $moduleId ? 'page' : 'module';
-        $id     = $type == 'page' ? $nextId : $next['Module'];
+        if ($type == MODULE) {
+            //verify that next module is incomplete
+            $sql = "SELECT Status 
+                    FROM progress 
+                    WHERE ID = ".$next['Module']."
+                    AND Email = '".$db->escape($email)."' 
+                    AND TYPE = '".$db->escape(MODULE)."'";
+            //execute query 
+            $newModuleStatus = $db->query_first($sql);
+            if($db->affected_rows == 0) {
+                //mark next module started
+                $data = array();
+                $data['Email']  = $email;
+                $data['ID'] = $next['Module'];
+                $data['Type'] = MODULE;
+                $data['Status'] = STARTED;
+                $data['Update'] = $cur_date;
 
+                //execute query
+                $db->insert("progress", $data);
+            }
+            //mark current module complete
+            $data = array();
+            $data['Status'] = COMPLETE;
+            $data['Update'] = $cur_date;
+
+            //execute query
+            $db->update("progress", $data, "Email = '".$db->escape($email)."' AND ID = ".(int)$moduleId." AND TYPE = '".$db->escape(MODULE)."'");
+        }
+        
         //return next page
         header('Content-Type: application/xml; charset=ISO-8859-1');
         echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>".PHP_EOL;
@@ -78,7 +110,6 @@ if($submit){
         echo '</next>'.PHP_EOL;
     } 
     else {
-
         //return end of modules
         header('Content-Type: application/xml; charset=ISO-8859-1');
         echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>".PHP_EOL;
@@ -86,7 +117,6 @@ if($submit){
         echo    '<type>module</type>'.PHP_EOL;
         echo    '<id>0</id>'.PHP_EOL;
         echo '</next>'.PHP_EOL;
-
     }
 }
 $db->close();

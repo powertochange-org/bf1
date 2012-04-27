@@ -4,7 +4,6 @@
  * Modules - Module Home
  * Campus Crusade for Christ
  */
-
 ?>
 <div id="module<?php echo str_replace('.', '', $module['Number']); ?>" class="module">
     <div id="background_img">
