@@ -106,10 +106,10 @@ foreach($notes as $note) {
 $cur_mod    = $_modules[$progress[count($progress)-1]['module']]['Ord'];
 $rec_date   = date_create($progress[count($progress)-1]['Update']);
 $beg_date   = date_create($progress[0]['Update']);
-$dif_time   = date_diff($beg_date,$rec_date);
-$avg_time   = ($dif_time->format("%d") + ($dif_time->format("%m")*30) + ($dif_time->format("%Y")*365) ) / ($cur_mod > 1 ? $cur_mod - 1 : 1);
-$tot_time   = $avg_time * count($modules);
-$eta        = date_add($beg_date, date_interval_create_from_date_string($tot_time.' days'));
+//$dif_time   = date_diff($beg_date,$rec_date);
+//$avg_time   = ($dif_time->format("%d") + ($dif_time->format("%m")*30) + ($dif_time->format("%Y")*365) ) / ($cur_mod > 1 ? $cur_mod - 1 : 1);
+//$tot_time   = $avg_time * count($modules);
+//$eta        = date_add($beg_date, date_interval_create_from_date_string($tot_time.' days'));
 
 //create strings
 $str_bar = '';
@@ -175,7 +175,7 @@ foreach($_modules as $module) {
             <div id="progress">
                 <div id="bar">
                     <?php echo $str_bar; ?>
-                    <span id="eta">Eta: <?php echo $eta->format("m / Y"); ?></span>
+                    <span id="eta">Eta: <?php echo date('m/Y'); ?></span>
                 </div>
                 <div id="status" style="left:<?php echo $bar_wid*($cur_mod-1); ?>%;" class="corners-all"><div class="point"></div><?php echo $str_sta; ?></div>
             </div>
