@@ -45,8 +45,8 @@ try {
     $pagetype = '';
 
     //transition to the next module
-	if($mod!='') {
-        if($req!='') {
+	if($mod != '') {
+        if($req != '') {
             //page title
             $title = 'Module '.$mod.' '.$req;
             
@@ -75,7 +75,7 @@ try {
         }
     //transition to the next section
     } 
-    elseif($sec!='') {
+    elseif($sec != '') {
         //get section, module, & first page information
         $sql = "SELECT s.*, m.Number, m.Name AS ModuleName, m.Ord AS ModuleOrder, m.Banner, p.ID AS PageId, p.Ord AS PageOrder, p.Visibility
                 FROM section s 
@@ -155,7 +155,7 @@ try {
     //ensure user has proper access to loading page
     $auth = false;
 
-    if ($pagetype == PAGE) {
+    if ($pagetype == PAGE && $type > COACH) {
       //fetch user progress to validate loading page
       $sql = "SELECT pr.Status, p.Ord AS Page, s.Ord AS Section, m.Ord AS Module
               FROM progress pr
@@ -224,7 +224,7 @@ try {
     }
 
     if(!$auth) {
-        header('Location: /work');
+        header('Location: '.$_SERVER['HTTP_REFERER']);
     }
 
 } catch (PDOException $e) {

@@ -12,7 +12,7 @@ require('header.php');
 $modules = array();
 
 try {
-    global $modules;
+    global $modules, $currentModule;
 
     //initialize the database object
     $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
@@ -22,6 +22,17 @@ try {
 
     //execute query and return to module array
     $modules = $db->fetch_array($sql);
+
+    //fetch user's current module
+    $sql = "SELECT m.Ord AS Module
+            FROM progress pr
+            INNER JOIN module m ON pr.ID = m.ID
+            WHERE pr.Email = '".$db->escape($email)."'
+            AND pr.Type = '".MODULE."'
+            AND pr.Status = '".STARTED."'";
+
+    $progress = $db->query_first($sql);
+    $currentModule = $progress['Module'];
 
     $db->close();
 
@@ -43,9 +54,9 @@ try {
                                         <div class="label"><span>Module '.$module['Number'].'</span></div>
                                         <div class="pic"><img src="'.$module['FrontImg'].'" height="300" width="515"></div>
                                         <div class="name">'.$module['Name'].'</div>
-                                        <div class="desc">'.$module['Descr'].'</div>
-                                        <a class="start ui-corner-all ui-state-default" href="modules?m='.$module['ID'].'">Go To Module<span class="ui-icon ui-icon-circle-triangle-e"></span></a>>
-                                    </div>
+                                        <div class="desc">'.$module['Descr'].'</div>';
+                        echo    ($module['Ord'] == 1 || $type < COACH || $currentModule >= $module['Ord']) ? '<a class="start ui-corner-all ui-state-default" href="modules?m='.$module['ID'].'">Go To Module<span class="ui-icon ui-icon-circle-triangle-e"></span></a>' : '';
+                        echo '      </div>
                                 </div>';
                     }
                 }
