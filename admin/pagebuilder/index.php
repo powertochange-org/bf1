@@ -30,28 +30,19 @@ include('../../header.php');
 <link rel="stylesheet" type="text/css" media="screen" href="pagebuilder.css" />
 
 <div id="content">
-
     <div id="pagebuilder">
-
         <div id="contentpane">
-
             <div id="pagetitle">
                 <div id="title_text">Page Builder</div>
-
                 <div id="steps">
-
                     <div <?php echo isset($_POST['p']) ? ($_POST['p'] == 'info'     ? 'class="active"' : '') : 'class="active"'; ?>>1. Page Information</div>
                     <div <?php echo isset($_POST['p']) ? ($_POST['p'] == 'design'   ? 'class="active"' : '') : '';               ?>>2. Page Design</div>
-
                 </div>
-
             </div>
-
             <?php
                 $page = '';
                 if(isset($_POST['p'])){
                     switch($_POST['p']){
-
                         case 'info':
                             $page = 'information.php';
                             break;
@@ -59,26 +50,17 @@ include('../../header.php');
                         case 'design':
                             $page = 'design.php';
                             break;
-
                     }
                 } else {
-
                     $page = 'information.php';
-
                 }
-
                 include($page);
             ?>
         </div>
-
     </div>
-
 </div>
-
 <script type="text/javascript">
-
     function load(page) {
-
         $.ajax({
            type: "POST",
            url: page,
@@ -86,14 +68,9 @@ include('../../header.php');
                $('#contentpane').html(msg);
            }
         });
-
     }
-
 </script>
-
-
 <?php
-
 //footer
 include('../../footer.php');
 ?>

@@ -393,7 +393,6 @@ function insertElement($_id, $_type, $_content) {
     );
 
     $(function() {
-
         //intialize toolbox
         makeDraggable();
 
@@ -931,14 +930,11 @@ function insertElement($_id, $_type, $_content) {
 
             }
         });
-
     });
-
 </script>
 
 <!-- SAVING -->
 <script type="text/javascript">
-
     function cancelFunc(){
         window.location.href = "/admin/?p=modules&id=<?php echo $moduleId; ?>";
     }

@@ -37,9 +37,7 @@ try {
 ?>
 
 <div>
-
     <form action="" method="POST">
-
         <fieldset id="information">
             <div><label>Page Title</label><input name="title" value="<?php echo $_title; ?>"/><a class="required"></a></div>
             <div>
@@ -66,13 +64,10 @@ try {
 
         <button name="submit" type="submit">PAGE DESIGN</button>
         <button name="cancel" type="submit" onclick="cancelFunc();return(false);">CANCEL</button>
-
     </form>
-
 </div>
 
 <script type="text/javascript">
-
     function cancelFunc(){
         window.location.href = "/admin/?p=modules&id=<?php echo $moduleId; ?>";
     }
@@ -100,7 +95,5 @@ try {
         }
 
         return submit;
-
     });
-
 </script>

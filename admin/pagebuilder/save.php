@@ -17,6 +17,7 @@ $main       = $_POST['main'];
 $right      = $_POST['right'];
 $trash      = $_POST['trash'];
 
+$title = stripslashes($title);
 $main = stripslashes($main);
 $right = stripslashes($right);
 $trash = stripslashes($trash);
