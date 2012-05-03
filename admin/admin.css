@@ -32,16 +32,16 @@
 
 /* MODULE */
 #module #information, #module #sections { border-top: 1px solid #ccc; margin: 10px 5px; padding: 10px; }
-#module #information { float: left; width: 200px; min-height: 200px; }
+#module #information { float: left; width: 150px; min-height: 200px; }
 #module #information form button {  }
 #module #information #title { position: static; width: 100%; overflow: auto; margin-top: 10px; }
-#module #information #title #number { float: left; height: 50px; width: 50px; font-size: 35px; }
-#module #information #title #name { float: left; max-width: 145px; font-size: 22px; margin-top: 5px; }
+#module #information #title #number { float: left; height: 50px; width: 50px; font-size: 18px; }
+#module #information #title #name { float: left; max-width: 145px; font-size: 14px; margin-top: 5px; }
 #module #information #title #name #bar { height: 4px; background: #ccc; width: 100%; }
 #module #information #description { font-size: 10px; padding: 0px 5px; }
-#module #sections { float: right; width: 455px; }
+#module #sections { float: right; width: 510px; }
 #module #sections .section { margin: 5px 0px; width: 100%; margin-top: 15px; background: #fff; }
-#module #sections .section .title{ width: 100px; overflow: hidden; margin: 5px 10px; padding: 2px; font-size: 14px; display: inline-block; }
+#module #sections .section .title{ width: 100px; overflow: hidden; margin: 5px 10px; padding: 2px; font-size: 12px; display: inline-block; }
 #module #sections .section .edit{ margin-right: 2px; border: none; }
 #module #sections .section .addpage{ margin: 5px 20px; margin-left: 2px; color: #000; float: right; border: none; }
 #module #sections .section .remove{ margin: 5px 10px; float: right; border: none; }
@@ -49,7 +49,7 @@
 #module #sections .section .colapse { float: none; cursor: pointer; display: inline-block; margin: -2px 0px; }
 #module #sections .section .pages{ padding: 2px; }
 #module #sections .section .pages .page{ margin-left: 25px; background: #fff; }
-#module #sections .section .pages .page .title{ width: 80px; overflow: hidden; margin: 5px 10px; padding: 5px; font-size: 12px; display: inline-block; }
+#module #sections .section .pages .page .title{ width: 100px; overflow: hidden; margin: 5px 10px; padding: 5px; font-size: 11px; display: inline-block; }
 #module #sections .section .pages .page form{ float: right; }
 #module #sections .section .pages .page form .edit{ border: none; cursor: pointer; margin: 5px 10px; margin-right: 110px; font-size: 10px; height: 20px; padding: 0px -5px; }
 
