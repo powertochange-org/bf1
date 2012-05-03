@@ -13,12 +13,12 @@
 .module #background_img{ position: absolute; }
 .module #title, .page #title{ margin: 10px; }
 .module #title #number, .module #title #name, .page #title #number, .page #title #name{ color: #fff; display: inline-block; font-size: 34px; text-transform: uppercase; font-weight:500; }
-.module #description{ position: relative; top: 175px; left: 100px; width: 600px; padding: 10px; font-size: 13px; color: #fff;
+.module #description{ position: relative; top: 150px; left: 100px; width: 600px; padding: 10px; font-size: 13px; color: #fff;
 
     /* Fallback for web browsers that don't support RGBa */
     background: rgb(120, 120, 120);
     /* RGBa with 0.6 opacity */
-    background: rgba(120, 120, 120, 0.6);
+    background: rgba(120, 120, 120, 0.8);
     /* For IE 5.5 - 7*/
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
     /* For IE 8*/
