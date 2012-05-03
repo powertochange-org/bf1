@@ -4,12 +4,12 @@
 */
 
 html, textarea {
-    font-family: 'Century Gothic', Verdana;
+    font-family: Verdana, Geneva, sans-serif;
     font-size: 12px;
 }
 
 a, button {
-    font-family: 'Century Gothic', Verdana;
+    font-family: Verdana, Geneva, sans-serif;
     font-size: 12px;
     text-decoration: none;
 }
