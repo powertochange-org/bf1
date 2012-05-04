@@ -28,26 +28,49 @@ $db->connect();
 //update progress
 if($submit) {
 
-    //mark current page complete
-    $data = array();
-    $data['Status'] = COMPLETE;
-    $data['Update'] = $cur_date;
+  //mark current page complete
+  $data = array();
+  $data['Status'] = COMPLETE;
+  $data['Update'] = $cur_date;
     
-    //execute query
-    $db->update("progress", $data, "Email = '".$db->escape($email)."' AND ID = ".(int)$pageId." AND TYPE = '".$db->escape(PAGE)."'");
+  //execute query
+  $db->update("progress", $data, "Email = '".$db->escape($email)."' AND ID = ".(int)$pageId." AND TYPE = '".$db->escape(PAGE)."'");
     
-    //get next page
+  //get the next page or module
+  $next = null;
+  //attempt to first get the next page
+  $sql = "SELECT p.ID AS Page, s.ID AS Section, m.ID AS Module
+          FROM page p
+          INNER JOIN section s ON p.SectionId = s.ID
+          INNER JOIN module m ON s.ModuleId = m.ID
+          WHERE (p.Ord = ".($pageOrd + 1)." AND s.ID = ".$sectionId." AND m.ID = ".$moduleId.");";
+
+  //execute query 
+  $next = $db->query_first($sql);
+
+  //attempt to get the next section
+  if($db->affected_rows == 0) {
     $sql = "SELECT p.ID AS Page, s.ID AS Section, m.ID AS Module
             FROM page p
             INNER JOIN section s ON p.SectionId = s.ID
             INNER JOIN module m ON s.ModuleId = m.ID
-            WHERE   (p.Ord = ".($pageOrd + 1)." AND s.ID = ".$sectionId." AND m.ID = ".$moduleId.") OR
-                    (p.Ord = 0 AND s.Ord = ".($sectionOrd + 1)." AND m.ID = ".$moduleId.") OR
-                    (p.Ord = 0 AND s.Ord = 0 AND m.Ord = ".($moduleOrd + 1).");";
-    //execute query 
+            WHERE (p.Ord = 0 AND s.Ord = ".($sectionOrd + 1)." AND m.ID = ".$moduleId.");";
+    
     $next = $db->query_first($sql);
+  }
 
-    if($db->affected_rows > 0) {
+  //attempt to get the next module
+  if($db->affected_rows == 0) {
+    $sql = "SELECT p.ID AS Page, s.ID AS Section, m.ID AS Module
+            FROM page p
+            INNER JOIN section s ON p.SectionId = s.ID
+            INNER JOIN module m ON s.ModuleId = m.ID
+            WHERE  (p.Ord = 0 AND s.Ord = 0 AND m.Ord = ".($moduleOrd + 1).");";
+    
+    $next = $db->query_first($sql);
+  }
+
+  if($db->affected_rows > 0) {
         $type   = $next['Module'] == $moduleId ? PAGE : MODULE;
         $id     = $type == PAGE ? $next['Page'] : $next['Module'];
 
@@ -109,7 +132,7 @@ if($submit) {
         echo    '<id>'.$id.'</id>'.PHP_EOL;
         echo '</next>'.PHP_EOL;
     } 
-    else {
+  else {
         //return end of modules
         header('Content-Type: application/xml; charset=ISO-8859-1');
         echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>".PHP_EOL;
