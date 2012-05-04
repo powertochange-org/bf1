@@ -51,7 +51,7 @@
 #module #sections .section .pages .page{ margin-left: 25px; background: #fff; }
 #module #sections .section .pages .page .title{ width: 100px; overflow: hidden; margin: 5px 10px; padding: 5px; font-size: 11px; display: inline-block; }
 #module #sections .section .pages .page form{ float: right; }
-#module #sections .section .pages .page form .edit{ border: none; cursor: pointer; margin: 5px 10px; margin-right: 110px; font-size: 10px; height: 20px; padding: 0px -5px; }
+#module #sections .section .pages .page form .edit{ border: none; cursor: pointer; margin: 5px 10px; margin-right: 105px; font-size: 10px; height: 20px; padding: 0px -5px; }
 
 /* USERS */
 #users #list {}
