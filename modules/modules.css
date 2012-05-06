@@ -12,7 +12,8 @@
 .module{ width: 880px; height: 400px; margin: 5px auto; margin-bottom: -5px; overflow: hidden; }
 .module #background_img{ position: absolute; }
 .module #title, .page #title{ margin: 10px; }
-.module #title #number, .module #title #name, .page #title #number, .page #title #name{ color: #fff; display: inline-block; font-size: 34px; text-transform: uppercase; font-weight:500; }
+.module #title #number, .module #title #name { color: #fff; display: inline-block; font-size: 34px; text-transform: uppercase; font-weight:500; }
+.page #title #number, .page #title #name { color: #fff; display: inline-block; font-size: 34px; text-transform: uppercase; font-weight:500; }
 .module #description{ position: relative; top: 150px; left: 100px; width: 600px; padding: 10px; font-size: 13px; color: #fff;
 
     /* Fallback for web browsers that don't support RGBa */
@@ -32,6 +33,7 @@
 #module21 #title #name, #module21 #continue a{ color: #EB9E47; }
 #module22 #title #name, #module22 #continue a{ color: #666666; }
 #module31 #title #name, #module31 #continue a{ color: #887562; }
+#module31 #title #number { color: #717A76; }
 #module32 #title #name, #module32 #continue a{ color: #717A76; }
 #module41 #title #name, #module41 #continue a{ color: #6A9968; }
 #module42 #title #name, #module42 #continue a{ color: #585858; }
