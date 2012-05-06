@@ -420,7 +420,6 @@ function insertElement($_id, $_type, $_content) {
 </script>
 
 <script type="text/javascript">
-
     //input responses
     $('.input.element').each(function() {
         var id   = $(this).attr('eid');
@@ -450,15 +449,13 @@ function insertElement($_id, $_type, $_content) {
     }
 
     function getResponse(id) {
-
         //get response
         $.ajax({
             url: "response.php",
             type: "POST",
             data: {id:id},
             dataType: "xml",
-            success: function(xml){
-
+            success: function(xml) {
                 $(xml).find('response').each(function(){
 
                     //get values
@@ -472,7 +469,6 @@ function insertElement($_id, $_type, $_content) {
 
                     //determine if existing
                     if(!_new) {             //existing
-
                         //insert response
                         input.find('textarea').val(response);
                         input.find('input[name=personal]').val(personal);
@@ -480,19 +476,13 @@ function insertElement($_id, $_type, $_content) {
                         
                         //mark response saved
                         input.find('.response').addClass('saved');
-
                     } else {                //new
-
                        //mark response new
                        input.find('.response').addClass('new');
-
                     }
-
                 });
-
             }
         });
-
     }
 
     function saveResponse(id) {
@@ -507,10 +497,9 @@ function insertElement($_id, $_type, $_content) {
         var _new        = input.find('.response').hasClass('new');
 
         //check for updated response
-        if(response.length > 0 && !(input.find('.response').hasClass('saved'))){
-
+        if(response.length > 0 && !(input.find('.response').hasClass('saved'))) {
             //validate response
-            if(response.length > length){   //valid
+            if(response.length > length) {   //valid
 
                 //save response
                 $.ajax({
@@ -534,36 +523,33 @@ function insertElement($_id, $_type, $_content) {
                         }
                     }
                 });
-
             } else {                        //invalid
-
                 //notify user that reponse is invalid
                 responseAlert(id, 'error', 'Response too short.');
             }
-
         } else {
             //notify user that reponse is invalid
             responseAlert(id, 'error', 'Response too short.');
         }
     }
-
 </script>
 
 <script type="text/javascript">
 
     //submitting & updating progress
     $('#bottom #submit').submit(function() {
-
         var errors = '';
         $('#errors').fadeOut('fast').html(errors);
 
-       //ensure inputs have been saved
-       $('.input .response').each(function() {
-           if(!$(this).hasClass('saved')){
-               //input not saved
-               errors = 'Please enter a response to the above question(s).<br/>';
-           }
-       });
+       //ensure inputs have been saved if required by the user type
+       if((<?php echo $type; ?> > <?php echo COACH; ?>) && (<?php echo $type; ?> != <?php echo OTHER; ?>)) {
+         $('.input .response').each(function() {
+             if(!$(this).hasClass('saved')){
+                 //input not saved
+                 errors = 'Please enter a response to the above question(s).<br/>';
+             }
+         });
+       }
 
        //if no errors, update progress and go to next page
        if(errors.length == 0) {
