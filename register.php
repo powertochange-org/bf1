@@ -97,8 +97,8 @@ try {
                   exit();
               }
           }
-        }
-        else { //get data for user creation
+      }
+      else { //get data for user creation
 
             //get coaches for selection
             $sql     =  "SELECT Email, FName, LName
@@ -123,7 +123,7 @@ try {
 
             $user_types = $db->fetch_array($sql);
         }
-        $db->close();
+      $db->close();
     } 
     catch (PDOException $e) {
         echo $e->getMessage();
