@@ -62,6 +62,7 @@ try {
                      AND s.Ord = 0";
 
             $module = $db->query_first($sql);
+            $module['Order'] = $module['Ord'];
 
             if($db->affected_rows > 0) {
                 //page title
@@ -155,7 +156,7 @@ try {
     //ensure user has proper access to loading page
     $auth = false;
 
-    if ($pagetype == PAGE && $type > COACH) {
+    if ($pagetype == PAGE && ($type > COACH && $type != OTHER)) {
       //fetch user progress to validate loading page
       $sql = "SELECT pr.Status, p.Ord AS Page, s.Ord AS Section, m.Ord AS Module
               FROM progress pr
@@ -187,7 +188,7 @@ try {
 
       //seed progress with the first page
       if ($db->affected_rows > 0) {
-        $auth = $progress['Module'] >= $module['Ord'] ? true : false;
+        $auth = $progress['Module'] >= $module['Order'] ? true : false;
       } 
       else {
         //get the first page ID
@@ -195,7 +196,7 @@ try {
                     FROM page p
                     INNER JOIN section s ON p.SectionId = s.ID
                     INNER JOIN module m ON s.ModuleId = m.ID
-                    WHERE (p.Ord = 0 AND s.Ord = 0 AND m.Ord = ".$module['Ord'].");";
+                    WHERE (p.Ord = 0 AND s.Ord = 0 AND m.Ord = ".$module['Order'].");";
 
         $result  = $db->query_first($sql);
 
