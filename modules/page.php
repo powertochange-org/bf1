@@ -304,7 +304,7 @@ function insertElement($_id, $_type, $_content) {
             type: "POST",
             data: {id:id},
             dataType: "html",
-            success: function(msg){
+            success: function(msg) {
                 //append form to DOM and position
                 $('#notes').append(msg);
                 var note = $('#notes').find('.note:last');
@@ -425,7 +425,7 @@ function insertElement($_id, $_type, $_content) {
         var id   = $(this).attr('eid');
         getResponse(id);
         $(this).find('textarea, input').change(function(){
-            $(this).parent().parent().find('.response').removeClass('saved');
+            $('#input'+id).find('.response').removeClass('saved');
             saveResponse(id);
         }).click(function(){
             $(this).parent().animate({
@@ -456,29 +456,33 @@ function insertElement($_id, $_type, $_content) {
             data: {id:id},
             dataType: "xml",
             success: function(xml) {
-                $(xml).find('response').each(function(){
-
+                $(xml).find('response').each(function() {
                     //get values
                     var _new        = $(this).find('new').text() == '1';
                     var id          = $(this).find('id').text();
                     var response    = $(this).find('text').text();
                     var personal    = $(this).find('personal').text() == '1';
                     var coach       = $(this).find('coach').text() == '1';
-
                     var input       = $('#input'+id);
 
                     //determine if existing
-                    if(!_new) {             //existing
-                        //insert response
-                        input.find('textarea').val(response);
-                        input.find('input[name=personal]').val(personal);
-                        input.find('input[name=coach]').val(coach);
-                        
-                        //mark response saved
-                        input.find('.response').addClass('saved');
-                    } else {                //new
-                       //mark response new
-                       input.find('.response').addClass('new');
+                    if(!_new) {//existing
+                      //insert response
+                      input.find('textarea').val(response);
+
+                      if(personal) {
+                        input.find('input:checkbox[name=personal]').attr('checked', true);
+                      }
+
+                      if(coach) {
+                        input.find('input:checkbox[name=coach]').attr('checked', true);
+                      }
+
+                      //mark response saved
+                      input.find('.response').addClass('saved');
+                    } else {//new
+                      //mark response new
+                      input.find('.response').addClass('new');
                     }
                 });
             }
@@ -491,16 +495,14 @@ function insertElement($_id, $_type, $_content) {
         var response    = input.find('textarea').val();
         response        = response != undefined ? response : '';
         var length      = input.find('textarea').attr('min');
-        var personal    = input.find('input[name=personal]').attr('checked');
-        var coach       = input.find('input[name=coach]').attr('checked');
-
+        var personal    = input.find('input:checkbox[name=personal]').attr('checked');
+        var coach       = input.find('input:checkbox[name=coach]').attr('checked');
         var _new        = input.find('.response').hasClass('new');
 
         //check for updated response
         if(response.length > 0 && !(input.find('.response').hasClass('saved'))) {
             //validate response
-            if(response.length > length) {   //valid
-
+            if(response.length > length) {
                 //save response
                 $.ajax({
                     url: "response.php",
@@ -523,13 +525,15 @@ function insertElement($_id, $_type, $_content) {
                         }
                     }
                 });
-            } else {                        //invalid
+            } 
+            else {                        
                 //notify user that reponse is invalid
                 responseAlert(id, 'error', 'Response too short.');
             }
-        } else {
+        }
+        else {
             //notify user that reponse is invalid
-            responseAlert(id, 'error', 'Response too short.');
+            //responseAlert(id, 'error', 'Response too short.');
         }
     }
 </script>
