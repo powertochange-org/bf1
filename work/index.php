@@ -143,22 +143,26 @@ foreach($_modules as $module) {
                     <span class="check"></span>
                     <div class="flagsnotes '.($module['Ord'] == $cur_mod ? 'active' : '').'">'.PHP_EOL;
         if($flags) {
+          if($module['flags'] > 0) {
             foreach($module['flags'] as $flag) {
-                $str_mod .=     '<div class="flag" id="'.$flag['ID'].'">
-                                    <span class="icon"></span>
-                                    <span class="question"><a href="/modules/?p='.$flag['PageId'].'">'.$flag['Section'].' - '.$flag['Page'].'</a>: <br />'.$flag['Question'].'</span>
-                                    <span class="response">'.$flag['Response'].'</span>
-                                </div>'.PHP_EOL;
+              $str_mod .= '<div class="flag" id="'.$flag['InputId'].'">
+                             <span class="icon"></span>
+                             <span class="question"><a href="/modules/?p='.$flag['PageId'].'">'.$flag['Section'].' - '.$flag['Page'].'</a>: <br />'.$flag['Question'].'</span>
+                             <span class="response">'.$flag['Response'].'</span>
+                           </div>'.PHP_EOL;
             }
+          }
         }
         if($notes) {
+          if($module['notes'] > 0) {
             foreach($module['notes'] as $note) {
-                $str_mod .=     '<div class="note" id="'.$note['ElementId'].'">
-                                    <span class="icon"></span>
-                                    <a href="/modules/?p='.$note['PageId'].'">'.$note['Section'].' - '.$note['Page'].'</a>
-                                    <span>'.$note['Note'].'</span>
-                                </div>'.PHP_EOL;
+              $str_mod .= '<div class="note" id="'.$note['ElementId'].'">
+                             <span class="icon"></span>
+                             <a href="/modules/?p='.$note['PageId'].'">'.$note['Section'].' - '.$note['Page'].'</a>
+                             <span>'.$note['Note'].'</span>
+                           </div>'.PHP_EOL;
             }
+          }
         }
         $str_mod .= '</div>'.PHP_EOL.'</div>'.PHP_EOL;
     }
