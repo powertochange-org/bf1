@@ -458,7 +458,6 @@ function insertElement($_id, $_type, $_content) {
             },
 
             close: function(event, ui) {
-
                 $('embed').show();
 
                 //clear values

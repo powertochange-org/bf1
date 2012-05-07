@@ -86,13 +86,10 @@ try {
             echo '</module>';
 
             exit();
-
         } else {
-
             header ("Location: ?p=modules&id=".$moduleId);
         }
     } else if (!$new) { //get data for existing module
-
         //get module information
         $sql = "SELECT * FROM module WHERE ID = ".$moduleId;
 
@@ -262,10 +259,8 @@ try {
                     homepage    : $('form input:[name=homepage]').val()
                 },
                 dataType: "xml",
-                success: function(xml){
-                    
-                    $(xml).find('module').each(function(){
-
+                success: function(xml) {
+                    $(xml).find('module').each(function() {
                         //get values
                         var id      = $(this).find('id').text();
                         var number  = $(this).find('number').text();
@@ -274,27 +269,17 @@ try {
 
                         //determine type
                         if($(this).find('new').text() == '1') {
-
                             $('#list').append('<div class="module" id="'+id+'"><div class="title"><div class="number">'+number+'</div><div class="name">'+title+'</div></div><div class="descr">'+descr+'</div><div class="drag ui-icon ui-icon-grip-solid-horizontal"></div><a class="edit ui-state-default" href="?p=modules&id='+id+'"><span class="ui-icon ui-icon-pencil"></span>Edit</a></div>');
-                            
                         } else {
-
                            $('#information #number').html(number);
                            $('#information #name').html(title);
                            $('#information #description').html(descr);
-
                         }
-
                     });
-
                     $('#editmodule').dialog("close");
-
                 }
             });
         }
-
         return false;
-
     });
-
 </script>

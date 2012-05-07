@@ -153,7 +153,7 @@ foreach($_modules as $module) {
         }
         if($notes) {
             foreach($module['notes'] as $note) {
-                $str_mod .=     '<div class="note" id="'.$note['ID'].'">
+                $str_mod .=     '<div class="note" id="'.$note['ElementId'].'">
                                     <span class="icon"></span>
                                     <a href="/modules/?p='.$note['PageId'].'">'.$note['Section'].' - '.$note['Page'].'</a>
                                     <span>'.$note['Note'].'</span>

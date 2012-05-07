@@ -30,8 +30,7 @@ $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE);
 $db->connect();
 
 //save note
-if($submit){
-
+if($submit) {
     if($new) {//new note
         //prepare query
         $data['Email'] = $email;
@@ -45,7 +44,8 @@ if($submit){
         //execute query
         $primary_id = $db->insert("note", $data);
         
-    } else {//edit note
+    } 
+    else {//edit note
         if($note == '') { //note is empty, delete
             //prepare query
             $sql = "DELETE FROM note WHERE Email = '".$db->escape($email)."' AND ElementId = " .(int)$id;
@@ -54,7 +54,8 @@ if($submit){
             $db->query($sql);
 
             echo 'Note Deleted';
-        } else {
+        } 
+        else {
             //prepare query
             $data['Note'] = $note;
             $data['_x'] = (int)$x;
@@ -67,7 +68,6 @@ if($submit){
 
             echo 'Note Saved';
         }
-
     }
     $db->close();
     exit();
@@ -82,7 +82,6 @@ $_note = $db->query_first($sql);
 
 if(count($_note) > 1){
     $new    = false;
-
     $note   = $_note['Note'];
     $x      = $_note['_x'];
     $y      = $_note['_y'];
@@ -91,13 +90,11 @@ if(count($_note) > 1){
 
 } else {
     $new    = true;
-
     $body   = '';
     $x      = 0;
     $y      = 0;
     $w      = 130;
     $h      = 130;
-
 }
 $db->close();
 ?>
