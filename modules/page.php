@@ -227,7 +227,6 @@ function insertElement($_id, $_type, $_content) {
 </div>
 
 <script type="text/javascript">
-
     //$('textarea').elastic();
 
     //initialize media elements
@@ -267,11 +266,9 @@ function insertElement($_id, $_type, $_content) {
         object.addClass('ui-icon-triangle-1-s').removeClass('ui-icon-triangle-1-e');
         object.siblings('.pages').slideDown('fast');
     }
-
 </script>
 
 <script type="text/javascript">
-
     //notes
     $('.element a.note').toggle(
         function() {
@@ -415,8 +412,7 @@ function insertElement($_id, $_type, $_content) {
                 }
             });
         }
-    }
-        
+    }        
 </script>
 
 <script type="text/javascript">

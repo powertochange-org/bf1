@@ -7,7 +7,8 @@
 
 //get values
 session_start();
-$email      = $_SESSION['email'];
+$email      = isset($_SESSION['email'])     ? $_SESSION['email']        : '';
+$type       = isset($_SESSION['type'])      ? $_SESSION['type']         : '';
 $submit     = isset($_POST['submit'])       ? true                      : false;
 $pageId     = isset($_POST['pageId'])       ? $_POST['pageId']          : 0;
 $sectionId  = isset($_POST['sectionId'])    ? $_POST['sectionId']       : 0;
@@ -35,112 +36,120 @@ if($submit) {
     
   //execute query
   $db->update("progress", $data, "Email = '".$db->escape($email)."' AND ID = ".(int)$pageId." AND TYPE = '".$db->escape(PAGE)."'");
-    
-  //get the next page or module
+
+  //1. first attempt to get the next page
+  //   select all pages that have an Ord > than the existing Ord, in the current section and module, and that should be visible to the current user
   $next = null;
-  //attempt to first get the next page
-  $sql = "SELECT p.ID AS Page, s.ID AS Section, m.ID AS Module
+  $sql = "SELECT p.ID AS Page, p.Visibility AS Visibility, s.ID AS Section, m.ID AS Module
           FROM page p
           INNER JOIN section s ON p.SectionId = s.ID
           INNER JOIN module m ON s.ModuleId = m.ID
-          WHERE (p.Ord = ".($pageOrd + 1)." AND s.ID = ".$sectionId." AND m.ID = ".$moduleId.");";
+          WHERE (p.Ord > ".$pageOrd." AND s.ID = ".$sectionId." AND m.ID = ".$moduleId.") AND
+                (p.Visibility = 0 OR p.Visibility >= ".$type.")
+                ORDER BY m.Ord, s.Ord, p.Ord;";
 
   //execute query 
   $next = $db->query_first($sql);
 
-  //attempt to get the next section
   if($db->affected_rows == 0) {
-    $sql = "SELECT p.ID AS Page, s.ID AS Section, m.ID AS Module
+    //2. next, attempt to get a page from the next section
+    //   select all pages from all sections in the current module where the section Ord is > than the current section Ord and that should be visible to the current user
+    $sql = "SELECT p.ID AS Page, p.Visibility AS Visibility, s.ID AS Section, m.ID AS Module
             FROM page p
             INNER JOIN section s ON p.SectionId = s.ID
             INNER JOIN module m ON s.ModuleId = m.ID
-            WHERE (p.Ord = 0 AND s.Ord = ".($sectionOrd + 1)." AND m.ID = ".$moduleId.");";
+            WHERE (s.Ord > ".$sectionOrd." AND m.ID = ".$moduleId.") AND
+                  (p.Visibility = 0 OR p.Visibility >= ".$type.")
+                  ORDER BY m.Ord, s.Ord, p.Ord;";
     
     $next = $db->query_first($sql);
   }
 
-  //attempt to get the next module
   if($db->affected_rows == 0) {
-    $sql = "SELECT p.ID AS Page, s.ID AS Section, m.ID AS Module
+    //3. lastly, attempt to get a page from the first section in the next module
+    //   select all pages from the first section of the next module
+    $sql = "SELECT p.ID AS Page, p.Visibility AS Visibility, s.ID AS Section, m.ID AS Module
             FROM page p
             INNER JOIN section s ON p.SectionId = s.ID
             INNER JOIN module m ON s.ModuleId = m.ID
-            WHERE  (p.Ord = 0 AND s.Ord = 0 AND m.Ord = ".($moduleOrd + 1).");";
+            WHERE (s.Ord = 0 AND m.Ord = ".($moduleOrd + 1).") AND
+                  (p.Visibility = 0 OR p.Visibility >= ".$type.")
+                  ORDER BY m.Ord, s.Ord, p.Ord;";
     
     $next = $db->query_first($sql);
   }
 
   if($db->affected_rows > 0) {
-        $type   = $next['Module'] == $moduleId ? PAGE : MODULE;
-        $id     = $type == PAGE ? $next['Page'] : $next['Module'];
+    $type   = $next['Module'] == $moduleId ? PAGE : MODULE;
+    $id     = $type == PAGE ? $next['Page'] : $next['Module'];
 
-        //verify that next page is incomplete
-        $sql = "SELECT Status 
-                FROM progress 
-                WHERE ID = ".(int)$next['Page']."
-                AND Email = '".$db->escape($email)."' 
-                AND TYPE = '".$db->escape(PAGE)."'";
-        //execute query 
-        $newPageStatus = $db->query_first($sql);
-        if($db->affected_rows == 0) {
-            //mark next page started
-            $data = array();
-            $data['Email']  = $email;
-            $data['ID'] = (int)$next['Page'];
-            $data['Type'] = PAGE;
-            $data['Status'] = STARTED;
-            $data['Update'] = $cur_date;
+    //verify that next page is incomplete
+    $sql = "SELECT Status 
+            FROM progress 
+            WHERE ID = ".(int)$next['Page']."
+            AND Email = '".$db->escape($email)."'
+            AND TYPE = '".$db->escape(PAGE)."'";
+    //execute query 
+    $newPageStatus = $db->query_first($sql);
+    if($db->affected_rows == 0) {
+      //mark next page started
+      $data = array();
+      $data['Email']  = $email;
+      $data['ID'] = (int)$next['Page'];
+      $data['Type'] = PAGE;
+      $data['Status'] = STARTED;
+      $data['Update'] = $cur_date;
 
-            //execute query
-            $db->insert("progress", $data);
-        }
-        if ($type == MODULE) {
-            //verify that next module is incomplete
-            $sql = "SELECT Status 
-                    FROM progress 
-                    WHERE ID = ".$next['Module']."
-                    AND Email = '".$db->escape($email)."' 
-                    AND TYPE = '".$db->escape(MODULE)."'";
-            //execute query 
-            $newModuleStatus = $db->query_first($sql);
-            if($db->affected_rows == 0) {
-                //mark next module started
-                $data = array();
-                $data['Email']  = $email;
-                $data['ID'] = $next['Module'];
-                $data['Type'] = MODULE;
-                $data['Status'] = STARTED;
-                $data['Update'] = $cur_date;
-
-                //execute query
-                $db->insert("progress", $data);
-            }
-            //mark current module complete
-            $data = array();
-            $data['Status'] = COMPLETE;
-            $data['Update'] = $cur_date;
-
-            //execute query
-            $db->update("progress", $data, "Email = '".$db->escape($email)."' AND ID = ".(int)$moduleId." AND TYPE = '".$db->escape(MODULE)."'");
-        }
-        
-        //return next page
-        header('Content-Type: application/xml; charset=ISO-8859-1');
-        echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>".PHP_EOL;
-        echo '<next>'.PHP_EOL;
-        echo    '<type>'.$type.'</type>'.PHP_EOL;
-        echo    '<id>'.$id.'</id>'.PHP_EOL;
-        echo '</next>'.PHP_EOL;
-    } 
-  else {
-        //return end of modules
-        header('Content-Type: application/xml; charset=ISO-8859-1');
-        echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>".PHP_EOL;
-        echo '<next>'.PHP_EOL;
-        echo    '<type>module</type>'.PHP_EOL;
-        echo    '<id>0</id>'.PHP_EOL;
-        echo '</next>'.PHP_EOL;
+      //execute query
+      $db->insert("progress", $data);
     }
+    if ($type == MODULE) {
+      //verify that next module is incomplete
+      $sql = "SELECT Status 
+              FROM progress 
+              WHERE ID = ".$next['Module']."
+              AND Email = '".$db->escape($email)."' 
+              AND TYPE = '".$db->escape(MODULE)."'";
+      //execute query 
+      $newModuleStatus = $db->query_first($sql);
+      if($db->affected_rows == 0) {
+        //mark next module started
+        $data = array();
+        $data['Email']  = $email;
+        $data['ID'] = $next['Module'];
+        $data['Type'] = MODULE;
+        $data['Status'] = STARTED;
+        $data['Update'] = $cur_date;
+
+        //execute query
+        $db->insert("progress", $data);
+      }
+      //mark current module complete
+      $data = array();
+      $data['Status'] = COMPLETE;
+      $data['Update'] = $cur_date;
+
+      //execute query
+      $db->update("progress", $data, "Email = '".$db->escape($email)."' AND ID = ".(int)$moduleId." AND TYPE = '".$db->escape(MODULE)."'");
+    }
+
+    //return next page
+    header('Content-Type: application/xml; charset=ISO-8859-1');
+    echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>".PHP_EOL;
+    echo '<next>'.PHP_EOL;
+    echo    '<type>'.$type.'</type>'.PHP_EOL;
+    echo    '<id>'.$id.'</id>'.PHP_EOL;
+    echo '</next>'.PHP_EOL;
+  }
+  else {
+    //return end of modules
+    header('Content-Type: application/xml; charset=ISO-8859-1');
+    echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>".PHP_EOL;
+    echo '<next>'.PHP_EOL;
+    echo    '<type>module</type>'.PHP_EOL;
+    echo    '<id>0</id>'.PHP_EOL;
+    echo '</next>'.PHP_EOL;
+  }
 }
 $db->close();
 ?>
