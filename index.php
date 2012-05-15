@@ -55,7 +55,7 @@ try {
                                         <div class="pic"><img src="'.$module['FrontImg'].'" height="300" width="515"></div>
                                         <div class="name">'.$module['Name'].'</div>
                                         <div class="desc">'.$module['Descr'].'</div>';
-                        echo    ($module['Ord'] == 1 || $type < COACH || $type == OTHER || $currentModule >= $module['Ord']) ? '<a class="start ui-corner-all ui-state-default" href="modules?m='.$module['ID'].'">Go To Module<span class="ui-icon ui-icon-circle-triangle-e"></span></a>' : '';
+                        echo    ($module['Ord'] == 1 || $type <= COACH || $type == OTHER || $currentModule >= $module['Ord']) ? '<a class="start ui-corner-all ui-state-default" href="modules?m='.$module['ID'].'">Go To Module<span class="ui-icon ui-icon-circle-triangle-e"></span></a>' : '';
                         echo '      </div>
                                 </div>';
                     }
