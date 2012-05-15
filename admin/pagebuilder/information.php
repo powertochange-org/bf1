@@ -6,7 +6,6 @@
  */
 
 try {
-
     //initialize the database object
     $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
     $db->connect();
@@ -33,9 +32,7 @@ try {
     echo $e->getMessage();
     exit();
 }
-
 ?>
-
 <div>
     <form action="" method="POST">
         <fieldset id="information">
@@ -43,25 +40,22 @@ try {
             <div>
                 <label>Visibility</label>
                 <select name="visibility">
-                    <option value="Blank"       <?php echo $visibility == ''         ? 'selected' : ''; ?>   >Select Visibility Level</option>
-                    <option value="Intern"      <?php echo $visibility == 'Intern'   ? 'selected' : ''; ?>   >Intern</option>
-                    <option value="Student"     <?php echo $visibility == 'Student'  ? 'selected' : ''; ?>   >Student</option>
-                    <option value="Other"       <?php echo $visibility == 'Other'    ? 'selected' : ''; ?>   >Other</option>
-                    <option value="All"         <?php echo $visibility == 'All'      ? 'selected' : ''; ?>   >All</option>
+                    <option value="<?php echo ALL; ?>"                    <?php echo $visibility == ''                     ? 'selected' : ''; ?>   >Select Visibility Level</option>
+                    <option value="<?php echo STUDENT; ?>"                <?php echo $visibility == STUDENT                ? 'selected' : ''; ?>   >Student</option>
+                    <option value="<?php echo INTERN; ?>"                 <?php echo $visibility == INTERN                 ? 'selected' : ''; ?>   >Intern</option>
+                    <!--option value="<?php //echo OTHER; ?>"                  <?php //echo $visibility == OTHER                  ? 'selected' : ''; ?>   >Other</option-->
+                    <!--option value="<?php //echo PART_TIME_FIELD_STAFF; ?>"  <?php //echo $visibility == PART_TIME_FIELD_STAFF  ? 'selected' : ''; ?>   >Part Time Field Staff</option-->
+                    <!--option value="<?php //echo VOLUNTEER; ?>"              <?php //echo $visibility == VOLUNTEER              ? 'selected' : ''; ?>   >Volunteer</option-->
+                    <option value="<?php echo ALL; ?>"         <?php echo $visibility == ALL      ? 'selected' : ''; ?>   >All</option>
                 </select><a class="required"></a>
             </div>
         </fieldset>
-
         <fieldset id="feedback">
-
             <div id="errors">
                 <?php echo $errors; ?>
             </div>
-
         </fieldset>
-
         <input type="hidden" name="p" value="design" />
-
         <button name="submit" type="submit">PAGE DESIGN</button>
         <button name="cancel" type="submit" onclick="cancelFunc();return(false);">CANCEL</button>
     </form>

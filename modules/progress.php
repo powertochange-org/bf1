@@ -21,6 +21,7 @@ $errors     = isset($_POST['errors'])       ? $_POST['errors']          : '';
 
 require_once("../config.inc.php"); 
 require_once("../Database.singleton.php");
+require_once("../function.inc.php"); 
 
 //initialize the database object
 $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
@@ -40,12 +41,14 @@ if($submit) {
   //1. first attempt to get the next page
   //   select all pages that have an Ord > than the existing Ord, in the current section and module, and that should be visible to the current user
   $next = null;
+  $visibility = getVisibilityClause($type);
+
   $sql = "SELECT p.ID AS Page, p.Visibility AS Visibility, s.ID AS Section, m.ID AS Module
           FROM page p
           INNER JOIN section s ON p.SectionId = s.ID
           INNER JOIN module m ON s.ModuleId = m.ID
           WHERE (p.Ord > ".$pageOrd." AND s.ID = ".$sectionId." AND m.ID = ".$moduleId.") AND
-                (p.Visibility = 0 OR p.Visibility >= ".$type.")
+                ".$visibility."
                 ORDER BY m.Ord, s.Ord, p.Ord;";
 
   //execute query 
@@ -59,7 +62,7 @@ if($submit) {
             INNER JOIN section s ON p.SectionId = s.ID
             INNER JOIN module m ON s.ModuleId = m.ID
             WHERE (s.Ord > ".$sectionOrd." AND m.ID = ".$moduleId.") AND
-                  (p.Visibility = 0 OR p.Visibility >= ".$type.")
+                  ".$visibility."
                   ORDER BY m.Ord, s.Ord, p.Ord;";
     
     $next = $db->query_first($sql);
@@ -73,7 +76,7 @@ if($submit) {
             INNER JOIN section s ON p.SectionId = s.ID
             INNER JOIN module m ON s.ModuleId = m.ID
             WHERE (s.Ord = 0 AND m.Ord = ".($moduleOrd + 1).") AND
-                  (p.Visibility = 0 OR p.Visibility >= ".$type.")
+                  ".$visibility."
                   ORDER BY m.Ord, s.Ord, p.Ord;";
     
     $next = $db->query_first($sql);

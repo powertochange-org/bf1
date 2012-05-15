@@ -1,5 +1,9 @@
 <?php
-//constants
+/*
+ * Cru Doctrine
+ * Constants
+ * Campus Crusade for Christ
+ */
 
 //database server
 define('DB_SERVER', "localhost:8889");

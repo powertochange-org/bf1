@@ -17,7 +17,12 @@ try {
 
     foreach($sections as $row) {
         //get pages in section
-        $sql = "SELECT * FROM page WHERE SectionId = " .(int)$row['ID']. " ORDER BY Ord ASC";
+        $visibility = getVisibilityClause($type);
+        $sql = "SELECT * 
+                FROM page p
+                WHERE p.SectionId = ".(int)$row['ID']." AND
+                ".$visibility."
+                ORDER BY Ord ASC";
 
         //execute query 
         $pages = $db->fetch_array($sql);
