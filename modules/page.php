@@ -47,7 +47,6 @@ try {
 
     //get element content and construct element arrays
     foreach($db_elements as $db_element) {
-
         //get element id and type
         $elemId     = $db_element['ElementId'];
         $elemType   = $db_element['Type'];
@@ -59,8 +58,7 @@ try {
         //content string
         $content = '';
 
-        switch($elemType){
-
+        switch($elemType) {
             case 'textbox': //textbox
                 $content    = $db_content['Text'];
                 //$content    = nl2br($content);
@@ -106,20 +104,17 @@ try {
         $element['content'] = $content;
 
         //add element to element array
-        switch($db_element['Loc']){
-
+        switch($db_element['Loc']) {
             case 'main':
                 $main_elements[] = $element;
                 break;
 
             case 'right':
                 $right_elements[] = $element;
-
         }
 
         //determine column count
         $columns = count($right_elements) > 0 ? 'two-column' : 'one-column';
-
     }
 
     //get notes
@@ -149,21 +144,20 @@ function insertElement($_id, $_type, $_content) {
 
 }
 ?>
+
 <script src="/jquery/elastic/jquery.elastic-1.6.js" type="text/javascript" charset="utf-8"></script>
+<script src="/jquery/jQuery-URL-Parser/jquery.url.js" type="text/javascript" charset="utf-8"></script>
 <div id="module<?php echo str_replace('.', '', $module['Number']); ?>" class="page">
     <div id="title">
         <div id="number">Module <?php echo $module['Number']; ?></div>
         <div id="name"><?php echo $module['Name']; ?></div>
     </div>
-
     <div id="banner">
         <img src="<?php echo '../'.$module['Banner']; ?>"</img>
     </div>
-
     <div id="sectiontitle">
         <?php echo $section['Title']; ?>
     </div>
-
     <div id="leftmenu">
         <ul>
         <?php
@@ -193,9 +187,7 @@ function insertElement($_id, $_type, $_content) {
         ?>
         </ul>
     </div>
-
     <div id="contentpane" class="<?php echo $columns; ?>">
-
         <div id="main">
             <?php
                 if(isset($main_elements)){
@@ -205,7 +197,6 @@ function insertElement($_id, $_type, $_content) {
                 }
             ?>
         </div>
-
         <div id="right">
             <?php
                 if(isset($right_elements)){
@@ -216,23 +207,28 @@ function insertElement($_id, $_type, $_content) {
             ?>
         </div>
         <div id="notes">
-
         </div>
         <div class="clear"></div>
-
     </div>
-
     <div class="clear"></div>
-    
     <div id="bottom">
         <div id="errors"></div>
-        <form id="submit" action="#" method="post"><button type="submit" class="shadow-light corners-all ui-state-default">Continue<span class="ui-icon ui-icon-triangle-1-e"></span></button></form>
+        <form id="submit" action="#" method="post">
+          <button name="continue" type="submit" class="shadow-light corners-all ui-state-default">Continue<span class="ui-icon ui-icon-triangle-1-e"></span></button>
+        </form>
         <div class="clear"></div>
     </div>
 </div>
 
 <script type="text/javascript">
     //$('textarea').elastic();
+
+    //if the page is an assessment page, then hide the submit button
+    $(function() {
+      if(<?php echo $page['Type']; ?> == <?php echo ASSESSMENT_PAGE; ?>) {
+        $('form button:[name=continue]').hide();
+      }
+    });
 
     //initialize media elements
     $.fn.media.mapFormat('mp3','quicktime');
@@ -277,8 +273,8 @@ function insertElement($_id, $_type, $_content) {
     //notes
     $('.element a.note').toggle(
         function() {
-            var id      = $(this).parent().attr('eid');
-            var note    = $('.note#'+id);
+            var id   = $(this).parent().attr('eid');
+            var note = $('.note#'+id);
             if(note.length > 0){
                 openNote(id);
             } else {
@@ -423,7 +419,7 @@ function insertElement($_id, $_type, $_content) {
 <script type="text/javascript">
     //input responses
     $('.input.element').each(function() {
-        var id   = $(this).attr('eid');
+        var id = $(this).attr('eid');
         getResponse(id);
         $(this).find('textarea, input').change(function(){
             $('#input'+id).find('.response').removeClass('saved');
@@ -540,7 +536,57 @@ function insertElement($_id, $_type, $_content) {
 </script>
 
 <script type="text/javascript">
+    //submitting assessment answers
+    $('.textbox.element a').click(function(event) {
+        if (!$(this).is('.note')) {
+          //remove the redirect event
+          event.preventDefault();
+          var url = $.url($(this).attr("href"));
+          var answer = url.param('p');
+          
+          //check to see if the answer is correct and redirect
+          $.ajax({
+            url: "progress.php",
+            type: "POST",
+            data: {assessment:true,
+                   answer:answer,
+                   pageId:     <?php echo "'".$page['ID']."'"; ?>,
+                   sectionId:  <?php echo "'".$section['ID']."'"; ?>,
+                   moduleId:   <?php echo "'".$module['ID']."'"; ?>,
+                   pageOrd:    <?php echo "'".$page['Order']."'"; ?>,
+                   sectionOrd: <?php echo "'".$section['Order']."'"; ?>,
+                   moduleOrd:  <?php echo "'".$module['Order']."'"; ?>},
+            dataType: "xml",
+            success: function(xml) {
+                       $(xml).find('next').each(function() {
+                         //get values
+                         var type = $(this).find('type').text();
+                         var id   = $(this).find('id').text();
 
+                         var url  = "/modules/?";
+                         switch(type) {
+                           case <?php echo "'".PAGE."'"; ?>:
+                                url    += 'p';
+                                break;
+
+                           case <?php echo "'".MODULE."'"; ?>:
+                                url    += 'm';
+                                break;
+                         }
+                         url += '='+id;
+
+                         //update href, remove handler, and trigger
+                         $('#bottom #submit').attr('action',url).unbind('submit');
+                         $('#bottom #submit').submit();
+                       });
+                     }
+          });
+        }
+      }
+    );
+</script>
+
+<script type="text/javascript">
     //submitting & updating progress
     $('#bottom #submit').submit(function() {
         var errors = '';
@@ -561,22 +607,22 @@ function insertElement($_id, $_type, $_content) {
            $.ajax({
                 url: "progress.php",
                 type: "POST",
-                data: { submit:true,
-                        pageId:     <?php echo "'".$page['ID']."'"; ?>,
-                        sectionId:  <?php echo "'".$section['ID']."'"; ?>,
-                        moduleId:   <?php echo "'".$module['ID']."'"; ?>,
-                        pageOrd:    <?php echo "'".$page['Order']."'"; ?>,
-                        sectionOrd: <?php echo "'".$section['Order']."'"; ?>,
-                        moduleOrd:   <?php echo "'".$module['Order']."'"; ?>},
+                data: {submit:true,
+                       pageId:     <?php echo "'".$page['ID']."'"; ?>,
+                       sectionId:  <?php echo "'".$section['ID']."'"; ?>,
+                       moduleId:   <?php echo "'".$module['ID']."'"; ?>,
+                       pageOrd:    <?php echo "'".$page['Order']."'"; ?>,
+                       sectionOrd: <?php echo "'".$section['Order']."'"; ?>,
+                       moduleOrd:  <?php echo "'".$module['Order']."'"; ?>},
                 dataType: "xml",
                 success: function(xml) {
                     $(xml).find('next').each(function() {
                         //get values
-                        var type        = $(this).find('type').text();
-                        var id          = $(this).find('id').text();
+                        var type = $(this).find('type').text();
+                        var id   = $(this).find('id').text();
 
-                        var url         = "/modules/?";
-                        switch(type){
+                        var url  = "/modules/?";
+                        switch(type) {
                             case <?php echo "'".PAGE."'"; ?>:
                                 url    += 'p';
                                 break;
@@ -585,28 +631,26 @@ function insertElement($_id, $_type, $_content) {
                                 url    += 'm';
                                 break;
                         }
-                        url            += '='+id;
+                        url += '='+id;
 
                         //update href, remove handler, and trigger
                         $('#bottom #submit').attr('action',url).unbind('submit');
                         $('#bottom #submit').submit();
                     });
                 }
-            });
+           });
        } else {
            $('#errors').html(errors).fadeIn('fast');
        }
 
        return false;
-
     });
-
 </script>
 
 <script type="text/javascript">
     <?php
-        foreach($notes as $id){
-            echo 'getNote('.$id.');'.PHP_EOL;
-        }
+      foreach($notes as $id){
+        echo 'getNote('.$id.');'.PHP_EOL;
+      }
     ?>
 </script>

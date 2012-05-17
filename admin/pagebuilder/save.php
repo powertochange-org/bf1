@@ -11,6 +11,7 @@ $title      = $_POST['title'];
 $section    = $_POST['section'];
 $order      = $_POST['order'];
 $visibility = $_POST['visibility'];
+$pageType   = $_POST['pageType'];
 
 //get xml strings
 $main       = $_POST['main'];
@@ -254,7 +255,7 @@ function emptyTrash($_xml, $_db) {
 
 try {
 
-    global $pageId, $section, $title, $visibility, $order;
+    global $pageId, $section, $title, $visibility, $pageType, $order;
 
     //initialize the database object
     $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
@@ -268,16 +269,19 @@ try {
         $data['Title'] = $title;
         $data['Ord'] = (int)$order;
         $data['Visibility'] = $visibility;
+        $data['Type'] = $pageType;
 
         //execute query
         $pageId = $db->insert("page", $data);
-    } else {//update
+    } 
+    else {//update
 
         //prepare query
         $data['SectionId'] = (int)$section;
         $data['Title'] = $title;
         $data['Ord'] = (int)$order;
         $data['Visibility'] = $visibility;
+        $data['Type'] = $pageType;
 
         //execute query
         $db->update("page", $data, "ID = " .(int)$pageId);

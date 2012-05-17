@@ -31,6 +31,8 @@ define("OTHER", 6);
 define("PART_TIME_FIELD_STAFF", 7);
 define("VOLUNTEER", 8);
 define("ALL", 0);
+define("NORMAL_PAGE", 0);
+define("ASSESSMENT_PAGE", 1);
 define("ACTIVE", "Active");
 define("INACTIVE", "Inactive");
 define("WELCOME_PAGE", "welcome.php");

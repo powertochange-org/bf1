@@ -10,6 +10,8 @@ session_start();
 $email      = isset($_SESSION['email'])     ? $_SESSION['email']        : '';
 $type       = isset($_SESSION['type'])      ? $_SESSION['type']         : '';
 $submit     = isset($_POST['submit'])       ? true                      : false;
+$assessment = isset($_POST['assessment'])   ? true                      : false;
+$answer     = isset($_POST['answer'])       ? $_POST['answer']          : 0;
 $pageId     = isset($_POST['pageId'])       ? $_POST['pageId']          : 0;
 $sectionId  = isset($_POST['sectionId'])    ? $_POST['sectionId']       : 0;
 $moduleId   = isset($_POST['moduleId'])     ? $_POST['moduleId']        : 0;
@@ -27,9 +29,32 @@ require_once("../function.inc.php");
 $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
 $db->connect();
 
-//update progress
-if($submit) {
+//assessment pages
+if($assessment) {
+  //verify that the answer page is incomplete
+  $sql = "SELECT Status 
+          FROM progress 
+          WHERE ID = ".(int)$answer."
+          AND Email = '".$db->escape($email)."'
+          AND TYPE = '".$db->escape(PAGE)."'";
+  //execute query 
+  $newPageStatus = $db->query_first($sql);
+  if($db->affected_rows > 0) {
+    //return the incorrect answer page
+    header('Content-Type: application/xml; charset=ISO-8859-1');
+    echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>".PHP_EOL;
+    echo '<next>'.PHP_EOL;
+    echo    '<type>'.PAGE.'</type>'.PHP_EOL;
+    echo    '<id>'.$answer.'</id>'.PHP_EOL;
+    echo '</next>'.PHP_EOL;
+  }
+  else {
+    $submit = true;
+  }
+}
 
+//determine the next page
+if($submit) {
   //mark current page complete
   $data = array();
   $data['Status'] = COMPLETE;

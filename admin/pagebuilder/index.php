@@ -18,6 +18,7 @@ $order      = isset($_GET['order'])         ? $_GET['order']        : '';
 
 $_title     = isset($_POST['title'])        ? $_POST['title']       : '';
 $visibility = isset($_POST['visibility'])   ? $_POST['visibility']  : '';
+$pageType   = isset($_POST['pageType'])     ? $_POST['pageType']    : '';
 
 $errors     = isset($_POST['errors'])       ? $_POST['errors']      : '';
 

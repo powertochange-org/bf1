@@ -259,6 +259,7 @@
                             {
                                 this.editorDoc.execCommand('unlink', false, []);
                                 this.editorDoc.execCommand('createLink', false, szURL);
+                                //this.editorDoc.execCommand('insertHTML', false, '<a href="' + szURL + '">'+selection + '</a>');
                             }
                         }
                     }
@@ -419,12 +420,12 @@
                 .append(panel)
                 .append( $('<div><!-- --></div>').css({ clear : 'both' }) )
                 .append(editor)
-		;
+        ;
 
             $(element)
                 .hide()
                 .before(this.element)
-		;
+        ;
 
             this.viewHTML = false;
             this.initialHeight = newY - 8;
@@ -444,9 +445,9 @@
             var form = $(element).closest('form');
 
             if ( this.options.autoSave )
-	    {
+        {
                 form.submit(function() { self.saveContent(); });
-	    }
+        }
 
             form.bind('reset', function()
             {
@@ -464,9 +465,9 @@
              * @link http://code.google.com/p/jwysiwyg/issues/detail?id=14
              */
             if ( this.options.css && this.options.css.constructor == String )
-	    {
+        {
                 style = '<link rel="stylesheet" type="text/css" media="screen" href="' + this.options.css + '" />';
-	    }
+        }
 
             this.editorDoc = $(this.editor).document();
             this.editorDoc_designMode = false;
@@ -608,9 +609,9 @@
                 var content = this.getContent();
 
                 if ( this.options.rmUnwantedBr )
-		{
+        {
                     content = ( content.substr(-4) == '<br>' ) ? content.substr(0, content.length - 4) : content;
-		}
+        }
 
                 $(this.original).val(content);
             }

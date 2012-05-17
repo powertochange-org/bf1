@@ -43,7 +43,7 @@ try {
     $pag = isset($_GET['p'])        ? $_GET['p']        : '';
     $req = isset($_GET['request'])  ? $_GET['request']  : '';
 
-    $pagetype = '';
+    $transitionType = '';
 
     //transition to the next module
 	if($mod != '') {
@@ -52,7 +52,7 @@ try {
             $title = 'Module '.$mod.' '.$req;
             
             //page type
-            $pagetype = $req;
+            $transitionType = $req;
         } 
         else {
             //get module information
@@ -70,7 +70,7 @@ try {
                 $title = 'Module '.$module['Number'];
 
                 //page type
-                $pagetype = MODULE;
+                $transitionType = MODULE;
             } else {
               header('Location: /work');
             }
@@ -79,7 +79,7 @@ try {
     } 
     elseif($sec != '') {
         //get section, module, & first page information
-        $sql = "SELECT s.*, m.Number, m.Name AS ModuleName, m.Ord AS ModuleOrder, m.Banner, p.ID AS PageId, p.Ord AS PageOrder, p.Visibility
+        $sql = "SELECT s.*, m.Number, m.Name AS ModuleName, m.Ord AS ModuleOrder, m.Banner, p.ID AS PageId, p.Ord AS PageOrder, p.Visibility, p.Type
                 FROM section s 
                 INNER JOIN module m on s.ModuleId = m.Id 
                 INNER JOIN page p on s.ID = p.SectionId 
@@ -104,12 +104,13 @@ try {
         $page['ID']         = $result['PageId'];
         $page['Order']      = $result['PageOrder'];
         $page['Visibility'] = $result['Visibility'];
+        $page['Type']       = $result['Type'];
         
         //page title
         $title = 'Module '.$module['Number'];
         
         //page type
-        $pagetype = PAGE;
+        $transitionType = PAGE;
 
     //transition to the next page
     } 
@@ -139,25 +140,26 @@ try {
         $page['ID']         = $result['ID'];
         $page['Order']      = $result['Ord'];
         $page['Visibility'] = $result['Visibility'];
+        $page['Type']       = $result['Type'];
 
         //page title
         $title = 'Module '.$module['Number'];
 
         //page type
-        $pagetype = PAGE;
+        $transitionType = PAGE;
     } 
     else {
         //page title
         $title = 'Modules';
 
         //page type
-        $pagetype = 'directory';
+        $transitionType = 'directory';
     }
 
     //ensure user has proper access to loading page
     $auth = false;
 
-    if ($pagetype == PAGE && ($type > COACH && $type != OTHER)) {
+    if ($transitionType == PAGE && ($type > COACH && $type != OTHER)) {
       //fetch user progress to validate loading page
       $sql = "SELECT pr.Status, p.Ord AS Page, s.Ord AS Section, m.Ord AS Module
               FROM progress pr
@@ -233,7 +235,7 @@ try {
     echo $e->getMessage();
 }
 
-$content = $pagetype.'.php';
+$content = $transitionType.'.php';
 
 //header
 include('../header.php');

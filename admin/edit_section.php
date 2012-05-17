@@ -6,7 +6,6 @@
  */
 
 try {
-
     //get values
     $submit     = isset($_POST['submit'])   ? true                  : false;
     $new        = isset($_GET['sid'])       ? false                 : true;
@@ -28,7 +27,6 @@ try {
 
     //check for form submission
     if($submit){
-
         if($new){   //new section
             //prepare query
             $data['ModuleId'] = (int)$moduleId;
@@ -37,8 +35,8 @@ try {
 
             //execute query
             $sectionId = $db->insert("section", $data);
-
-        } else {    //edit section
+        } 
+        else {    //edit section
 
             //prepare query
             $data['ModuleId'] = (int)$moduleId;
@@ -51,7 +49,6 @@ try {
 
         //if ajax, return module attributes as xml
         if ($ajax) {
-
             header('Content-Type: application/xml; charset=ISO-8859-1');
             echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
             echo '<section>';
@@ -63,15 +60,12 @@ try {
             echo '</section>';
 
             exit();
-
-        } else {
-
+        } 
+        else {
             header ("Location: ?p=modules&id=".$moduleId);
-
         }
-
-    } else if (!$new){ //get data for existing section
-
+    } 
+    else if (!$new){ //get data for existing section
         //get section information
         $sql = "SELECT * FROM section WHERE ID = ".$sectionId;
 
@@ -93,31 +87,23 @@ try {
 ?>
 
 <div id="editsection">
-
     <form action="?p=modules&id=<?php echo $_GET['id']; ?>&request=edit_section" method="post">
-
         <fieldset id="information">
             <legend>Section Information</legend>
             <div>
                 <label>Title</label><input type="text" name="title" value="<?php echo $title; ?>" /><a class="required"></a>
             </div>
         </fieldset>
-
         <fieldset id="feedback">
             <div id="errors"><?php echo (isset($_POST['errors'])) ? $_POST['errors'] : ''; ?></div>
         </fieldset>
-
         <input type="hidden" name="moduleId" value="<?php echo $moduleId; ?>" />
         <input type="hidden" name="order" value="<?php echo $order; ?>" />
-
         <button type="submit" name="submit">Create Section</button>
-
     </form>
-
 </div>
 
 <script type="text/javascript">
-
     //hide submit button
     $(function() {
         $('form button:[name=submit]').hide();

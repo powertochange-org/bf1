@@ -6,7 +6,6 @@
  */
 
 try {
-
     //get values
     $submit     = isset($_POST['submit'])   ? true                  : false;
     $new        = isset($_GET['id'])        ? false                 : true;
@@ -35,9 +34,7 @@ try {
 
     //check for form submission
     if($submit) {    //form was submitted, process data
-
-        if($new){   //new module
-
+        if($new) {   //new module
             //prepare query
             $data['Number'] = (double)$number;
             $data['Name'] = $title;
@@ -50,9 +47,8 @@ try {
 
             //execute query
             $moduleId = $db->insert("module", $data);
-
-        } else {    //edit module
-
+        } 
+        else {    //edit module
             //prepare query
             $data['Number'] = (double)$number;
             $data['Name'] = $title;
@@ -69,7 +65,6 @@ try {
 
         //if ajax, return module attributes as xml
         if ($ajax) {
-
             header('Content-Type: application/xml; charset=ISO-8859-1');
             echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
             echo '<module>';
@@ -86,10 +81,12 @@ try {
             echo '</module>';
 
             exit();
-        } else {
+        } 
+        else {
             header ("Location: ?p=modules&id=".$moduleId);
         }
-    } else if (!$new) { //get data for existing module
+    } 
+    else if (!$new) { //get data for existing module
         //get module information
         $sql = "SELECT * FROM module WHERE ID = ".$moduleId;
 
@@ -114,11 +111,8 @@ try {
     exit();
 }
 ?>
-
 <div id="editmodule">
-
     <form action="?p=modules<?php echo !$new ? '&id='.$moduleId : ''; ?>&request=edit_module" method="post">
-
         <fieldset id="information">
             <legend>Module Information</legend>
             <div>
@@ -134,7 +128,6 @@ try {
                 <label>Description</label><textarea name="descr"><?php echo $descr; ?></textarea>
             </div>
         </fieldset>
-
         <fieldset id="images" >
             <legend>Images</legend>
             <!--div>
@@ -147,22 +140,16 @@ try {
                 <label>Home Page</label><input type="text" name="homepage" class="filename" value="<?php echo $homepage; ?>" /><button type="button" name ="homepageBrowse" id="homepageBrowse">Browse</button>
             </div>
         </fieldset>
-
         <fieldset id="feedback">
             <div id="upload"></div>
             <div id="errors"><?php echo $errors; ?></div>
         </fieldset>
-
         <input type="hidden" name="order" value="<?php echo $order; ?>" />
-
         <button type="submit" name="submit">Create Module</button>
-
     </form>
-
 </div>
 
 <script type="text/javascript">
-
     //hide submit button
     $(function() {
         $('form button:[name=submit]').hide();

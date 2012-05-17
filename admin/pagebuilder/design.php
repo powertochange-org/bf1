@@ -138,31 +138,19 @@ function insertElement($_id, $_type, $_content) {
 <script type="text/javascript" src="/jquery/jwplayer/jwplayer.js"></script>
 
 <div>
-
     <div id="toolbox">
-
         <div id="textbox" class="textbox tool" eId="0"><span>Text</span></div>
-
         <div id="media" class="media tool" eId="0"><span>Media</span></div>
-
         <div id="image" class="image tool" eId="0"><span>Image</span></div>
-
         <div id="input" class="input tool" eId="0"><span>Input</span></div>
-
         <div id="whitespace" class="whitespace tool" eId="0"><span>Whitespace</span></div>
-        
         <hr>
-
         <div id="trash" class="trash">
-
             <div id="trashbin"></div>
-            
         </div>
-
     </div>
 
     <div id="canvas">
-
         <div id="canvasmain">
             <?php
                 if(isset($main_elements)){
@@ -172,7 +160,6 @@ function insertElement($_id, $_type, $_content) {
                 }
             ?>
         </div>
-
         <div id="canvasright">
             <?php
                 if(isset($right_elements)){
@@ -182,7 +169,6 @@ function insertElement($_id, $_type, $_content) {
                 }
             ?>
         </div>
-
     </div>
 
     <form id="saveForm" action="../?p=modules&id=<?php echo $moduleId; ?>" method="POST">
@@ -191,7 +177,6 @@ function insertElement($_id, $_type, $_content) {
     </form>
 
     <div id="textbox_editor">
-        
     </div>
 
     <div id="image_editor">
@@ -319,11 +304,9 @@ function insertElement($_id, $_type, $_content) {
                 <div class="dragbar"><span class=" ui-icon ui-icon-grip-dotted-vertical"></span></div>
             </div>
             <div class="content">
-
             </div>
         </div>
     </div>
-
 </div>
 
 <!-- PASSED VALUES -->
@@ -333,6 +316,7 @@ function insertElement($_id, $_type, $_content) {
     var _section     = <?php echo $sectionId; ?>;
     var _order       = <?php echo $order; ?>;
     var _visibility  = <?php echo "'".$visibility."'"; ?>;
+    var _pageType    = <?php echo "'".$pageType."'"; ?>;
 </script>
 
 <!-- UI CONTROLS -->
@@ -1048,6 +1032,7 @@ function insertElement($_id, $_type, $_content) {
                         section:    _section,
                         order:      _order,
                         visibility: _visibility,
+                        pageType:   _pageType,
                         main:       xmlMain,
                         right:      xmlRight,
                         trash:      xmlTrash
