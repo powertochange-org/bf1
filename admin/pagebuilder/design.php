@@ -97,7 +97,6 @@ try {
     }
 
     $db->close();
-
 } catch (PDOException $e) {
     echo $e->getMessage();
     exit();
@@ -321,7 +320,6 @@ function insertElement($_id, $_type, $_content) {
 
 <!-- UI CONTROLS -->
 <script type="text/javascript">
-
     function openEditor(type) {
         var div = '#'+type+'_editor';
         $(div).dialog('open');
@@ -404,16 +402,17 @@ function insertElement($_id, $_type, $_content) {
                 "Ok": function() {
                     //assemble image tag
                     var question = $(this).find('textarea[name=question]').val();
-                    var personal = $(this).find('input:checkbox[name=personal]').attr('checked');
-                    var coach = $(this).find('input:checkbox[name=coach]').attr('checked');
                     var length = $(this).find('input:text[name=responseLength]').val();
+                    var personal = $(this).find('input:checkbox[name=personal]').attr('checked') ? 'checked="checked" disabled="disabled"' : '';
+                    var coach = $(this).find('input:checkbox[name=coach]').attr('checked') ? 'checked="checked" disabled="disabled"' : '';
 
                     var input = '<div class="input"><div class="question">'+question+'</div>';
                     input += '<div class="response"><textarea name="response" min="'+length+'"></textarea></div>';
-                    input += '<div class="flags"><div><input type="checkbox" name="personal" READONLY /><label>Flag For Personal Followup</label></div><div><input type="checkbox" name="coach" readonly /><label>Flag For Coach Followup</label></div></div>';
+                    input += '<div class="flags">';
+                    input += '<div><input type="checkbox" name="personal" '+personal+' /><label>Flag For Personal Followup</label></div>';
+                    input += '<div><input type="checkbox" name="coach" '+coach+' /><label>Flag For Coach Followup</label></div>';
+                    input += '</div>';
                     $('.editing').find('.content').html(input);
-                    $('.editing').find('input:checkbox[name=personal]').attr('checked', personal).attr('disabled', personal);
-                    $('.editing').find('input:checkbox[name=coach]').attr('checked', coach).attr('disabled', coach);
 
                     $(this).dialog("close");
                 },

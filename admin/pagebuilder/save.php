@@ -26,8 +26,7 @@ $trash = stripslashes($trash);
 require_once("../../config.inc.php"); 
 require_once("../../Database.singleton.php");
 
-function processElements($_xml, $_loc, $_db){
-
+function processElements($_xml, $_loc, $_db) {
     global $pageId;
 
     foreach ($_xml->element as $element) {
@@ -40,8 +39,7 @@ function processElements($_xml, $_loc, $_db){
         $insert = ($elementId == 0);
 
         //attach element to page
-        if($insert) {//insert
-
+        if($insert) {
             //prepare query
             $data = array();
             $data['PageId'] = (int)$pageId;
@@ -51,8 +49,8 @@ function processElements($_xml, $_loc, $_db){
 
             //execute query
             $elementId = $_db->insert("element", $data);
-        } else {//update
-    
+        }
+        else {
             //prepare query
             $data = array();
             $data['Ord'] = (int)$order;
@@ -63,14 +61,13 @@ function processElements($_xml, $_loc, $_db){
         }
 
         //create type-specific element
-        switch($elementType){
+        switch($elementType) {
             case 'textbox':
                 //get values
                 $text = $element->text;
 
                 //save to db
-                if($insert) {//insert
-
+                if($insert) {
                     //prepare query
                     $data = array();
                     $data['ID'] = (int)$elementId;
@@ -78,8 +75,8 @@ function processElements($_xml, $_loc, $_db){
 
                     //execute query
                     $textBoxId = $_db->insert("textbox", $data);
-                } else {//update
-
+                } 
+                else {
                     //prepare query
                     $data = array();
                     $data['Text'] = $text;
@@ -98,8 +95,7 @@ function processElements($_xml, $_loc, $_db){
                 $caption    = $element->caption;
 
                 //save to db
-                if($insert) {//insert
-    
+                if($insert) {
                     //prepare query
                     $data = array();
                     $data['ID'] = (int)$elementId;
@@ -110,8 +106,8 @@ function processElements($_xml, $_loc, $_db){
 
                     //execute query
                     $mediaId = $_db->insert("media", $data);
-                } else {//update
-    
+                } 
+                else {
                     //prepare query
                     $data = array();
                     $data['Caption'] = $caption;
@@ -133,9 +129,7 @@ function processElements($_xml, $_loc, $_db){
                 $caption    = $element->caption;
 
                 //save to db
-
-                if($insert) {//insert
-    
+                if($insert) {
                     //prepare query
                     $data = array();
                     $data['ID'] = (int)$elementId;
@@ -146,8 +140,8 @@ function processElements($_xml, $_loc, $_db){
 
                     //execute query
                     $imageId = $_db->insert("image", $data);
-                } else {//update
-    
+                } 
+                else {
                     //prepare query
                     $data = array();
                     $data['Caption'] = $caption;
@@ -164,12 +158,12 @@ function processElements($_xml, $_loc, $_db){
             case 'input':
                 //get values
                 $question   = $element->question;
-                $personal   = $element->personal == 'true' ? true : false;
-                $coach      = $element->coach == 'true'    ? true : false;
+                $personal   = $element->personal == CHECKED ? true : false;
+                $coach      = $element->coach == CHECKED    ? true : false;
                 $min        = $element->min;
+
                 //save to db
-                if($insert) {//insert
-    
+                if($insert) {
                     //prepare query
                     $data = array();
                     $data['ID'] = (int)$elementId;
@@ -180,8 +174,8 @@ function processElements($_xml, $_loc, $_db){
 
                     //execute query
                     $inputId = $_db->insert("input", $data);
-                } else {//update
-    
+                } 
+                else {
                     //prepare query
                     $data = array();
                     $data['Question'] = $question;
@@ -198,9 +192,9 @@ function processElements($_xml, $_loc, $_db){
             case 'whitespace':
                 //get values
                 $height     = $element->height;
+
                 //save to db
-                if($insert) {//insert
-    
+                if($insert) {
                     //prepare query
                     $data = array();
                     $data['ID'] = (int)$elementId;
@@ -208,8 +202,8 @@ function processElements($_xml, $_loc, $_db){
 
                     //execute query
                     $whitespaceId = $_db->insert("whitespace", $data);
-                } else {//update
-
+                } 
+                else {
                     //prepare query
                     $data = array();
                     $data['Height'] = (int)$height;
@@ -254,7 +248,6 @@ function emptyTrash($_xml, $_db) {
 }
 
 try {
-
     global $pageId, $section, $title, $visibility, $pageType, $order;
 
     //initialize the database object

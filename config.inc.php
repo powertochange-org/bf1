@@ -36,4 +36,5 @@ define("ASSESSMENT_PAGE", 1);
 define("ACTIVE", "Active");
 define("INACTIVE", "Inactive");
 define("WELCOME_PAGE", "welcome.php");
+define("CHECKED", "checked");
 ?>
