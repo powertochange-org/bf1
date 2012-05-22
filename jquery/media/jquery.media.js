@@ -479,9 +479,9 @@ function generate(el, opts, player) {
     // convert element to div
     var id = el.id ? (' id="'+el.id+'"') : '';
     var cls = opts.cls ? (' class="' + opts.cls + '"') : '';
-    //inserting data-href for reference
+    //inserting data-href, data-height, and data-width for reference
     //TODO: Add the data-* attributes dynamically via the dataset property
-    var dataset = opts.src ? (' data-href="' + opts.src + '"') : '';
+    var dataset = opts.src ? (' data-href="' + opts.src + '"' + ' data-width="' + opts.width + '"' + ' data-height="' + opts.height + '"') : '';
     var $div = $('<div' + id + cls + dataset +'>');
     $el.after($div).remove();
     (lameIE || player == 'iframe' || player == 'img') ? $div.append(o) : $div.html(a.join(''));

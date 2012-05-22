@@ -947,9 +947,9 @@ function insertElement($_id, $_type, $_content) {
                     break;
 
                 case 'media':
-                    var url = $(this).find('.content').find('.media').find('object').attr('data');
-                    var height = $(this).find('.content').find('.media').find('object').attr('height');
-                    var width = $(this).find('.content').find('.media').find('object').attr('width');
+                    var url = $(this).find('.content').find('.media').attr('data-href');
+                    var height = $(this).find('.content').find('.media').attr('data-height');
+                    var width = $(this).find('.content').find('.media').attr('data-width');
                     var caption = $(this).find('.content').find('.caption').html();
                     xmlMain += '<url>'+url+'</url><height>'+height+'</height><width>'+width+'</width><caption>'+caption+'</caption>';
                     break;
