@@ -67,7 +67,7 @@ try {
            $user['Coach_LName']  = '';
        }
     }
-    unset($user); // break the reference with the last element
+    unset($user); //break the reference with the last element
 
     //get coaches for selection
     $sql     =  "SELECT Email, FName, LName
@@ -304,9 +304,9 @@ try {
 
 <script type="text/javascript">
   $('#user_table').dataTable({
-    /*"sScrollX": "100%",
+    "sScrollX": "100%",
     "sScrollXInner": "110%",
-    "bScrollCollapse": true,*/
+    "bScrollCollapse": true,
     "sDom": 'T<"clear">lfrtip',
     "oTableTools": {
         "sSwfPath": "/jquery/datatables/extras/TableTools/media/swf/copy_cvs_xls_pdf.swf"
