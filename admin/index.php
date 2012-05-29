@@ -27,17 +27,22 @@ $title  = 'Administration';
 //header
 include('../header.php');
 
-//get page
-$page   = isset($_GET['p'])         ? $_GET['p']        : 'users';   //p
-$page   = isset($_GET['request'])   ? $_GET['request']  : $page;     //request
+//get page variables
+$page   = isset($_GET['p'])         ? $_GET['p']        : 'users';
+$page   = isset($_GET['request'])   ? $_GET['request']  : $page;
+$id     = isset($_GET['id'])        ? $_GET['id']       : false;
 
-
-switch($page) {//specific
-    case 'modules':
-        if(isset($_GET['id'])){
-            $page = 'module';
-        }
-        break;
+switch($page) {
+    case MODULES:
+      if($id) {
+        $page = MODULE;
+      }
+      break;
+    case REPORTS:
+      if($id) {
+        $page = $id;
+      }
+      break;
 }
 
 $page  .= '.php';
@@ -64,11 +69,10 @@ $page  .= '.php';
         <div id="pagetitle">
             Administration
         </div>
-
         <div id="leftmenu">
           <ul>
             <?php
-              if ($type == SUPER ) {
+              if ($type == SUPER) {
                 echo ($page == 'modules') ? '<li><a href="?p=modules" class="active">Modules</a></li>' : '<li><a href="?p=modules" class="">Modules</a></li>';
               }
             ?>
@@ -79,12 +83,10 @@ $page  .= '.php';
             <!--li><a href="?p=settings" class="<?php  //echo $_GET['p'] == 'settings'   ? 'active' : ''; ?>">Settings</a></li-->
           </ul>
         </div>
-
         <div id="contentpane">
             <?php
                 include($page);
             ?>
-
             <div id="confirm">
                 <div id="message"></div>
             </div>
@@ -93,7 +95,6 @@ $page  .= '.php';
 </div>
 
 <script type="text/javascript">
-
     function load(page) {
         $.ajax({
            type: "POST",
@@ -148,22 +149,22 @@ $page  .= '.php';
         });
     }
 
-     $('.remove').click(function() {
-        //get values
-        var type = $(this).parent().parent().attr('class');
-        var id   = $(this).parent().parent().attr('id');
+    $('.remove').click(function() {
+       //get values
+       var type = $(this).parent().parent().attr('class');
+       var id   = $(this).parent().parent().attr('id');
 
-        //prepare dialog
-        $('#confirm').dialog( 'option', 'title', 'Remove '+type+'?');
-        $('#confirm #message').html('<div>Remove '+type+'?</div><div>This cannot be undone.</div>');
-        $('#confirm').dialog( "option" , 'buttons' , {
-            'Ok': function(){ remove(type, id); $(this).dialog('close'); },
-            'Cancel': function(){ $(this).dialog('close');}
-        });
+       //prepare dialog
+       $('#confirm').dialog( 'option', 'title', 'Remove '+type+'?');
+       $('#confirm #message').html('<div>Remove '+type+'?</div><div>This cannot be undone.</div>');
+       $('#confirm').dialog( "option" , 'buttons' , {
+         'Ok': function(){ remove(type, id); $(this).dialog('close'); },
+         'Cancel': function(){ $(this).dialog('close');}
+       });
 
-        //show dialog
-        $('#confirm').dialog('open');
-    });
+       //show dialog
+       $('#confirm').dialog('open');
+     });
 
     $('#confirm').dialog({
         autoOpen: false,
@@ -183,7 +184,6 @@ $page  .= '.php';
             $(this).removeClass("ui-state-hover");
         }
     );
-
 </script>
 
 <?php

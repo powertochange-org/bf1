@@ -8,8 +8,7 @@
 //get modules from db
 $modules = array();
 
-try {
-    
+try {    
     global $modules;
     
     //initialize the database object
@@ -22,8 +21,8 @@ try {
     $modules = $db->fetch_array($sql);
 
     $db->close();
-    
-} catch (PDOException $e){
+}
+catch (PDOException $e){
     echo $e->getMessage();
 }
 
@@ -31,16 +30,13 @@ try {
 
 <div id="modules">
     <div id="list">
-
         <form id="createNew" action="?p=modules&request=edit_module" method="post">
             <input type="hidden" class="ui-corner-left" name="order" value="<?php echo count($modules); ?>" />
             <button type="submit" class="ui-corner-right corners-all shadow-light button" value="submit"><span class="ui-icon ui-icon-plus"></span>Add Module</button>
         </form>
-
         <?php
-
-            if(count($modules) > 0){
-                foreach ($modules as $row){
+            if(count($modules) > 0) {
+                foreach ($modules as $row) {
                     echo '  <div class="module" id="'.$row['ID'].'">
                                 <div class="title corners-left">
                                     <div class="number">'.$row['Number'].'</div>
@@ -57,7 +53,6 @@ try {
 </div>
 
 <script type="text/javascript">
-
     $('#list').sortable({
         handle: '.drag',
         placeholder: 'ui-state-highlight',

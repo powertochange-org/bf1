@@ -12,7 +12,6 @@ $moduleId = $_GET['id'];
 $module = array();
 
 try {
-
     global $module;
 
     //initialize the database object
@@ -33,7 +32,7 @@ try {
     //construct section array
     $sections = array();
 
-    foreach($db_sections as $db_section){
+    foreach($db_sections as $db_section) {
         $section = array();
         $sectionId = $db_section['ID'];
         $section['info'] = $db_section;
@@ -53,43 +52,31 @@ try {
     $module['sections'] = $sections;
 
     $db->close();
-
-} catch (PDOException $e){
+} 
+catch (PDOException $e) {
     echo $e->getMessage();
 }
-
-
 ?>
-
 <div id="module">
-
     <div id="information">
-
         <form id="editModule" action="?p=modules&id=<?php echo $moduleId; ?>&request=edit_module" method="post">
             <input type="hidden" name="order" value="<?php echo $module['info']['Ord']; ?>"/>
             <button type="submit" value="submit" class="corners-all shadow-light button"><span class="ui-icon ui-icon-pencil"></span>Edit</button>
         </form>
-
         <div id="title">
             <div id="number"><?php echo $module['info']['Number']; ?></div>
             <div id="name"><?php echo $module['info']['Name']; ?><div id="bar"></div></div>
         </div>
-
         <div id="description">
             <?php echo $module['info']['Descr']; ?>
         </div>
-
     </div>
-
     <div id="sections">
-
         <form id="addSection" action="?p=modules&id=<?php echo $moduleId; ?>&request=edit_section" method="post">
             <input type="hidden" name="order" value="<?php echo count($module['sections']); ?>"/>
             <button type="submit" value="submit" class="corners-all shadow-light button"><span class="ui-icon ui-icon-plus"></span>Add Section</button>
         </form>
-
         <?php
-
             //sections & pages
             foreach($module['sections'] as $section) {
                 echo '<div class = "section" id = "'.$section['info']['ID'].'">';
@@ -141,19 +128,15 @@ try {
                           </form>';
 
                     echo '</div>';
-
                     echo '</div>';
-
                 }
                 echo '</div></div>';
              }
-
         ?>
     </div>
 </div>
 
 <script type="text/javascript">
-
     $('#sections').sortable({
         items: '.section',
         handle: '.drag',
@@ -292,5 +275,4 @@ try {
         return false;
 
     });
-
 </script>

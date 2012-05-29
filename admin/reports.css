@@ -1,0 +1,42 @@
+/*
+    Document   : reports.css
+    Description: CSS specific to the reports pages
+*/
+
+/* Disciples Report */
+#disciples{ margin:10px; }
+.disciple{ margin:10px; }
+.disciple .ui-icon{ float:left; }
+.disciple .name{ font-size:16px; padding:5px 0px; border-bottom:1px solid #bbb; }
+.disciple .name span{ margin-left:-20px; margin-top:2px; }
+.disciple .name span.ui-icon{ cursor:pointer; }
+.disciple .modules{ display: none; padding:5px 0px; }
+.disciple .modules.active{ display: block; }
+.disciple .modules span.icon{ float:left; margin-left:-30px; width:16px; height:16px; margin-top:5px; }
+.module{ margin:10px; }
+.module .ui-icon{ float:left; }
+.module .name{ font-size:16px; padding:5px 0px; border-bottom:1px solid #bbb; }
+.module .name span{ margin-left:-20px; margin-top:2px; }
+.module .name span.ui-icon{ cursor:pointer; }
+.module .flags{ display: none; padding:5px 25px; }
+.module .flags.active{ display: block; }
+.module .flags span.icon{ float:left; margin-left:-30px; width:16px; height:16px; margin-top:5px; }
+.module .flag .question, .module .note a{ font-weight:bold; padding:5px 0px; margin-bottom:5px; border-bottom:1px solid #ddd; }
+.module .flag, .module .note{ margin:10px 15px; }
+.module .flag .question, .module .flag .response{ display:block; }
+.module .flag span.icon{ background:url('images/flag.png'); }
+
+/* Progress Report */
+.report-table{ margin:0; padding:4px; width:100%; font:11px Arial,Helvetica,sans-serif; color:#747474}
+.report-header{ margin:0; padding:14px 0 0 24px; width:100%; height:55px;color:#FFF;font-size:13px;background:#0c2c65 url(images/head-bcg.jpg) no-repeat right top;}
+/*.report-header{ margin:0; padding:14px 0 0 24px; width:100%; height:55px;color:#FFF;font-size:13px;background:#0c2c65 url(images/head-bcg.jpg) no-repeat right top;}*/
+.report-bold{ font:bold 22px Arial,Helvetica,sans-serif;}
+.report-top{ margin:0;padding:0; height:46px; border-top:2px solid #FFF; back	ground:#eff4ff url(images/top-light-blue.png) repeat-x left top;}
+/*.report-top{ margin:0;padding:0; height:46px; border-top:2px solid #FFF;}*/
+.report-top-cell{ float:left; padding:15px 0 0 0; text-align:center; width:105px; height:31px; border-right:1px solid #ced9ec; color:#1f3d71; font:13px Arial,Helvetica,sans-serif;}
+.report-middle{ margin:0;padding:0; background:#f6f6f6 url(images/center-bcg.png) repeat-y right top;}
+.report-left{ float:left;margin:0; padding:10px 0 0 24px; width:129px; text-align:left; height:25px; border-right:1px solid #ced9ec; border-bottom:1px solid #b3c1db;color:#1f3d71;font:13px Arial,Helvetica,sans-serif;background:#e4ebf8 url(images/center-blue.png) repeat-y left top;}
+.report-right{ float:left;margin:0; padding:11px 0 0 0; width:105px; text-align:center;height:24px; border-right:1px solid #ced9ec; border-bottom:1px solid #b3c1db;}
+.report-bottom{ clear:both;margin:0; padding:0; height:48px; border-top:2px solid #FFF; background:#e4e3e3 url(images/bottom-line.png) repeat-x left top;}
+.report-bottom-cell{ float:left; padding:15px 0 0 0; text-align:center; width:105px; height:33px; border-right:1px solid #ced9ec;color:#070707; font:13px Arial,Helvetica,sans-serif;}
+.report-footer{ font-size:10px; color:#8a8a8a; margin:0; padding:8px 0 8px 12px; background:#f6f6f6 url(images/center-bcg.png) repeat-y right top;}

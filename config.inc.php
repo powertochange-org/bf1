@@ -37,4 +37,8 @@ define("ACTIVE", "Active");
 define("INACTIVE", "Inactive");
 define("WELCOME_PAGE", "welcome.php");
 define("CHECKED", "checked");
+define("MODULES", "modules");
+define("REPORTS", "reports");
+define("DISCIPLES_REPORT", "disciples_report");
+define("PROGRESS_REPORT", "progress_report");
 ?>

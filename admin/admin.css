@@ -16,15 +16,13 @@
 #contentpane .button { cursor: pointer; margin: 0px 2px; float: right; margin-top: -20px; border: none; }
 #contentpane .edit{ height: 16px; margin: 5px 5px; float: right; }
 
-/* MODULES & USERS */
-#modules #list, #users #list { width: 100%; border-top: 1px solid #ccc; margin: 10px 5px; padding: 10px; min-height: 200px; }
-#modules #list button { margin-bottom: 20px; }
-#modules #list .module, #users #list .user { margin: 7px 0px; width: 100%; background: #fff; overflow: auto; }
-#modules #list .module .title, #users #list .user .title { float: left; height: 50px; background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ddd), to(#ccc)); border-right: 1px dotted #ccc; }
-#modules #list .module .edit, #users #list .user .edit{ margin: 14px 5px; }
-
 /* MODULES */
 #modules {}
+#modules #list { width: 100%; border-top: 1px solid #ccc; margin: 10px 5px; padding: 10px; min-height: 200px; }
+#modules #list .button { margin-bottom: 20px; }
+#modules #list .module { margin: 7px 0px; width: 100%; background: #fff; overflow: auto; }
+#modules #list .module .title { float: left; height: 50px; background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ddd), to(#ccc)); border-right: 1px dotted #ccc; }
+#modules #list .module .edit { margin: 14px 5px; }
 #modules #list .module .title .number{ width: 40px; margin: 5px 2px; margin-left: 10px; padding: 2px; font-size: 24px; display: inline-block; }
 #modules #list .module .title .name{ width: 150px; margin: 5px; padding: 5px; font-size: 16px; display: inline-block; }
 #modules #list .module .descr{ float: left; width: 350px; height: 27px; margin: 10px; overflow: hidden; font-size: 10px; }
@@ -53,27 +51,29 @@
 #module #sections .section .pages .page form{ float: right; }
 #module #sections .section .pages .page form .edit{ border: none; cursor: pointer; margin: 5px 10px; margin-right: 105px; font-size: 10px; height: 20px; padding: 0px -5px; }
 
+/* EDIT MODULE / EDIT SECTION */
+#editmodule, #editsection { padding-top: 20px; }
+#editmodule fieldset, #editsection fieldset { border: none; border-top: 1px solid #ccc; }
+#editmodule fieldset legend, #editsection fieldset legend { font-size: 16px; padding: 0px 10px; }
+#editmodule fieldset div, #editsection fieldset div { overflow: auto; width: 100%; height: auto; margin: 10px 0px; }
+#editmodule fieldset label, #editsection fieldset label { font-size: 14px; float: left; width: 150px; height: 100%; vertical-align: middle; }
+#editmodule fieldset .required, #editsection fieldset .required { width: 24px; height: 24px; margin: 5px 5px; background-image: url('images/001_30.png'); display: none; }
+#editmodule #information input, #editmodule #information textarea, #editsection #information input { font-size: 14px; padding: 5px; width: 400px; float: left; border: 1px solid #ccc; }
+#editmodule #images input { font-size: 14px; padding: 5px; width: 275px; float: left; border: 1px solid #ccc; margin-right: 20px; }
+#editmodule #upload{ position: absolute; width: 400px; overflow: hidden; opacity: 0.8; padding-right: 50px; }
+#editmodule #images object{ float: left; }
+
+/* REPORTS */
+#reports #list { width: 100%; border-top: 1px solid #ccc; margin: 10px 5px; padding: 10px; min-height: 200px; }
+#reports #list .report { margin: 7px 0px; width: 100%; background: #fff; overflow: auto; }
+/*#reports #list .report .button { margin-bottom: 20px; }*/
+#reports #list .report .run { margin: 14px 5px; }
+#reports #list .report .title { float: left; height: 50px; background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ddd), to(#ccc)); border-right: 1px dotted #ccc; }
+#reports #list .report .title .name { width: 150px; margin: 5px; padding: 5px; font-size: 16px; display: inline-block; }
+#reports #list .report .title .reporticon { float:left; background-image: url('images/report.png'); height: 32px; width: 32px; margin: 9px 5px; }
+#reports #list .report .descr { float: left; width: 350px; height: 27px; margin: 10px; overflow: hidden; font-size: 10px; }
+
 /* USERS */
-#users #list {}
-#users #list #search{ float: left; margin-top: 10px; margin-bottom: 20px; width: 285px; }
-#users #list #search input{ float: left; padding: 5px; height: 20px; width: 240px; font-size: 14px; border: 1px solid #ccc; }
-#users #list #search button{ float: left; margin: 0px; background-image: url('images/search.png'); background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ddd), to(#ccc)); border: 1px solid #ccc; padding: 0px; }
-#users #list #search button div{ height: 30px; width: 30px; background-image: url('images/search.png'); }
-#users #list #legend{ position: absolute; margin-top: 10px; margin-left: 300px; }
-#users #list #legend div{ display: inline-block; margin: 10px 5px; font-size: 10px; }
-#users #list #legend a{ float: left; padding: 0px; margin: 3px 2px; width: 7px; height: 7px; border: 1px solid #000; }
-#users #list #legend #ga a{ background-color: #000; }
-#users #list #legend #ra a{ background-color: #111; }
-#users #list #legend #ic a{ background-color: #222; }
-#users #list #legend #st a{ background-color: #333; }
-#users #list #legend #in a{ background-color: #444; }
-#users #list #legend #ot a{ background-color: #555; }
-#users #list .title .usericon{ float:left; background-image: url('images/user.png'); height: 32px; width: 32px; margin: 9px 5px; }
-#users #list .title .name, #users #list .title .location{ width: 150px; overflow: hidden; }
-#users #list .title .name{ height: 20px; margin-top: 5px; margin-bottom: 2px; font-size: 16px; }
-#users #list .title .location{ height: 15px; margin-bottom: 8px; font-size: 12px; }
-#users #list .email{ float: left; height: 20px; padding: 5px 10px; margin: 10px; font-size: 14px; }
-#users #list .user .edit{ margin-right: 20px; }
 
 /* ADD USER */
 #formAddNewRow{ padding-top: 20px; }
@@ -92,30 +92,3 @@
 #formEditUser fieldset label { font-size: 14px; float: left; width: 150px; height: 100%; vertical-align: middle; }
 /*#formEditUser fieldset .required { width: 24px; height: 24px; margin: 5px 5px; background-image: url('images/001_30.png'); display: none; }*/
 #formEditUser button { cursor: pointer; margin: 0px 2px; float: right; margin: 2px; border: none; font-size: 12px; }
-
-/* EDIT MODULE / EDIT SECTION */
-#editmodule, #editsection { padding-top: 20px; }
-#editmodule fieldset, #editsection fieldset { border: none; border-top: 1px solid #ccc; }
-#editmodule fieldset legend, #editsection fieldset legend { font-size: 16px; padding: 0px 10px; }
-#editmodule fieldset div, #editsection fieldset div { overflow: auto; width: 100%; height: auto; margin: 10px 0px; }
-#editmodule fieldset label, #editsection fieldset label { font-size: 14px; float: left; width: 150px; height: 100%; vertical-align: middle; }
-#editmodule fieldset .required, #editsection fieldset .required { width: 24px; height: 24px; margin: 5px 5px; background-image: url('images/001_30.png'); display: none; }
-#editmodule #information input, #editmodule #information textarea, #editsection #information input { font-size: 14px; padding: 5px; width: 400px; float: left; border: 1px solid #ccc; }
-#editmodule #images input { font-size: 14px; padding: 5px; width: 275px; float: left; border: 1px solid #ccc; margin-right: 20px; }
-#editmodule #upload{ position: absolute; width: 400px; overflow: hidden; opacity: 0.8; padding-right: 50px; }
-#editmodule #images object{ float: left; }
-
-/* REPORTS */
-.report-table{ margin:0; padding:4px; width:100%; font:11px Arial,Helvetica,sans-serif; color:#747474}
-.report-header{ margin:0; padding:14px 0 0 24px; width:100%; height:55px;color:#FFF;font-size:13px;background:#0c2c65 url(images/head-bcg.jpg) no-repeat right top;}
-/*.report-header{ margin:0; padding:14px 0 0 24px; width:100%; height:55px;color:#FFF;font-size:13px;background:#0c2c65 url(images/head-bcg.jpg) no-repeat right top;}*/
-.report-bold{ font:bold 22px Arial,Helvetica,sans-serif;}
-.report-top{ margin:0;padding:0; height:46px; border-top:2px solid #FFF; back	ground:#eff4ff url(images/top-light-blue.png) repeat-x left top;}
-/*.report-top{ margin:0;padding:0; height:46px; border-top:2px solid #FFF;}*/
-.report-top-cell{ float:left; padding:15px 0 0 0; text-align:center; width:105px; height:31px; border-right:1px solid #ced9ec; color:#1f3d71; font:13px Arial,Helvetica,sans-serif;}
-.report-middle{ margin:0;padding:0; background:#f6f6f6 url(images/center-bcg.png) repeat-y right top;}
-.report-left{ float:left;margin:0; padding:10px 0 0 24px; width:129px; text-align:left; height:25px; border-right:1px solid #ced9ec; border-bottom:1px solid #b3c1db;color:#1f3d71;font:13px Arial,Helvetica,sans-serif;background:#e4ebf8 url(images/center-blue.png) repeat-y left top;}
-.report-right{ float:left;margin:0; padding:11px 0 0 0; width:105px; text-align:center;height:24px; border-right:1px solid #ced9ec; border-bottom:1px solid #b3c1db;}
-.report-bottom{ clear:both;margin:0; padding:0; height:48px; border-top:2px solid #FFF; background:#e4e3e3 url(images/bottom-line.png) repeat-x left top;}
-.report-bottom-cell{ float:left; padding:15px 0 0 0; text-align:center; width:105px; height:33px; border-right:1px solid #ced9ec;color:#070707; font:13px Arial,Helvetica,sans-serif;}
-.report-footer{ font-size:10px; color:#8a8a8a; margin:0; padding:8px 0 8px 12px; background:#f6f6f6 url(images/center-bcg.png) repeat-y right top;}
