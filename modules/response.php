@@ -21,31 +21,33 @@ $errors     = isset($_POST['errors'])   ? $_POST['errors']                : '';
 require_once("../config.inc.php"); 
 require_once("../Database.singleton.php");
 
+$response = stripslashes($response);
+
 //initialize the database object
 $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
 $db->connect();
 
 //save response
 if($submit) {
-    if($new){//new response
+    if($new) {
+      //prepare query
+      $data['Email'] = $email;
+      $data['InputId'] = (int)$id;
+      $data['Response'] = $response;
+      $data['Personal'] = $personal;
+      $data['Coach'] = $coach;
+      
+      //execute query
+      $db->insert("response", $data);
+    } 
+    else {
+      //prepare query
+      $data['Response'] = $response;
+      $data['Personal'] = (int)$personal;
+      $data['Coach'] = (int)$coach;
 
-        //prepare query
-        $data['Email'] = $email;
-        $data['InputId'] = (int)$id;
-        $data['Response'] = $response;
-        $data['Personal'] = $personal;
-        $data['Coach'] = $coach;
-        
-        //execute query
-        $db->insert("response", $data);
-    } else {//edit response
-        //prepare query
-        $data['Response'] = $response;
-        $data['Personal'] = (int)$personal;
-        $data['Coach'] = (int)$coach;
-
-        //execute query
-        $db->update("response", $data, "Email = '".$db->escape($email)."' AND InputId = " .(int)$id);
+      //execute query
+      $db->update("response", $data, "Email = '".$db->escape($email)."' AND InputId = " .(int)$id);
     }
     $db->close();
     echo 'Response Saved';
@@ -58,15 +60,16 @@ $sql = "SELECT * FROM response WHERE Email = '".$db->escape($email)."' AND Input
 $_response = $db->query_first($sql);
 
 if(count($_response) > 1) {
-    $new        = false;
-    $response   = $_response['Response'];
-    $personal   = $_response['Personal'];
-    $coach      = $_response['Coach'];
-} else {
-    $new        = true;
-    $response   = '';
-    $personal   = 0;
-    $coach      = 0;
+  $new        = false;
+  $response   = $_response['Response'];
+  $personal   = $_response['Personal'];
+  $coach      = $_response['Coach'];
+} 
+else {
+  $new        = true;
+  $response   = '';
+  $personal   = 0;
+  $coach      = 0;
 }
 
 //return response values

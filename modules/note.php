@@ -80,21 +80,22 @@ $sql = "SELECT * FROM note WHERE Email = '".$db->escape($email)."' AND ElementId
 //execute query
 $_note = $db->query_first($sql);
 
-if(count($_note) > 1){
-    $new    = false;
-    $note   = $_note['Note'];
-    $x      = $_note['_x'];
-    $y      = $_note['_y'];
-    $w      = $_note['_w'];
-    $h      = $_note['_h'];
+if(count($_note) > 1) {
+  $new    = false;
+  $note   = $_note['Note'];
+  $x      = $_note['_x'];
+  $y      = $_note['_y'];
+  $w      = $_note['_w'];
+  $h      = $_note['_h'];
 
-} else {
-    $new    = true;
-    $body   = '';
-    $x      = 0;
-    $y      = 0;
-    $w      = 130;
-    $h      = 130;
+} 
+else {
+  $new    = true;
+  $body   = '';
+  $x      = 0;
+  $y      = 0;
+  $w      = 130;
+  $h      = 130;
 }
 $db->close();
 ?>
