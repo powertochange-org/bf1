@@ -53,7 +53,6 @@ try {
             INNER JOIN section  s    ON p.SectionId  = s.ID
             INNER JOIN module   m    ON s.ModuleId   = m.ID
             WHERE r.Email = '".$db->escape($email)."'
-            AND r.Personal = 1
             ORDER BY m.Ord, s.Ord, p.Ord";
 
     $flags = $db->fetch_array($sql);
@@ -119,53 +118,54 @@ $bar_wid = floor((1 / (count($_modules)+1))*95);
 
 $i = 0;
 foreach($_modules as $module) {
-     $bar_class= '';
+  $bar_class= '';
 
-    if($i == 0) {
-        $bar_class = 'corners-left';
-    } elseif($i == (count($modules)-1)){
-        $bar_class = 'corners-right';
-    }
+ if ($i == 0) {
+     $bar_class = 'corners-left';
+ } 
+ elseif ($i == (count($modules)-1)) {
+     $bar_class = 'corners-right';
+ }
 
-    $i++;
-    $str_bar .= '<div class="bar '.$module['status'].' '.$bar_class.'" id="'.$module['ID'].'" style="width:'.$bar_wid.'%;"></div>'.PHP_EOL;
-    if($module['status'] == 'started') {
-        $str_sta = '<div class="name">Module '.$module['Number'].'<br />'.$module['Name'].'</div>
-                    <a href="/modules/?p='.$module['page'].'" class="corners-all ui-state-default">Continue<span class="ui-icon ui-icon-triangle-1-e"></span></a>';
-    }
+ $i++;
+ $str_bar .= '<div class="bar '.$module['status'].' '.$bar_class.'" id="'.$module['ID'].'" style="width:'.$bar_wid.'%;"></div>'.PHP_EOL;
+ if($module['status'] == STARTED) {
+     $str_sta = '<div class="name">Module '.$module['Number'].'<br />'.$module['Name'].'</div>
+                 <a href="/modules/?p='.$module['page'].'" class="corners-all ui-state-default">Continue<span class="ui-icon ui-icon-triangle-1-e"></span></a>';
+ }
 
-    if($module['status'] != 'incomplete') {
-        $str_mod .= '<div class="module" id="'.$module['ID'].'">
-                    <div class="name">
-                        <span class="ui-icon ui-icon-triangle-1-'.($module['Ord'] == $cur_mod ? 's' : 'e').'"></span>
-                        Module '.$module['Number'].' - '.$module['Name'].'
-                    </div>
-                    <span class="check"></span>
-                    <div class="flagsnotes '.($module['Ord'] == $cur_mod ? 'active' : '').'">'.PHP_EOL;
-        if($flags) {
-          if($module['flags'] > 0) {
-            foreach($module['flags'] as $flag) {
-              $str_mod .= '<div class="flag" id="'.$flag['InputId'].'">
-                             <span class="icon"></span>
-                             <span class="question"><a href="/modules/?p='.$flag['PageId'].'">'.$flag['Section'].' - '.$flag['Page'].'</a>: <br />'.$flag['Question'].'</span>
-                             <span class="response">'.$flag['Response'].'</span>
-                           </div>'.PHP_EOL;
-            }
-          }
-        }
-        if($notes) {
-          if($module['notes'] > 0) {
-            foreach($module['notes'] as $note) {
-              $str_mod .= '<div class="note" id="'.$note['ElementId'].'">
-                             <span class="icon"></span>
-                             <a href="/modules/?p='.$note['PageId'].'">'.$note['Section'].' - '.$note['Page'].'</a>
-                             <span>'.$note['Note'].'</span>
-                           </div>'.PHP_EOL;
-            }
-          }
-        }
-        $str_mod .= '</div>'.PHP_EOL.'</div>'.PHP_EOL;
-    }
+ if($module['status'] != 'incomplete') {
+   $str_mod .= '<div class="module" id="'.$module['ID'].'">
+                  <div class="name">
+                    <span class="ui-icon ui-icon-triangle-1-'.($module['Ord'] == $cur_mod ? 's' : 'e').'"></span>
+                     Module '.$module['Number'].' - '.$module['Name'].'
+                  </div>
+                  <span class="check"></span>
+                  <div class="flagsnotes '.($module['Ord'] == $cur_mod ? 'active' : '').'">'.PHP_EOL;
+   if($flags) {
+     if($module['flags'] > 0) {
+       foreach($module['flags'] as $flag) {
+         $str_mod .= '<div class="flag" id="'.$flag['InputId'].'">
+                        <span class="icon"></span>
+                        <span class="question"><a href="/modules/?p='.$flag['PageId'].'">'.$flag['Section'].' - '.$flag['Page'].'</a>: <br />'.$flag['Question'].'</span>
+                        <span class="response">'.$flag['Response'].'</span>
+                      </div>'.PHP_EOL;
+       }
+     }
+   }
+   if($notes) {
+     if($module['notes'] > 0) {
+       foreach($module['notes'] as $note) {
+         $str_mod .= '<div class="note" id="'.$note['ElementId'].'">
+                        <span class="icon"></span>
+                        <a href="/modules/?p='.$note['PageId'].'">'.$note['Section'].' - '.$note['Page'].'</a>
+                        <span>'.$note['Note'].'</span>
+                      </div>'.PHP_EOL;
+       }
+     }
+   }
+   $str_mod .= '</div>'.PHP_EOL.'</div>'.PHP_EOL;
+ }
 }
 ?>
 
@@ -181,7 +181,7 @@ foreach($_modules as $module) {
                     <?php echo $str_bar; ?>
                     <span id="eta">Eta: <?php echo date('m/Y'); ?></span>
                 </div>
-                <div id="status" style="left:<?php echo $bar_wid*($cur_mod-1); ?>%;" class="corners-all"><div class="point"></div><?php echo $str_sta; ?></div>
+                <div id="status" style="left:<?php echo $bar_wid*($cur_mod); ?>%;" class="corners-all"><div class="point"></div><?php echo $str_sta; ?></div>
             </div>
             <div id="modules"><?php echo $str_mod; ?></div>
         </div>
@@ -190,33 +190,33 @@ foreach($_modules as $module) {
 
 <script type="text/javascript">
     $('.module .ui-icon-triangle-1-e').toggle(
-        function(){
-            expand($(this));
-        },
+      function(){
+        expand($(this));
+      },
 
-        function(){
-            colapse($(this));
-        }
+      function(){
+        colapse($(this));
+      }
     );
 
     $('.module .ui-icon-triangle-1-s').toggle(
-        function(){
-            colapse($(this));
-        },
+      function(){
+        colapse($(this));
+      },
 
-        function(){
-            expand($(this));
-        }
+      function(){
+        expand($(this));
+      }
     );
 
-    function colapse(object){
-        object.addClass('ui-icon-triangle-1-e').removeClass('ui-icon-triangle-1-s');
-        object.parent().siblings('.flagsnotes').slideUp('fast');
+    function colapse(object) {
+      object.addClass('ui-icon-triangle-1-e').removeClass('ui-icon-triangle-1-s');
+      object.parent().siblings('.flagsnotes').slideUp('fast');
     }
 
-    function expand(object){
-        object.addClass('ui-icon-triangle-1-s').removeClass('ui-icon-triangle-1-e');
-        object.parent().siblings('.flagsnotes').slideDown('fast');
+    function expand(object) {
+      object.addClass('ui-icon-triangle-1-s').removeClass('ui-icon-triangle-1-e');
+      object.parent().siblings('.flagsnotes').slideDown('fast');
     }
 </script>
 
