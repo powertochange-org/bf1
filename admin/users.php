@@ -303,7 +303,12 @@ try {
 </div>
 
 <script type="text/javascript">
-  $('#user_table').dataTable({
+  $(document).ready(function() {
+    $.extend( $.fn.dataTable.defaults, {
+        "placeholder": 'None'
+    });
+
+    $('#user_table').dataTable({
     "sScrollX": "100%",
     "sScrollXInner": "110%",
     "bScrollCollapse": true,
@@ -369,6 +374,7 @@ try {
       }
   });;
 
-  $("#formAddNewRow").validate();
-  $("#formEditUser").validate();
+    $("#formAddNewRow").validate();
+    $("#formEditUser").validate();
+  });
 </script>

@@ -72,7 +72,8 @@
             onblur     : 'cancel',
             loadtype   : 'GET',
             loadtext   : 'Loading...',
-            placeholder: 'Click to edit',
+            //placeholder: 'Click to edit',
+            placeholder: 'None',
             loaddata   : {},
             submitdata : {},
             ajaxoptions: {}
