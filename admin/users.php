@@ -163,7 +163,7 @@ try {
       <div>
           <label>Coach</label>
           <select name="coach" rel="9">
-            <option value="" 'selected'>Select A Coach</option>
+            <option value="" 'selected'>-- None --</option>
             <?php
                 if(count($coaches) > 0){
                     foreach ($coaches as $row){
@@ -228,28 +228,28 @@ try {
           <label>Region</label>
           <select name="region" rel="8" class="required">
             <option value="" 'selected' >Select A Region</option>
-        <?php
-            if(count($regions) > 0){
-                foreach ($regions as $row){
-                    echo '<option value="'.$row['ID'].'" >';
-                    echo $row['Name'].'</option>';
+            <?php
+                if(count($regions) > 0){
+                    foreach ($regions as $row){
+                        echo '<option value="'.$row['ID'].'" >';
+                        echo $row['Name'].'</option>';
+                    }
                 }
-            }
-        ?>
+            ?>
         </select>
       </div>
       <div>
           <label>Coach</label>
           <select name="coach" rel="9">
-            <option value="" 'selected'>Select A Coach</option>
-        <?php
-            if(count($coaches) > 0){
-                foreach ($coaches as $row){
-                    echo '<option value="'.$row['Email'].'" >';
-                    echo $row['FName'].' '.$row['LName'].'</option>';
+            <option value="" 'selected'>-- None --</option>
+            <?php
+                if(count($coaches) > 0){
+                    foreach ($coaches as $row){
+                        echo '<option value="'.$row['Email'].'" >';
+                        echo $row['FName'].' '.$row['LName'].'</option>';
+                    }
                 }
-            }
-        ?>
+            ?>
         </select>
       </div>
       <span class="datafield" style="display:none" rel="10"><a class="table-action-EditUser">Edit</a></span>

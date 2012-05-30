@@ -191,7 +191,7 @@ try {
           <div>
               <label>Coach</label>
               <select name="coach">
-                <option value="" 'selected'>Select A Coach</option>
+                <option value="" 'selected'>-- None --</option>
             <?php
                 if(count($coaches) > 0){
                     foreach ($coaches as $row){
