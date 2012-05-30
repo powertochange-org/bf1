@@ -48,11 +48,11 @@ try {
     //prepare query
     //execute query
 
-    if ($coach != '') {
-      //determine whether this student already has a coach
-      $sql     = "SELECT COUNT(*) from coach where Student = '".$db->escape($email)."'";
-      $result  = $db->query_first($sql);
-      if ($result['COUNT(*)'] > 0) {
+    //determine whether this student already has a coach
+    $sql     = "SELECT COUNT(*) from coach where Student = '".$db->escape($email)."'";
+    $result  = $db->query_first($sql);
+    if ($result['COUNT(*)'] > 0) {
+      if ($coach != '') {
         //update coach
         //prepare query
         $data = array();
@@ -62,6 +62,13 @@ try {
         $db->update("coach", $data, "Student = '".$db->escape($email)."'");
       }
       else {
+        //delete coach record(s)
+        $sql = "DELETE FROM coach WHERE Student = '".$db->escape($email)."'";
+        $db->query($sql);
+      }
+    }
+    else {
+      if ($coach != '') {
         //create coach
         //prepare query
         $data = array();
@@ -72,9 +79,9 @@ try {
 
         //execute query
         $db->insert("coach", $data);
-      }        
+      }
     }
- 
+
     $db->close();
 } 
 catch (PDOException $e) {
