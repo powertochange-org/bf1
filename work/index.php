@@ -53,6 +53,7 @@ try {
             INNER JOIN section  s    ON p.SectionId  = s.ID
             INNER JOIN module   m    ON s.ModuleId   = m.ID
             WHERE r.Email = '".$db->escape($email)."'
+            AND (r.Personal = 1 OR r.Coach = 1)
             ORDER BY m.Ord, s.Ord, p.Ord";
 
     $flags = $db->fetch_array($sql);
