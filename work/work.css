@@ -17,16 +17,16 @@
 }
 
 #contentpane{
-    padding: 10px 20px;
+    padding: 10px 10px;
 }
 
-#progress{ margin-bottom:30px; }
-#progress #bar{ width:700px; margin:0px auto; }
-#progress #bar .bar{ height:25px; display:inline-block; background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ddd), to(#666)); margin:0px -1px; }
+#progress{ width: 700px; margin-left: auto; margin-right: auto; margin-bottom:30px; }
+#progress #bar{}
+#progress #bar .bar{ height:25px; display:inline-block; background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ddd), to(#666)); margin:0px -1px;}
 #progress #bar .bar.started{ background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ddd), to(#55402C)); }
 #progress #bar .bar.complete{ background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ddd), to(#003300)); }
 #progress #eta{ display:inline-block; float:right; margin:5px; }
-#progress #status{ position:relative; height:42px; padding:5px; display:inline-block; background:#666; margin:10px; margin-left:-80px; }
+#progress #status{ position:relative; height:42px; padding:5px; display:inline-block; background:#666; margin:10px; margin-left:-90px; }
 #progress #status .point{ width:0; height:0; border-bottom:10px solid #666; border-top:0; border-left:7px solid transparent; border-right:7px solid transparent; position:relative; margin:-15px auto 5px auto; }
 #progress #status .name{ float:left; text-align:center; color:#fff; margin:3px 5px; font-size:14px; }
 #progress #status span, #progress #status a{ float:right; }

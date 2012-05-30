@@ -115,7 +115,7 @@ $beg_date   = date_create($progress[0]['Update']);
 $str_bar = '';
 $str_sta = '';
 $str_mod = '';
-$bar_wid = floor((1 / (count($_modules)+1))*95);
+$bar_wid = floor((1 / (count($_modules)))*99);
 
 $i = 0;
 foreach($_modules as $module) {
@@ -139,7 +139,7 @@ foreach($_modules as $module) {
    $str_mod .= '<div class="module" id="'.$module['ID'].'">
                   <div class="name">
                     <span class="ui-icon ui-icon-triangle-1-'.($module['Ord'] == $cur_mod ? 's' : 'e').'"></span>
-                     Module '.$module['Number'].' - '.$module['Name'].'
+                    Module '.$module['Number'].' - '.$module['Name'].'
                   </div>
                   <span class="check"></span>
                   <div class="flagsnotes '.($module['Ord'] == $cur_mod ? 'active' : '').'">'.PHP_EOL;
@@ -180,9 +180,9 @@ foreach($_modules as $module) {
             <div id="progress">
                 <div id="bar">
                     <?php echo $str_bar; ?>
-                    <span id="eta">Eta: <?php echo date('m/Y'); ?></span>
+                    <!--span id="eta">Eta: <?php //echo date('m/Y'); ?></span-->
                 </div>
-                <div id="status" style="left:<?php echo $bar_wid*($cur_mod); ?>%;" class="corners-all"><div class="point"></div><?php echo $str_sta; ?></div>
+                <div id="status" style="left:<?php echo $bar_wid*($cur_mod-1); ?>%;" class="corners-all"><div class="point"></div><?php echo $str_sta; ?></div>
             </div>
             <div id="modules"><?php echo $str_mod; ?></div>
         </div>
