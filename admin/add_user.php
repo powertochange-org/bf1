@@ -21,6 +21,8 @@ try {
     require_once("../Database.singleton.php");
 
     $password = stripslashes($password);
+    $firstName = stripslashes($firstName);
+    $lastName = stripslashes($lastName);
 
     //initialize the database object
     $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
