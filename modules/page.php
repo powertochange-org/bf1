@@ -86,7 +86,8 @@ try {
                 $coach      = $db_content['Coach']      == 1 ? 'checked disabled' : '';
                 $min        = $db_content['Min'];
                 $content    = '<div class="input"><div class="question">'.$question.'</div>';
-                $content   .= '<div class="response"><textarea name="response" min="'.$min.'"></textarea><div class="alert"></div></div>';
+                $content   .= '<div class="response"><textarea name="response" min="'.$min.'"></textarea></div>';
+                $content   .= '<div class="alert"></div>';
                 $content   .= '<div class="flags"><div><input type="checkbox" name="personal" '.$personal.' /><label>Flag For Personal Followup</label></div><div><input type="checkbox" name="coach" '.$coach.' /><label>Flag For Coach Followup</label></div></div>';
                 $content   .= '</div>';
                 break;
@@ -132,7 +133,6 @@ try {
 
 //function to insert element
 function insertElement($_id, $_type, $_content) {
-
     //fill template
     $element  = '<div id="'.$_type.$_id.'" class="'.$_type.' element" eId="'.$_id.'">'.PHP_EOL;
     $element .= ($_type != 'input') ? '<a class="note add" href="javascript:;" ></a>' : '';
@@ -141,7 +141,6 @@ function insertElement($_id, $_type, $_content) {
 
     //add to DOM
     echo $element;
-
 }
 ?>
 
@@ -436,10 +435,9 @@ function insertElement($_id, $_type, $_content) {
         var alert   = $('#input'+id).find('.alert');
         var remove  = type == 'error' ? 'success' : 'error';
         var color   = type == 'error' ? 'red' : 'green';
-        alert.animate({opacity:0},'fast', function(){
+        alert.animate({opacity:0},'fast', function() {
             $(this).html(message).addClass(type).removeClass(remove).animate({opacity:1},'fast');
-            //$(this).parent().css('background','red');
-            $(this).parent().animate({
+            $(this).prev().find('textarea').animate({
                outlineColor:color
             }, 100);
         });
