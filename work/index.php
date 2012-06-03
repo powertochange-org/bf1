@@ -129,7 +129,7 @@ foreach($_modules as $module) {
   }
 
   $i++;
-  $str_bar .= '<div class="bar '.$module['status'].' '.$bar_class.'" id="'.$module['ID'].'" style="width:'.$bar_wid.'%;"></div>'.PHP_EOL;
+  $str_bar .= '<div class="bar '.$module['status'].' '.$bar_class.'" id="'.$module['Ord'].'" style="width:'.$bar_wid.'%;"></div>'.PHP_EOL;
   if($module['status'] == STARTED) {
     $str_sta = '<div class="name">Module '.$module['Number'].'<br />'.$module['Name'].'</div>
                 <a href="/modules/?p='.$module['page'].'" class="corners-all ui-state-default">Continue<span class="ui-icon ui-icon-triangle-1-e"></span></a>';
