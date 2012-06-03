@@ -314,13 +314,30 @@ try {
     "bScrollCollapse": true,
     "sDom": 'T<"clear">lfrtip',
     "oTableTools": {
-        "sSwfPath": "/jquery/datatables/extras/TableTools/media/swf/copy_cvs_xls_pdf.swf"
+      "sSwfPath": "/jquery/datatables/extras/TableTools/media/swf/copy_cvs_xls_pdf.swf",
+      "aButtons": [
+        {
+          "sExtends": "pdf",
+          "mColumns": [ 0, 1, 2, 5, 8, 9 ]
+        },
+        {
+          "sExtends": "print"
+        },
+        {
+          "sExtends": "xls",
+          "mColumns": [ 0, 1, 2, 5, 8, 9 ]
+        },
+        {
+          "sExtends": "copy",
+          "mColumns": [ 0, 1, 2, 5, 8, 9 ]
+        }
+      ]
     },
     "aoColumnDefs": [
-        { "bSearchable": false, "bVisible": false, "aTargets": [ 3 ] },
-        { "bSearchable": false, "bVisible": false, "aTargets": [ 4 ] },
-        { "bSearchable": false, "bVisible": false, "aTargets": [ 6 ] },
-        { "bSearchable": false, "bVisible": false, "aTargets": [ 7 ] }
+      { "bSearchable": false, "bVisible": false, "aTargets": [ 3 ] },
+      { "bSearchable": false, "bVisible": false, "aTargets": [ 4 ] },
+      { "bSearchable": false, "bVisible": false, "aTargets": [ 6 ] },
+      { "bSearchable": false, "bVisible": false, "aTargets": [ 7 ] }
     ]
   }).makeEditable({
       aoTableActions: [
