@@ -46,7 +46,7 @@ try {
     $transitionType = '';
 
     //transition to the next module
-	if($mod != '') {
+    if($mod != '') {
         if($req != '') {
             //page title
             $title = 'Module '.$mod.' '.$req;
