@@ -5,9 +5,12 @@
  * Campus Crusade for Christ
  */
 
-//if (!isset ($_COOKIE['PHPSESSID'])) {
-    session_start();
-//}
+if (!isset($_SESSION)) {
+  ini_set('session.gc_maxlifetime', 3600);
+  ini_set('session.gc_probability', 1);
+  ini_set('session.gc_divisor', 100);
+  session_start();
+}
 
 //page title
 $title = 'Welcome';
