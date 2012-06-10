@@ -92,7 +92,7 @@ catch (PDOException $e) {
 ?>
 
 <link rel="stylesheet" type="text/css" media="screen" href="reports.css" />
-<div id="disciples">
+<div id="disciples-report">
   <div id="list">
       <?php echo $str_report; ?>
   </div>
@@ -103,7 +103,7 @@ catch (PDOException $e) {
     function() {
         expand($(this), 'modules');
     },
-    function(){
+    function() {
         colapse($(this), 'modules');
     }
   );

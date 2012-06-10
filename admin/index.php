@@ -7,6 +7,7 @@
 
 require_once("../config.inc.php"); 
 require_once("../Database.singleton.php");
+require_once("../function.inc.php");
 
 //check user authorization
 $auth = false;
