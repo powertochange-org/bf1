@@ -160,6 +160,7 @@ function insertElement($_id, $_type, $_content) {
     <div id="leftmenu">
         <ul>
         <?php
+          if(is_array($module['sections'])) {
             foreach($module['sections'] as $sec){
                 //add line for section
                 echo '<li class="section"><a href="?s='.$sec['ID'].'" ';
@@ -183,6 +184,7 @@ function insertElement($_id, $_type, $_content) {
                 }
                 echo '</li>';
             }
+          }
         ?>
         </ul>
     </div>
@@ -541,6 +543,11 @@ function insertElement($_id, $_type, $_content) {
           event.preventDefault();
           var url = $.url($(this).attr("href"));
           var answer = url.param('p');
+          var isSection = false;
+          if (answer == undefined) {
+            answer = url.param('s');
+            isSection = true;
+          }
           
           //check to see if the answer is correct and redirect
           $.ajax({
@@ -548,6 +555,7 @@ function insertElement($_id, $_type, $_content) {
             type: "POST",
             data: {assessment:true,
                    answer:answer,
+                   isSection:isSection,
                    pageId:     <?php echo "'".$page['ID']."'"; ?>,
                    sectionId:  <?php echo "'".$section['ID']."'"; ?>,
                    moduleId:   <?php echo "'".$module['ID']."'"; ?>,

@@ -11,6 +11,7 @@ $email      = isset($_SESSION['email'])     ? $_SESSION['email']        : '';
 $type       = isset($_SESSION['type'])      ? $_SESSION['type']         : '';
 $submit     = isset($_POST['submit'])       ? true                      : false;
 $assessment = isset($_POST['assessment'])   ? true                      : false;
+$isSection  = isset($_POST['isSection'])    ? true                      : false;
 $answer     = isset($_POST['answer'])       ? $_POST['answer']          : 0;
 $pageId     = isset($_POST['pageId'])       ? $_POST['pageId']          : 0;
 $sectionId  = isset($_POST['sectionId'])    ? $_POST['sectionId']       : 0;
@@ -31,6 +32,18 @@ $db->connect();
 
 //assessment pages
 if($assessment) {
+  //if this is a section, then fetch the first page
+  if ($isSection) {
+    $sql = "SELECT p.ID AS Page
+            FROM page p
+            WHERE p.Ord = 0 
+            AND p.SectionId = ".(int)$answer;
+
+    $page = $db->query_first($sql);
+    if($db->affected_rows > 0) {
+      $answer = $page['Page'];
+    }
+  }
   //verify that the answer page is incomplete
   $sql = "SELECT Status 
           FROM progress 
