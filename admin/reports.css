@@ -27,7 +27,7 @@
 .module .flag span.icon{ background:url('images/flag.png'); }
 
 /* Progress Report */
-#progress-report{ margin:10px; }
+#progress-report{ margin:12px; }
 .team{ margin:10px; }
 .team .ui-icon{ float:left; }
 .team .name{ font-size:16px; padding:5px 0px; border-bottom:1px solid #bbb; }
