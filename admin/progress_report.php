@@ -12,8 +12,11 @@ try {
 
   //modules
   $modules = array();
+  $_modules = array();
+
   //users
   $users = array();
+  $progress = array();
 
   //report array
   $_teams = array();
@@ -26,10 +29,19 @@ try {
 
   //get modules for the column names
   $modulesSQL = "SELECT ID, Number, Name, Ord
-                 FROM  module
-                 ORDER BY Ord;";
+                 FROM module
+                 ORDER BY Ord ASC;";
 
   $modules = $db->fetch_array($modulesSQL);
+
+  //iterate through the lists and build a multi-dimensional array
+  foreach ($modules as $module) {
+    $order                       = $module['Ord'];
+    $_modules[$order]['ID']      = $module['ID'];
+    $_modules[$order]['Number']  = $module['Number'];
+    $_modules[$order]['Name']    = $module['Name'];
+    $_modules[$order]['Ord']     = $order;
+  }
 
   //get users & regions
   $usersSQL = null;
@@ -38,7 +50,7 @@ try {
     $usersSQL = "SELECT u.Email, u.FName, u.LName, u.Region AS RegionID, r.Name AS Region
                  FROM user u
                  INNER JOIN region r ON u.Region = r.ID
-                 WHERE u.Type > ".COACH."
+                 WHERE u.Type = ".INTERN."
                  ORDER BY Region, u.LName, u.FName;";
   }
   else if ($type == REGIONAL_ADMIN) {
@@ -46,7 +58,7 @@ try {
                  FROM user u
                  INNER JOIN region r ON u.Region = r.ID
                  WHERE u.Region = ".$region."
-                 AND u.Type > ".COACH."
+                 AND u.Type = ".INTERN."
                  ORDER BY Region, u.LName, u.FName;";
   }
   else {
@@ -60,18 +72,19 @@ try {
   $users = $db->fetch_array($usersSQL);
 
   //get user's progress
-  $lastModule   = $modules[(count($modules)-1)]['ID'];
   if(count($users) > 0) {
     foreach ($users as &$user) {
-      $sql = "SELECT ID
+      $sql = "SELECT m.Ord AS Module
               FROM progress pr
-              WHERE Email = '".$db->escape($user['Email'])."'
-              AND Type = '".MODULE."'
-              AND Status = '".COMPLETE."'
-              ORDER BY ID ASC";
+              INNER JOIN module m ON pr.ID = m.ID
+              WHERE pr.Email = '".$db->escape($user['Email'])."'
+              AND pr.Type = '".MODULE."'
+              AND pr.Status = '".COMPLETE."'
+              ORDER BY m.Ord ASC";
+
       $progress = $db->fetch_array($sql);
       $user['Progress'] = $progress;
-      (in_array_r($lastModule, $user['Progress'])) ? $user['Finished'] = true : $user['Finished'] = false;
+      (in_array_r(count($modules), $user['Progress'])) ? $user['Finished'] = true : $user['Finished'] = false;
     }
   }
   //break the reference with the last element
@@ -92,7 +105,7 @@ try {
       $_teams[$regionID]['FinishedCount'] != null ? $_teams[$regionID]['FinishedCount']++ : $_teams[$regionID]['FinishedCount'] = 1;
     }
     if(count($user['Progress']) > 0) {
-      $_teams[$regionID]['CompletedModules'][] = $user['Progress'][(count($user['Progress'])-1)]['ID'];
+      $_teams[$regionID]['CompletedModules'][] = $user['Progress'][(count($user['Progress'])-1)]['Module'];
     }
   }
 
@@ -102,7 +115,7 @@ try {
       $str_report .= '<div class="team" id="'.$team['ID'].'">
                         <div class="name">
                            <span class="ui-icon ui-icon-triangle-1-e"></span>'.PHP_EOL;
-      $str_report .=       $team['Name'].' ('.(isset($team['FinishedCount']) ? ($team['FinishedCount']/count($team['Users'])*100) : 0).'% Complete | Avg. Module Completed: '.(isset($team['CompletedModules']) ? round((array_sum($team['CompletedModules'])/count($team['Users']))) : 'None').')'.PHP_EOL;
+      $str_report .=       $team['Name'].' (<font size="2">'.(isset($team['FinishedCount']) ? ($team['FinishedCount']/count($team['Users'])*100) : 0).'% Complete | Avg. Module Completed: '.(isset($team['CompletedModules']) ? $_modules[round((array_sum($team['CompletedModules'])/count($team['Users'])))]['Number'] : 'None').'</font>)'.PHP_EOL;
       $str_report .=   '</div>
                         <span class="check"></span>
                         <div class="progress">
@@ -124,10 +137,10 @@ try {
       $str_report .=      '<div class="progress-left">'.PHP_EOL;
       $str_report .=          ($user['FName'].' '.$user['LName']).PHP_EOL;
       $str_report .=      '</div>'.PHP_EOL;
-                          if(count($modules) > 0) {
-                            foreach ($modules as $module) {
+                          if(count($_modules) > 0) {
+                            foreach ($_modules as $module) {
       $str_report .=          '<div class="progress-right">'.PHP_EOL;
-                              if (in_array_r($module['ID'], $user['Progress'])) {
+                              if (in_array_r($module['Ord'], $user['Progress'])) {
       $str_report .=            'X'.PHP_EOL;
                               }
       $str_report .=          '</div>'.PHP_EOL;
