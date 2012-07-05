@@ -40,10 +40,12 @@
 .progress-header{ margin:0; width:100%; height:55px;color:#FFF;font-size:13px;background:#0c2c65 url(images/head-bcg.jpg) no-repeat right top;}
 .progress-bold{ font:bold 22px Arial,Helvetica,sans-serif;}
 .progress-top{ margin:0;padding:0; height:46px; border-top:2px solid #FFF; background:#eff4ff url(images/top-light-blue.png) repeat-x left top;}
-.progress-top-cell{ width:55px; text-align:center; float:left; padding:15px 0 0 0; height:31px; border-right:1px solid #ced9ec; color:#1f3d71; font-size:12px;}
+.progress-top-cell-left {width:215px; text-align:left; float:left; padding:15px 0 0 0; height:31px; border-right:1px solid #ced9ec; color:#1f3d71; font-size:12px;}
+.progress-top-cell{ width:45px; text-align:center; float:left; padding:15px 0 0 0; height:31px; border-right:1px solid #ced9ec; color:#1f3d71; font-size:12px;}
 .progress-middle{ margin:0;padding:0; background:#f6f6f6 url(images/center-bcg.png) repeat-y right top;}
-.progress-left{ float:left;margin:0; padding:10px 0 0 0px; width:115px; text-align:center; height:30px; border-right:1px solid #ced9ec; border-bottom:1px solid #b3c1db; color:#1f3d71; font-size:12px;}
-.progress-right{ float:left;margin:0; padding:11px 0 0 0; width:55px; text-align:center;height:29px; border-right:1px solid #ced9ec; border-bottom:1px solid #b3c1db; font-size:12px;}
+.progress-left{ float:left;margin:0; padding:10px 0 0 0px; width:215px; text-align:center; height:30px; border-right:1px solid #ced9ec; border-bottom:1px solid #b3c1db; color:#1f3d71; font-size:12px;}
+.progress-left .email {font-size:11px;}
+.progress-right{ float:left;margin:0; padding:11px 0 0 0; width:45px; text-align:center;height:29px; border-right:1px solid #ced9ec; border-bottom:1px solid #b3c1db; font-size:12px;}
 .progress-bottom{ clear:both;margin:0; padding:0; height:29px; border-top:2px solid #FFF; background:#e4e3e3 url(images/bottom-line.png) repeat-x left top;}
 .progress-bottom-cell{ float:left; padding:15px 0 0 0; text-align:center; width:55px; height:29px; border-right:1px solid #ced9ec;color:#070707; font-size:12px;}
 .progress-footer{ font-size:10px; color:#8a8a8a; margin:0; padding:8px 0 8px 12px; background:#f6f6f6 url(images/center-bcg.png) repeat-y right top;}

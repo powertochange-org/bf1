@@ -50,7 +50,7 @@ try {
     $usersSQL = "SELECT u.Email, u.FName, u.LName, u.Region AS RegionID, r.Name AS Region
                  FROM user u
                  INNER JOIN region r ON u.Region = r.ID
-                 WHERE u.Type = ".INTERN."
+                 WHERE (u.Type = ".INTERN." OR u.Type = ".PART_TIME_FIELD_STAFF.")
                  ORDER BY Region, u.LName, u.FName;";
   }
   else if ($type == REGIONAL_ADMIN) {
@@ -58,7 +58,7 @@ try {
                  FROM user u
                  INNER JOIN region r ON u.Region = r.ID
                  WHERE u.Region = ".$region."
-                 AND u.Type = ".INTERN."
+                 AND (u.Type = ".INTERN." OR u.Type = ".PART_TIME_FIELD_STAFF.")
                  ORDER BY Region, u.LName, u.FName;";
   }
   else {
@@ -121,7 +121,7 @@ try {
                         <div class="progress">
                           <div id="progress-report" class="progress-table">
                             <div class="progress-top">
-                              <div class="progress-top-cell" style="text-align:left; width:115px;">
+                              <div class="progress-top-cell-left">
                               </div>'.PHP_EOL;
                       if(count($modules) > 0) {
                         foreach ($modules as $module) {
@@ -136,6 +136,7 @@ try {
                         foreach ($team['Users'] as $user) {
       $str_report .=      '<div class="progress-left">'.PHP_EOL;
       $str_report .=          ($user['FName'].' '.$user['LName']).PHP_EOL;
+      $str_report .=          '<div class="email">'. '('.($user['Email']).')'.'</div>'.PHP_EOL;
       $str_report .=      '</div>'.PHP_EOL;
                           if(count($_modules) > 0) {
                             foreach ($_modules as $module) {
