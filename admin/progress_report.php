@@ -115,7 +115,10 @@ try {
       $str_report .= '<div class="team" id="'.$team['ID'].'">
                         <div class="name">
                            <span class="ui-icon ui-icon-triangle-1-e"></span>'.PHP_EOL;
-      $str_report .=       $team['Name'].' (<font size="2">'.(isset($team['FinishedCount']) ? ($team['FinishedCount']/count($team['Users'])*100) : 0).'% Complete | Avg. Module Completed: '.(isset($team['CompletedModules']) ? $_modules[round((array_sum($team['CompletedModules'])/count($team['Users'])))]['Number'] : 'None').'</font>)'.PHP_EOL;
+      $progress_statistics   =  (isset($team['FinishedCount']) ? ($team['FinishedCount']/count($team['Users'])*100) : 0).'% Complete ';
+      $progress_statistics  .=  '('.((isset($team['FinishedCount']) ? $team['FinishedCount'] : 0)).' out of '.count($team['Users']).') ';
+      $progress_statistics  .=   '| Avg. Module Completed: '.(isset($team['CompletedModules']) ? $_modules[round((array_sum($team['CompletedModules'])/count($team['Users'])))]['Number'] : 'None');
+      $str_report .=       $team['Name'].'  <font size="2">['.$progress_statistics.']</font>'.PHP_EOL;
       $str_report .=   '</div>
                         <span class="check"></span>
                         <div class="progress">
