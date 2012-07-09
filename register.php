@@ -161,49 +161,53 @@ try {
               <input type="password" name="confirmPassword" value="<?php echo $password; ?>" /><a class="required"></a>
           </div>
           <div>
-             <label>Type</label>
-             <select name="type">
-                 <option value="" 'selected'>Select User Type</option>
-                 <?php
-                   if(count($user_types) > 0){
-                     foreach ($user_types as $row){
-                       echo '<option value="'.$row['ID'].'" >';
-                       echo $row['Name'].'</option>';
-                     }
-                   }
-                 ?>
-             </select><a class="required"></a>
+            <label>Type</label>
+            <select name="type">
+              <option value="" 'selected'>Select User Type</option>
+              <?php
+                if(count($user_types) > 0){
+                  foreach ($user_types as $row){
+                    echo '<option value="'.$row['ID'].'" >';
+                    echo $row['Name'].'</option>';
+                  }
+                }
+              ?>
+            </select><a class="required"></a>
           </div>
           <div>
-              <label>Region</label>
-              <select name="region">
-                <option value="" 'selected'>Select A Region</option>
-            <?php
+            <label>Region</label>
+            <select name="region">
+              <option value="" 'selected'>Select A Region</option>
+              <?php
                 if(count($regions) > 0){
-                    foreach ($regions as $row){
-                        echo '<option value="'.$row['ID'].'" >';
-                        echo $row['Name'].'</option>';
-                    }
+                  foreach ($regions as $row){
+                    echo '<option value="'.$row['ID'].'" >';
+                    echo $row['Name'].'</option>';
+                  }
                 }
-            ?>
+              ?>
             </select><a class="required"></a>
+            <div id="help">
+              (For Cru Interns, select your sending region.
+              For all others, select "none".)
+            </div>
           </div>
           <!--div>
             <label>Location</label>
             <input type="text" name="location" value="<?php //echo $location; ?>" />
           </div-->
           <div>
-              <label>Coach</label>
-              <select name="coach">
-                <option value="" 'selected'>-- None --</option>
-            <?php
+            <label>Coach</label>
+            <select name="coach">
+              <option value="" 'selected'>-- None --</option>
+              <?php
                 if(count($coaches) > 0){
-                    foreach ($coaches as $row){
-                        echo '<option value="'.$row['Email'].'" >';
-                        echo $row['FName'].' '.$row['LName'].'</option>';
-                    }
+                  foreach ($coaches as $row){
+                    echo '<option value="'.$row['Email'].'" >';
+                    echo $row['FName'].' '.$row['LName'].'</option>';
+                  }
                 }
-            ?>
+              ?>
             </select>
           </div>
         </fieldset>
@@ -216,7 +220,6 @@ try {
 
         <button type="submit" name="submit" class="ui-state-default ui-corner-all">Save<span class="ui-icon ui-icon-circle-triangle-e"></span></button>
         <!--button type="submit" name="cancel" onclick="cancelFunc();return(false);" class="ui-state-default ui-corner-all">Cancel<span class="ui-icon ui-icon-circle-triangle-e"></span></button-->
-
     </form>
 </div>
 
