@@ -7,20 +7,20 @@
 
 //get values
 session_start();
-$email      = isset($_SESSION['email'])     ? $_SESSION['email']        : '';
-$type       = isset($_SESSION['type'])      ? $_SESSION['type']         : '';
-$submit     = isset($_POST['submit'])       ? true                      : false;
-$assessment = isset($_POST['assessment'])   ? true                      : false;
-$isSection  = isset($_POST['isSection'])    ? true                      : false;
-$answer     = isset($_POST['answer'])       ? $_POST['answer']          : 0;
-$pageId     = isset($_POST['pageId'])       ? $_POST['pageId']          : 0;
-$sectionId  = isset($_POST['sectionId'])    ? $_POST['sectionId']       : 0;
-$moduleId   = isset($_POST['moduleId'])     ? $_POST['moduleId']        : 0;
-$pageOrd    = isset($_POST['pageOrd'])      ? $_POST['pageOrd']         : 0;
-$sectionOrd = isset($_POST['sectionOrd'])   ? $_POST['sectionOrd']      : 0;
-$moduleOrd  = isset($_POST['moduleOrd'])    ? $_POST['moduleOrd']       : 0;
+$email      = isset($_SESSION['email'])                                       ? $_SESSION['email']   : '';
+$type       = isset($_SESSION['type'])                                        ? $_SESSION['type']    : '';
+$submit     = isset($_POST['submit'])                                         ? true                 : false;
+$assessment = (isset($_POST['assessment']) && $_POST['assessment'] == 'true') ? true                 : false;
+$isSection  = (isset($_POST['isSection'])  && $_POST['isSection']  == 'true') ? true                 : false;
+$answer     = isset($_POST['answer'])                                         ? $_POST['answer']     : 0;
+$pageId     = isset($_POST['pageId'])                                         ? $_POST['pageId']     : 0;
+$sectionId  = isset($_POST['sectionId'])                                      ? $_POST['sectionId']  : 0;
+$moduleId   = isset($_POST['moduleId'])                                       ? $_POST['moduleId']   : 0;
+$pageOrd    = isset($_POST['pageOrd'])                                        ? $_POST['pageOrd']    : 0;
+$sectionOrd = isset($_POST['sectionOrd'])                                     ? $_POST['sectionOrd'] : 0;
+$moduleOrd  = isset($_POST['moduleOrd'])                                      ? $_POST['moduleOrd']  : 0;
 $cur_date   = date( 'Y-m-d' );
-$errors     = isset($_POST['errors'])       ? $_POST['errors']          : '';
+$errors     = isset($_POST['errors'])                                         ? $_POST['errors']     : '';
 
 require_once("../config.inc.php"); 
 require_once("../Database.singleton.php");
