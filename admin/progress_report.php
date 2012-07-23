@@ -84,7 +84,7 @@ try {
 
       $progress = $db->fetch_array($sql);
       $user['Progress'] = $progress;
-      (in_array_r(count($modules), $user['Progress'])) ? $user['Finished'] = true : $user['Finished'] = false;
+      (in_array_r(count($modules), $user['Progress'], false)) ? $user['Finished'] = true : $user['Finished'] = false;
     }
   }
   //break the reference with the last element

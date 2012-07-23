@@ -183,12 +183,20 @@ if($submit) {
     echo '</next>'.PHP_EOL;
   }
   else {
+    //mark the last module complete
+    $data = array();
+    $data['Status'] = COMPLETE;
+    $data['Update'] = $cur_date;
+
+    //execute query
+    $db->update("progress", $data, "Email = '".$db->escape($email)."' AND ID = ".(int)$moduleId." AND TYPE = '".$db->escape(MODULE)."'");
+
     //return end of modules
     header('Content-Type: application/xml; charset=ISO-8859-1');
     echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>".PHP_EOL;
     echo '<next>'.PHP_EOL;
     echo    '<type>module</type>'.PHP_EOL;
-    echo    '<id>0</id>'.PHP_EOL;
+    echo    '<id>-1</id>'.PHP_EOL;
     echo '</next>'.PHP_EOL;
   }
 }

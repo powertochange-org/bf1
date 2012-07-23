@@ -49,6 +49,7 @@
 #progress #status .name{ float:left; text-align:center; color:#fff; margin:3px 5px; font-size:14px; }
 #progress #status span, #progress #status a{ float:right; }
 #progress #status a{ height:16px; padding:12px 5px; }
+#progress #complete{ font-size:16px; text-align: center; margin:10px; }
 
 #modules{ margin:10px; }
 .module{ margin:10px; }

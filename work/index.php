@@ -135,7 +135,7 @@ foreach($_modules as $module) {
                 <a href="/modules/?p='.$module['page'].'" class="corners-all ui-state-default">Continue<span class="ui-icon ui-icon-triangle-1-e"></span></a>';
   }
 
-  if($module['status'] != 'incomplete') {
+  if ($module['status'] != 'incomplete') {
     $str_mod .= '<div class="module" id="'.$module['ID'].'">
                    <div class="name">
                      <span class="ui-icon ui-icon-triangle-1-'.($module['Ord'] == $cur_mod ? 's' : 'e').'"></span>
@@ -143,7 +143,7 @@ foreach($_modules as $module) {
                    </div>
                    <span class="check"></span>
                    <div class="flagsnotes '.($module['Ord'] == $cur_mod ? 'active' : '').'">'.PHP_EOL;
-    if($flags) {
+    if ($flags) {
       if($module['flags'] > 0) {
         foreach($module['flags'] as $flag) {
           $str_mod .= '<div class="flag" id="'.$flag['InputId'].'">
@@ -154,7 +154,7 @@ foreach($_modules as $module) {
         }
       }
     }
-    if($notes) {
+    if ($notes) {
       if($module['notes'] > 0) {
         foreach($module['notes'] as $note) {
           $str_mod .= '<div class="note" id="'.$note['ElementId'].'">
@@ -181,7 +181,14 @@ foreach($_modules as $module) {
                 <div id="bar">
                     <?php echo $str_bar; ?>
                 </div>
-                <div id="status" class="corners-all"><div class="point"></div><?php echo $str_sta; ?></div>
+                <?php
+                  if ($str_sta != '') {
+                    echo '<div id="status" class="corners-all"><div class="point"></div>'.$str_sta.'</div>';
+                  }
+                  else {
+                    echo '<div id="complete">Congratulations on completing CruDoctrine!</div>';
+                  }
+                ?>
             </div>
             <div id="modules"><?php echo $str_mod; ?></div>
         </div>

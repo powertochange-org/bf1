@@ -4,49 +4,47 @@
  * Modules
  * Campus Crusade for Christ
  */
-
-//ensure user authentication
-$auth = false;
-
-session_start();
-if(isset($_SESSION['email'])){
-    $auth = true;
-}
-
-if(!$auth){
-    header('Location: /#login');
-}
-
-//get session values
-$email  = $_SESSION['email'];
-$type   = $_SESSION['type'];
-
-//module, section, and page arrays 
-$module     = array();
-$section    = array();
-$page       = array();
-
-require_once("../config.inc.php"); 
-require_once("../Database.singleton.php");
-require_once("../function.inc.php"); 
-
 try {
-    global $module, $section, $page;
+  //ensure user authentication
+  $auth = false;
 
-    //initialize the database object
-    $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
-    $db->connect();
+  session_start();
+  if(isset($_SESSION['email'])){
+    $auth = true;
+  }
 
-    //determine page content
-    $mod = isset($_GET['m'])        ? $_GET['m']        : '';
-    $sec = isset($_GET['s'])        ? $_GET['s']        : '';
-    $pag = isset($_GET['p'])        ? $_GET['p']        : '';
-    $req = isset($_GET['request'])  ? $_GET['request']  : '';
+  if(!$auth){
+    header('Location: /#login');
+  }
 
-    $transitionType = '';
+  require_once("../config.inc.php"); 
+  require_once("../Database.singleton.php");
+  require_once("../function.inc.php"); 
 
+  //get session values
+  $email  = $_SESSION['email'];
+  $type   = $_SESSION['type'];
+
+  //determine page content
+  $mod = isset($_GET['m'])        ? $_GET['m']        : '';
+  $sec = isset($_GET['s'])        ? $_GET['s']        : '';
+  $pag = isset($_GET['p'])        ? $_GET['p']        : '';
+  $req = isset($_GET['request'])  ? $_GET['request']  : '';
+
+  //module, section, and page arrays 
+  $module     = array();
+  $section    = array();
+  $page       = array();
+
+  //initialize the database object
+  $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
+  $db->connect();
+
+  $transitionType = '';
+
+  if ($mod != -1) {
     //transition to the next module
-    if($mod != '') {
+    if ($mod != '') {
         if($req != '') {
             //page title
             $title = 'Module '.$mod.' '.$req;
@@ -66,18 +64,19 @@ try {
             $module['Order'] = $module['Ord'];
 
             if($db->affected_rows > 0) {
-                //page title
-                $title = 'Module '.$module['Number'];
+              //page title
+              $title = 'Module '.$module['Number'];
 
-                //page type
-                $transitionType = MODULE;
-            } else {
+              //page type
+              $transitionType = MODULE;
+            } 
+            else {
               header('Location: /work');
             }
         }
     //transition to the next section
     } 
-    elseif($sec != '') {
+    elseif ($sec != '') {
         //get section, module, & first page information
         $sql = "SELECT s.*, m.Number, m.Name AS ModuleName, m.Ord AS ModuleOrder, m.Banner, p.ID AS PageId, p.Ord AS PageOrder, p.Visibility, p.Type
                 FROM section s 
@@ -114,7 +113,7 @@ try {
 
     //transition to the next page
     } 
-    elseif($pag != '') {
+    elseif ($pag != '') {
         //get page, section, & module information
         $sql = "SELECT p.*, s.ModuleId, s.Title AS SectionTitle, s.Ord AS SectionOrder, m.Number, m.Name AS ModuleName, m.Ord AS ModuleOrder, m.Banner
                 FROM page p
@@ -230,9 +229,13 @@ try {
     if(!$auth) {
         header('Location: '.$_SERVER['HTTP_REFERER']);
     }
-
-} catch (PDOException $e) {
-    echo $e->getMessage();
+  }
+  else {
+    header('Location: /work');
+  }
+} 
+catch (PDOException $e) {
+  echo $e->getMessage();
 }
 
 $content = $transitionType.'.php';
@@ -246,9 +249,7 @@ include('../header.php');
 <link rel="stylesheet" type="text/css" media="screen" href="modules.css" />
 
 <div id="content">
-    
     <?php include($content); ?>
-    
 </div>
 
 <script type="text/javascript">
