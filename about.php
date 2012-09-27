@@ -31,7 +31,7 @@ require('header.php');
             <p>You’ll also notice that there are little note tabs that can be expanded on each page.  
             As you take notes, you will always be able to see them and any flagged questions under the “My Work” tab.  
             And, it is here that you can see your progress and when you can anticipate being finished with the course.</p>
-            <p>Thanks for using CruDoctrine and feel free to email me with any questions or suggestions @ jeff.lark@uscm.org</p>
+            <p>Thanks for using CruDoctrine and feel free to email us with any questions or suggestions: info@crudoctrine.org</p>
         </div>
     </div>
 </div>
