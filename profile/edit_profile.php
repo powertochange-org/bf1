@@ -132,7 +132,9 @@ try {
               FROM  region
               WHERE ID = ".$region.";";
 
-      $regionName = $db->query_first($sql)['Name'];
+      $result = null;
+      $result = $db->query_first($sql)
+      $regionName = $result['Name'];
 
       //get coach for user
       $sql = "SELECT CONCAT(u.FName, ' ', u.LName) AS FullName
@@ -140,7 +142,9 @@ try {
               INNER JOIN coach c ON u.Email = c.Coach
               WHERE c.Student = '".$db->escape($email)."';";
 
-      $coachName = $db->query_first($sql)['FullName'];
+      $result = null;
+      $result = $db->query_first($sql)
+      $coachName = $result['FullName'];
 
       header('Content-Type: application/xml; charset=ISO-8859-1');
       echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
