@@ -6,64 +6,65 @@
  */
 
 try {
-    //get values
-    $submit     = isset($_POST['submit'])   ? true                  : false;
-    $ajax       = isset($_POST['ajax'])     ? true                  : false;
+  //get values
+  $submit     = isset($_POST['submit'])   ? true                  : false;
+  $ajax       = isset($_POST['ajax'])     ? true                  : false;
 
-    $email      = isset($_POST['email'])    ? $_POST['email']       : '';
-    $pass       = isset($_POST['pass'])     ? $_POST['pass']        : '';
-    $redir      = isset($_POST['redir'])    ? $_POST['redir']       : '';
+  $email      = isset($_POST['email'])    ? $_POST['email']       : '';
+  $pass       = isset($_POST['pass'])     ? $_POST['pass']        : '';
+  $redir      = isset($_POST['redir'])    ? $_POST['redir']       : '';
 
-    $errors     = isset($_POST['errors'])   ? $_POST['errors']      : '';
+  $errors     = isset($_POST['errors'])   ? $_POST['errors']      : '';
 
-    require_once("config.inc.php"); 
-    require_once("Database.singleton.php");
+  require_once("config.inc.php"); 
+  require_once("Database.singleton.php");
 
-    //check for form submission
-    if($submit) { //form was submitted, process data
+  //check for form submission
+  if($submit) { //form was submitted, process data
+      //initialize the database object
+      $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
+      $db->connect();     
+      
+      $sql = "SELECT * FROM user WHERE Email = '".$db->escape($email)."' AND Password = '".$db->escape($pass)."'";
+      
+      //get results
+      $result = $db->query_first($sql);        
 
-        //initialize the database object
-        $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
-        $db->connect();     
-        
-        $sql = "SELECT * FROM user WHERE Email = '".$db->escape($email)."' AND Password = '".$db->escape($pass)."'";
-        
-        //get results
-        $result = $db->query_first($sql);        
+      //check result to verify login
+      if(!$result == 0) { //success
+          //log user in
+          session_start();
+          $_SESSION['email']  = $email;
+          $_SESSION['fname']  = $result['FName'];
+          $_SESSION['lname']  = $result['LName'];
+          $_SESSION['type']   = $result['Type'];
+          $_SESSION['region'] = $result['Region'];
+          //$_SESSION['loc']    = $result['Loc'];
 
-        //check result to verify login
-        if(!$result == 0) { //success
-            //log user in
-            session_start();
-            $_SESSION['email']  = $email;
-            $_SESSION['fname']  = $result['FName'];
-            $_SESSION['lname']  = $result['LName'];
-            $_SESSION['type']   = $result['Type'];
-            $_SESSION['region'] = $result['Region'];
-            //$_SESSION['loc']    = $result['Loc'];
+          //$_SESSION['documentRoot']  = $_SERVER['REQUEST_URI'];
 
-            //$_SESSION['documentRoot']  = $_SERVER['REQUEST_URI'];
+          //if ajax, return user attributes as xml
+          if ($ajax) {
+              header ("Location: /");
+          }
+          else {
+              header ("Location: /");
+          }
+      }
+      else { //fail
+          //return errors
+          $errors .= 'Login failed. Please check your email and password.';
 
-            //if ajax, return user attributes as xml
-            if ($ajax) {
-                header ("Location: /");
-            } else {
-                header ("Location: /");
-            }
-
-        } else { //fail
-            //return errors
-            $errors .= 'Login failed. Please check your email and password.';
-
-            //if ajax, return error
-            if ($ajax) {
-                echo 'error';
-                exit();
-            }
-        }
-        $db->close();
-    }
-} catch (PDOException $e) {
+          //if ajax, return error
+          if ($ajax) {
+              echo 'error';
+              exit();
+          }
+      }
+      $db->close();
+  }
+} 
+catch (PDOException $e) {
     echo $e->getMessage();
     exit();
 }

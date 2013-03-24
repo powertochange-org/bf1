@@ -27,28 +27,30 @@ try {
     //get users
     $sql = null;
     if ($type == SUPER) {
-        $sql =   "SELECT u.Email, u.FName, u.LName, u.Password, u.Type AS TypeID, u.Region AS RegionID, u.Loc, u.Reg_Date, u.Reg_Status, r.Name AS Region, t.Name AS Type, c.Coach AS Coach_Email
-                  FROM user u
-                  INNER JOIN region r ON u.Region = r.ID
-                  INNER JOIN user_type t ON u.Type = t.ID
-                  LEFT JOIN coach c ON u.Email = c.Student
-                  ORDER BY Region, u.LName;";
-    } else if ($type == REGIONAL_ADMIN){
-        $sql =   "SELECT u.Email, u.FName, u.LName, u.Password, u.Type AS TypeID, u.Region AS RegionID, u.Loc, u.Reg_Date, u.Reg_Status, r.Name AS Region, t.Name AS Type, c.Coach AS Coach_Email
-                  FROM user u
-                  INNER JOIN region r ON u.Region = r.ID
-                  INNER JOIN user_type t ON u.Type = t.ID
-                  LEFT JOIN coach c ON u.Email = c.Student
-                  WHERE u.Region = ".$region."
-                  ORDER BY Region, u.LName;";
-    } else {
-        $sql =   "SELECT u.Email, u.FName, u.LName, u.Password, u.Type AS TypeID, u.Region AS RegionID, u.Loc, u.Reg_Date, u.Reg_Status, r.Name AS Region, t.Name AS Type, c.Coach AS Coach_Email
-                  FROM user u
-                  INNER JOIN region r ON u.Region = r.ID
-                  INNER JOIN user_type t ON u.Type = t.ID
-                  LEFT JOIN coach c ON u.Email = c.Student
-                  WHERE c.Coach = '".$db->escape($email)."'
-                  ORDER BY Region, u.LName;";
+      $sql =   "SELECT u.Email, u.FName, u.LName, u.Password, u.Type AS TypeID, u.Region AS RegionID, u.Loc, u.Reg_Date, u.Reg_Status, r.Name AS Region, t.Name AS Type, c.Coach AS Coach_Email
+                FROM user u
+                INNER JOIN region r ON u.Region = r.ID
+                INNER JOIN user_type t ON u.Type = t.ID
+                LEFT JOIN coach c ON u.Email = c.Student
+                ORDER BY Region, u.LName;";
+    } 
+    else if ($type == REGIONAL_ADMIN) {
+      $sql =   "SELECT u.Email, u.FName, u.LName, u.Password, u.Type AS TypeID, u.Region AS RegionID, u.Loc, u.Reg_Date, u.Reg_Status, r.Name AS Region, t.Name AS Type, c.Coach AS Coach_Email
+                FROM user u
+                INNER JOIN region r ON u.Region = r.ID
+                INNER JOIN user_type t ON u.Type = t.ID
+                LEFT JOIN coach c ON u.Email = c.Student
+                WHERE u.Region = ".$region."
+                ORDER BY Region, u.LName;";
+    } 
+    else {
+      $sql =   "SELECT u.Email, u.FName, u.LName, u.Password, u.Type AS TypeID, u.Region AS RegionID, u.Loc, u.Reg_Date, u.Reg_Status, r.Name AS Region, t.Name AS Type, c.Coach AS Coach_Email
+                FROM user u
+                INNER JOIN region r ON u.Region = r.ID
+                INNER JOIN user_type t ON u.Type = t.ID
+                LEFT JOIN coach c ON u.Email = c.Student
+                WHERE c.Coach = '".$db->escape($email)."'
+                ORDER BY Region, u.LName;";
     }
     $users = $db->fetch_array($sql);
 

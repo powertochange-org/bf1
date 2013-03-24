@@ -1,6 +1,6 @@
 /*
-    Document   : admin.css
-    Description: CSS specific to admin page
+  Document   : admin.css
+  Description: CSS specific to admin page
 */
 
 /* UI */
@@ -74,7 +74,6 @@
 #reports #list .report .descr { float: left; width: 350px; height: 27px; margin: 10px; overflow: hidden; font-size: 10px; }
 
 /* USERS */
-
 /* ADD USER */
 #formAddNewRow{ padding-top: 20px; }
 #formAddNewRow fieldset{ border: none; border-top: 1px solid #ccc; }

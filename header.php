@@ -50,8 +50,8 @@ echo"<title>".$title." | Cru Doctrine</title>";
 
 <!--JQUERY-->
 <!--core-->
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<!--script type="text/javascript" src="/jquery/datatables/media/js/jquery.js"></script-->
+<!--script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script-->
+<script type="text/javascript" src="/jquery/datatables/media/js/jquery.js"></script>
 <!--ui-->
 <script type="text/javascript" src="/jquery/ui/js/jquery-ui-1.8.custom.min.js"></script>
 <link type="text/css" href="/jquery/ui/css/crudoctrine-grey/jquery-ui-1.8.1.custom.css" rel="Stylesheet" />
@@ -97,6 +97,9 @@ echo"<title>".$title." | Cru Doctrine</title>";
             echo '<div id="hometab" class="option">
                     <a id="home" href="/">HOME</a>
                   </div>
+                   <div id="myprofiletab" class="option">
+                    <a id="myprofile" href="/profile">MY PROFILE</a>
+                  </div>
                    <div id="myworktab" class="option">
                     <a id="mywork" href="/work">MY WORK</a>
                   </div>
@@ -107,7 +110,7 @@ echo"<title>".$title." | Cru Doctrine</title>";
                     <a id="resources" href="/">RESOURCES</a>
                   </div-->';
             echo ($type == SUPER || $type == REGIONAL_ADMIN || $type == COACH) ? '<div id="admintab" class="option"><a id="admin" href="/admin">ADMIN</a></div>' : '';
-         }
+          }
         ?>
         <div id="abouttab" class="option" ><a id="about" href="/about.php">ABOUT</a></div>
     </div>
@@ -116,7 +119,6 @@ echo"<title>".$title." | Cru Doctrine</title>";
    <!--ENDS HEADER-->
 
 <script type="text/javascript">
-
     $(function(){
        //check for anchor
        var anchor=window.location.hash;

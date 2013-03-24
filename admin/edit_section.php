@@ -164,24 +164,14 @@ try {
                             section +=      '</div>';
 
                             $('#sections').append(section);
-
                         } else {
-
                             $('#sections .section[sId='+id+']').find('.sectioninfo').find('.title').html(title);
-
                         }
-
                     });
-
                     $('#editsection').dialog("close");
-
                 }
-
             });
         }
-        
         return false;
-
     });
-
 </script>

@@ -33,20 +33,20 @@ $page   = isset($_GET['p'])         ? $_GET['p']        : 'users';
 $page   = isset($_GET['request'])   ? $_GET['request']  : $page;
 $id     = isset($_GET['id'])        ? $_GET['id']       : false;
 
-switch($page) {
+switch ($page) {
     case MODULES:
-      if($id) {
+      if ($id) {
         $page = MODULE;
       }
       break;
     case REPORTS:
-      if($id) {
+      if ($id) {
         $page = $id;
       }
       break;
 }
 
-$page  .= '.php';
+$fullPage = $page.'.php';
 
 //content
 ?>
@@ -66,33 +66,33 @@ $page  .= '.php';
 <script type="text/javascript" src="/jquery/datatables-editable/media/js/jquery.dataTables.editable.js"></script>
 
 <div id="content">
-    <div id="admin">
-        <div id="pagetitle">
-            Administration
-        </div>
-        <div id="leftmenu">
-          <ul>
-            <?php
-              if ($type == SUPER) {
-                echo ($page == 'modules') ? '<li><a href="?p=modules" class="active">Modules</a></li>' : '<li><a href="?p=modules" class="">Modules</a></li>';
-              }
-            ?>
-            <!--li><a href="?p=articles" class="<?php //echo $_GET['p'] == 'articles' ? 'active' : ''; ?>">Articles</a></li-->
-            <!--li><a href="?p=homepage" class="<?php //echo $_GET['p'] == 'homepage' ? 'active' : ''; ?>">Home Page</a></li-->
-            <li><a href="?p=users" class="<?php echo $page == 'users' ? 'active' : ''; ?>">Users</a></li>
-            <li><a href="?p=reports" class="<?php echo $page == 'reports' ? 'active' : ''; ?>">Reports</a></li>
-            <!--li><a href="?p=settings" class="<?php  //echo $_GET['p'] == 'settings'   ? 'active' : ''; ?>">Settings</a></li-->
-          </ul>
-        </div>
-        <div id="contentpane">
-            <?php
-                include($page);
-            ?>
-            <div id="confirm">
-                <div id="message"></div>
-            </div>
-        </div>
-    </div>
+  <div id="admin">
+      <div id="pagetitle">
+          Administration
+      </div>
+      <div id="leftmenu">
+        <ul>
+          <?php
+            if ($type == SUPER) {
+              echo ($page == 'modules') ? '<li><a href="?p=modules" class="active">Modules</a></li>' : '<li><a href="?p=modules" class="">Modules</a></li>';
+            }
+          ?>
+          <!--li><a href="?p=articles" class="<?php //echo $_GET['p'] == 'articles' ? 'active' : ''; ?>">Articles</a></li-->
+          <!--li><a href="?p=homepage" class="<?php //echo $_GET['p'] == 'homepage' ? 'active' : ''; ?>">Home Page</a></li-->
+          <li><a href="?p=users" class="<?php echo $page == 'users' ? 'active' : ''; ?>">Users</a></li>
+          <li><a href="?p=reports" class="<?php echo $page == 'reports' ? 'active' : ''; ?>">Reports</a></li>
+          <!--li><a href="?p=settings" class="<?php  //echo $_GET['p'] == 'settings'   ? 'active' : ''; ?>">Settings</a></li-->
+        </ul>
+      </div>
+      <div id="contentpane">
+          <?php
+              include($fullPage);
+          ?>
+          <div id="confirm">
+              <div id="message"></div>
+          </div>
+      </div>
+  </div>
 </div>
 
 <script type="text/javascript">

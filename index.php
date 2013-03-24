@@ -8,12 +8,10 @@
 //header
 require('header.php');
 
-//get modules from db
-$modules = array();
-
 try {
-    global $modules, $currentModule;
-
+    //get modules from db
+    $modules = array();
+    
     //initialize the database object
     $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
     $db->connect();
@@ -35,12 +33,12 @@ try {
     $currentModule = $progress['Module'];
 
     $db->close();
-
-} catch (PDOException $e) {
+}
+catch (PDOException $e) {
     echo $e->getMessage();
 }
-?>
 
+?>
 <link rel="stylesheet" type="text/css" media="screen" href="/css/home.css" />
 <div id="content">
     <?php
@@ -64,43 +62,39 @@ try {
             }
         }
         else {
-          include(WELCOME_PAGE);
+          include(WELCOME . '.php');
         }
     ?>
 </div>
 <script type="text/javascript">
+  $(function() {
+      $('#module11').css('width', '555px').addClass('active');
+  });
 
-    $(function(){
-        $('#module11').css('width', '555px').addClass('active');
-    });
+  $('.module').click(function() {
+    if($(this).hasClass('active') == false) {
 
-    $('.module').click(function() {
+      //close current
+      $('.active').animate({
+              width: '45px'
+          }, 500, function() {
+              // Animation complete.
+          });
+      $('.active').removeClass('active');
 
-        if($(this).hasClass('active') == false){
+      //open clicked module
+      $(this).addClass('active');
+      $(this).animate({
+          width: '555px'
+      }, 500, function() {
+          // Animation complete.
+      });
 
-            //close current
-            $('.active').animate({
-                    width: '45px'
-                }, 500, function() {
-                    // Animation complete.
-                });
-            $('.active').removeClass('active');
+    }
+  });
 
-            //open clicked module
-            $(this).addClass('active');
-            $(this).animate({
-                width: '555px'
-            }, 500, function() {
-                // Animation complete.
-            });
-
-        }
-    });
-
-    //jquery class interaction states
-
-    $('.remove, .addpage, .edit, button').addClass('ui-state-default');
-
+  //jquery class interaction states
+  $('.remove, .addpage, .edit, button').addClass('ui-state-default');
 </script>
 <?php
 //footer

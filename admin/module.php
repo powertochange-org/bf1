@@ -5,135 +5,134 @@
  * Campus Crusade for Christ
  */
 
-//module id
-$moduleId = $_GET['id'];
-
-//get module from db
-$module = array();
-
 try {
-    global $module;
+  //module id
+  $moduleId = $_GET['id'];
 
-    //initialize the database object
-    $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
-    $db->connect();
+  //get module from db
+  $module = array();
 
-    //get module information
-    $sql = "SELECT * FROM module WHERE ID = ".$moduleId;
+  //initialize the database object
+  $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
+  $db->connect();
 
-    //assign module information to array
-    $module['info'] = $db->query_first($sql);
+  //get module information
+  $sql = "SELECT * FROM module WHERE ID = ".$moduleId;
 
-    //get sections
-    $sql = "SELECT * FROM section WHERE moduleId = ".$moduleId." ORDER BY Ord";
-    //execute query
-    $db_sections = $db->fetch_array($sql);
+  //assign module information to array
+  $module['info'] = $db->query_first($sql);
 
-    //construct section array
-    $sections = array();
+  //get sections
+  $sql = "SELECT * FROM section WHERE moduleId = ".$moduleId." ORDER BY Ord";
+  //execute query
+  $db_sections = $db->fetch_array($sql);
 
-    foreach($db_sections as $db_section) {
-        $section = array();
-        $sectionId = $db_section['ID'];
-        $section['info'] = $db_section;
+  //construct section array
+  $sections = array();
 
-        //get corresponding pages
-        $sql = "SELECT * FROM page WHERE sectionId = ".$sectionId." ORDER BY Ord";
-        //execute query
-        $db_pages = $db->fetch_array($sql);
+  foreach($db_sections as $db_section) {
+      $section = array();
+      $sectionId = $db_section['ID'];
+      $section['info'] = $db_section;
 
-        //attach pages to section
-        $section['pages'] = $db_pages;
+      //get corresponding pages
+      $sql = "SELECT * FROM page WHERE sectionId = ".$sectionId." ORDER BY Ord";
+      //execute query
+      $db_pages = $db->fetch_array($sql);
 
-        $sections[] = $section;
-    }
+      //attach pages to section
+      $section['pages'] = $db_pages;
 
-    //attach sections to module
-    $module['sections'] = $sections;
+      $sections[] = $section;
+  }
 
-    $db->close();
+  //attach sections to module
+  $module['sections'] = $sections;
+
+  $db->close();
 } 
 catch (PDOException $e) {
     echo $e->getMessage();
 }
 ?>
+
 <div id="module">
-    <div id="information">
-        <form id="editModule" action="?p=modules&id=<?php echo $moduleId; ?>&request=edit_module" method="post">
-            <input type="hidden" name="order" value="<?php echo $module['info']['Ord']; ?>"/>
-            <button type="submit" value="submit" class="corners-all shadow-light button"><span class="ui-icon ui-icon-pencil"></span>Edit</button>
-        </form>
-        <div id="title">
-            <div id="number"><?php echo $module['info']['Number']; ?></div>
-            <div id="name"><?php echo $module['info']['Name']; ?><div id="bar"></div></div>
-        </div>
-        <div id="description">
-            <?php echo $module['info']['Descr']; ?>
-        </div>
-    </div>
-    <div id="sections">
-        <form id="addSection" action="?p=modules&id=<?php echo $moduleId; ?>&request=edit_section" method="post">
-            <input type="hidden" name="order" value="<?php echo count($module['sections']); ?>"/>
-            <button type="submit" value="submit" class="corners-all shadow-light button"><span class="ui-icon ui-icon-plus"></span>Add Section</button>
-        </form>
-        <?php
-            //sections & pages
-            foreach($module['sections'] as $section) {
-                echo '<div class = "section" id = "'.$section['info']['ID'].'">';
+  <div id="information">
+      <form id="editModule" action="?p=modules&id=<?php echo $moduleId; ?>&request=edit_module" method="post">
+          <input type="hidden" name="order" value="<?php echo $module['info']['Ord']; ?>"/>
+          <button type="submit" value="submit" class="corners-all shadow-light button"><span class="ui-icon ui-icon-pencil"></span>Edit</button>
+      </form>
+      <div id="title">
+          <div id="number"><?php echo $module['info']['Number']; ?></div>
+          <div id="name"><?php echo $module['info']['Name']; ?><div id="bar"></div></div>
+      </div>
+      <div id="description">
+          <?php echo $module['info']['Descr']; ?>
+      </div>
+  </div>
+  <div id="sections">
+      <form id="addSection" action="?p=modules&id=<?php echo $moduleId; ?>&request=edit_section" method="post">
+          <input type="hidden" name="order" value="<?php echo count($module['sections']); ?>"/>
+          <button type="submit" value="submit" class="corners-all shadow-light button"><span class="ui-icon ui-icon-plus"></span>Add Section</button>
+      </form>
+      <?php
+          //sections & pages
+          foreach($module['sections'] as $section) {
+              echo '<div class = "section" id = "'.$section['info']['ID'].'">';
 
-                echo '<div class="sectioninfo">';
+              echo '<div class="sectioninfo">';
 
-                echo '<div class="colapse ui-icon ui-icon-triangle-1-s"></div>';
+              echo '<div class="colapse ui-icon ui-icon-triangle-1-s"></div>';
 
-                //section title
-                echo '<div class="title">'.$section['info']['Title'].'</div>';
+              //section title
+              echo '<div class="title">'.$section['info']['Title'].'</div>';
 
-                //drag icon
-                echo '<div class="drag ui-icon ui-icon-grip-solid-horizontal"></div>';
+              //drag icon
+              echo '<div class="drag ui-icon ui-icon-grip-solid-horizontal"></div>';
 
-                //remove section
-                echo '<a class="remove corners-all button" href="#"><span class="ui-icon ui-icon-minus"></span> Remove</a>';
+              //remove section
+              echo '<a class="remove corners-all button" href="#"><span class="ui-icon ui-icon-minus"></span> Remove</a>';
 
-                //add page button
-                echo '<a class="addpage corners-right button" href="pagebuilder?section='.$section['info']['ID'].'&module='.$moduleId.'&order='.(count($section['pages'])).'"><span class="ui-icon ui-icon-plus"></span> Add Page</a>';
+              //add page button
+              echo '<a class="addpage corners-right button" href="pagebuilder?section='.$section['info']['ID'].'&module='.$moduleId.'&order='.(count($section['pages'])).'"><span class="ui-icon ui-icon-plus"></span> Add Page</a>';
 
-                //edit section
-                echo '<a class="edit corners-left button" href="?p=modules&id='.$moduleId.'&request=edit_section&sid='.$section['info']['ID'].'"><span class="ui-icon ui-icon-pencil"></span> Edit</a>';
+              //edit section
+              echo '<a class="edit corners-left button" href="?p=modules&id='.$moduleId.'&request=edit_section&sid='.$section['info']['ID'].'"><span class="ui-icon ui-icon-pencil"></span> Edit</a>';
 
-                echo '</div>';
-                
-                //pages
-                echo '<div class="pages">';
-                foreach($section['pages'] as $page) {
-                    echo '<div class="page" id="'.$page['ID'].'">';
+              echo '</div>';
+              
+              //pages
+              echo '<div class="pages">';
+              foreach($section['pages'] as $page) {
+                  echo '<div class="page" id="'.$page['ID'].'">';
 
-                    echo '<div class="pageinfo">';
+                  echo '<div class="pageinfo">';
 
-                    //page title
-                    echo '<div class="title">'.$page['Title'].'</div>';
+                  //page title
+                  echo '<div class="title">'.$page['Title'].'</div>';
 
-                    //drag icon
-                    echo '<div class="drag ui-icon ui-icon-grip-solid-horizontal"></div>';
+                  //drag icon
+                  echo '<div class="drag ui-icon ui-icon-grip-solid-horizontal"></div>';
 
-                    //remove page
-                    echo '<a class="remove corners-all button" href="#"><span class="ui-icon ui-icon-minus"></span> Remove</a>';
+                  //remove page
+                  echo '<a class="remove corners-all button" href="#"><span class="ui-icon ui-icon-minus"></span> Remove</a>';
 
-                    //edit page
-                    echo '<form action="pagebuilder" method="get">
-                            <input type="hidden" name="page" value="'.$page['ID'].'" />
-                            <input type="hidden" name="section" value="'.$page['SectionId'].'" />
-                            <input type="hidden" name="module" value="'.$moduleId.'" />
-                            <input type="hidden" name="order" value="'.$page['Ord'].'" />
-                            <button type="submit" class="edit corners-all button"><span class="ui-icon ui-icon-pencil"></span>Edit</button>
-                          </form>';
+                  //edit page
+                  echo '<form action="pagebuilder" method="get">
+                          <input type="hidden" name="page" value="'.$page['ID'].'" />
+                          <input type="hidden" name="section" value="'.$page['SectionId'].'" />
+                          <input type="hidden" name="module" value="'.$moduleId.'" />
+                          <input type="hidden" name="order" value="'.$page['Ord'].'" />
+                          <button type="submit" class="edit corners-all button"><span class="ui-icon ui-icon-pencil"></span>Edit</button>
+                        </form>';
 
-                    echo '</div>';
-                    echo '</div>';
-                }
-                echo '</div></div>';
-             }
-        ?>
-    </div>
+                  echo '</div>';
+                  echo '</div>';
+              }
+              echo '</div></div>';
+           }
+      ?>
+  </div>
 </div>
 
 <script type="text/javascript">

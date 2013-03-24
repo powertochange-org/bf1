@@ -1,63 +1,50 @@
 /*
-    Document   : profile.css
-    Description: CSS specific to profile page
+  Document: profile.css
+  Description: CSS specific to profile page
 */
+/* UI */
+.ui-sortable-helper {}
 
-#profile{
-    width: 880px;
-    min-height: 300px;
-    margin: 30px auto;
-    overflow: hidden;
-}
+/* MAIN */
+#profile { margin: 30px auto; min-height: 300px; width: 880px; overflow: hidden; }
+#pagetitle { margin: 30px 100px; font-size: 20px; font-weight: bold; }
+#contentpane { position: relative; display: inline-block; width: 720px; padding: 10px 20px; overflow: hidden; }
+#contentpane .ui-icon { float: left; width: 16px; height: 16px; margin-left: -5px; margin-right: 5px; }
+#contentpane .button { font-size: 10px; color: #000; background-color: #ddd; padding: 2px 10px; }
+#contentpane button:hover, #contentpane a:hover { background-color: #bbb; }
+#contentpane .button { cursor: pointer; margin: 0px 2px; float: right; margin-top: -20px; border: none; }
+#contentpane .edit{ height: 16px; margin: 5px 5px; float: right; }
+#leftmenu { float:left;width:100px;padding:10px 0px;text-align:left; }
+#leftmenu ul { list-style:none;margin:0px;padding:0px; }
+#leftmenu li {}
 
-#pagetitle{
-    margin: 30px 100px;
-    font-size: 20px;
-    font-weight: bold;
-}
+/* VIEW PROFILE */
+#formViewProfile{ width: 100%; border-top: 1px solid #ccc; margin: 10px 5px; padding: 10px; min-height: 200px; }
+#formViewProfile .button { margin-bottom: 20px; }
+#formViewProfile fieldset{ border: none;}
+#formViewProfile fieldset legend { font-size: 14px; padding: 0px 10px; }
+#formViewProfile fieldset div { overflow: auto; width: 100%; height: auto; margin: 10px 0px; }
+#formViewProfile fieldset label { font-size: 14px; float: left; width: 150px; height: 100%; vertical-align: middle; }
+#formViewProfile fieldset input { border: none; width: 300px; font-size: 14px; }
+/*#formViewProfile fieldset .required { width: 24px; height: 24px; margin: 5px 5px; background-image: url('images/001_30.png'); display: none; }*/
+#formViewProfile button { cursor: pointer; margin: 0px 2px; float: right; margin: 2px; border: none; font-size: 12px; }
 
-#leftmenu{
-    float: left;
-    width: 100px;
-    padding: 10px 0px;
-    text-align: left;
-}
+/* EDIT PROFILE */
+#formEditProfile{ padding-top: 20px; }
+#formEditProfile fieldset{ border: none; border-top: 1px solid #ccc; }
+#formEditProfile fieldset legend { font-size: 14px; padding: 0px 10px; }
+#formEditProfile fieldset div { overflow: auto; width: 100%; height: auto; margin: 10px 0px; }
+#formEditProfile fieldset label { font-size: 14px; float: left; width: 150px; height: 100%; vertical-align: middle; }
+/*#formEditProfile fieldset .required { width: 24px; height: 24px; margin: 5px 5px; background-image: url('images/001_30.png'); display: none; }*/
+#formEditProfile button { cursor: pointer; margin: 0px 2px; float: right; margin: 2px; border: none; font-size: 12px; }
 
-#leftmenu ul{
-    list-style: none;
-    margin: 0px;
-    padding: 0px;
-}
+/* CHANGE PASSWORD */
+#formChangePassword{ width: 100%; border-top: 1px solid #ccc; margin: 10px 5px; padding: 10px; min-height: 200px; }
+#formChangePassword .button { margin-bottom: 20px; }
+#formChangePassword fieldset{ border: none;}
+#formChangePassword fieldset legend { font-size: 14px; padding: 0px 10px; }
+#formChangePassword fieldset div { overflow: auto; width: 100%; height: auto; margin: 10px 0px; }
+#formChangePassword fieldset label { font-size: 14px; float: left; width: 150px; height: 100%; vertical-align: middle; }
+/*#formChangePassword fieldset .required { width: 24px; height: 24px; margin: 5px 5px; background-image: url('images/001_30.png'); display: none; }*/
+#formChangePassword button { cursor: pointer; margin: 0px 2px; float: right; margin: 2px; border: none; font-size: 12px; }
 
-#leftmenu li{
-    
-}
-
-#contentpane{
-    float: right;
-    width: 740px;
-    padding: 10px 20px;
-}
-
-/*  INFORMATION   */
-#name, #location, #email{
-    background-position: left;
-    background-repeat: no-repeat;
-    padding-left: 30px;
-    margin: 5px 0px;
-    height: 24px;
-}
-
-#name{
-    background-image: url('images/name.png');
-}
-
-#location{
-    background-image: url('images/location.png');
-}
-
-#email{
-    background-image: url('images/mail.png');
-}
-
-/*  SETTINGS   */
