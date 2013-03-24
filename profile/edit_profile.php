@@ -133,7 +133,7 @@ try {
               WHERE ID = ".$region.";";
 
       $result = null;
-      $result = $db->query_first($sql)
+      $result = $db->query_first($sql);
       $regionName = $result['Name'];
 
       //get coach for user
@@ -143,7 +143,7 @@ try {
               WHERE c.Student = '".$db->escape($email)."';";
 
       $result = null;
-      $result = $db->query_first($sql)
+      $result = $db->query_first($sql);
       $coachName = $result['FullName'];
 
       header('Content-Type: application/xml; charset=ISO-8859-1');
