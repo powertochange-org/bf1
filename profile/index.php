@@ -17,9 +17,6 @@ if(!$auth){
     header('Location: /#login');
 }
 
-//page title
-$title = 'My Profile';
-
 //header
 include('../header.php');
 
@@ -30,6 +27,10 @@ require_once("../function.inc.php");
 //get url values
 $page     = isset($_GET['p'])  ? $_GET['p']  : PROFILE;
 $fullPage = $page.'.php';
+
+//page title
+$title = null;
+$title = 'My Profile';
 
 //content
 ?>
