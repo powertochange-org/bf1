@@ -41,7 +41,7 @@ try {
     $data['Region']     = $region;
     //$data['Loc']        = $location;
     $data['Reg_Date']   = $regDate;
-    $data['Reg_Status'] = $status ? 'Active'  : 'Inactive';
+    $data['Reg_Status'] = $status ? ACTIIVE  : INACTIVE;
 
     //execute query
     $db->update("user", $data, "Email = '".$db->escape($id)."'");

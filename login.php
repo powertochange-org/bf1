@@ -11,7 +11,7 @@ try {
   $ajax       = isset($_POST['ajax'])     ? true                  : false;
 
   $email      = isset($_POST['email'])    ? $_POST['email']       : '';
-  $pass       = isset($_POST['pass'])     ? $_POST['pass']        : '';
+  $password   = isset($_POST['pass'])     ? $_POST['pass']        : '';
   $redir      = isset($_POST['redir'])    ? $_POST['redir']       : '';
 
   $errors     = isset($_POST['errors'])   ? $_POST['errors']      : '';
@@ -25,13 +25,19 @@ try {
       $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
       $db->connect();     
       
-      $sql = "SELECT * FROM user WHERE Email = '".$db->escape($email)."' AND Password = '".$db->escape($pass)."'";
-      
+      $sql = "SELECT * FROM user WHERE Email = '".$db->escape($email)."'";      
       //get results
-      $result = $db->query_first($sql);        
+      $result = null;
+      $result = $db->query_first($sql);
+      $storedPassword = null;
+      $storedPassword = $result['Password'];
+
+      //hash the supplied password with some salt
+      $passwordHash = null;
+      $passwordHash = hash("sha512", $password.$email);
 
       //check result to verify login
-      if(!$result == 0) { //success
+      if($storedPassword == $passwordHash) { //success
           //log user in
           session_start();
           $_SESSION['email']  = $email;
@@ -65,8 +71,8 @@ try {
   }
 } 
 catch (PDOException $e) {
-    echo $e->getMessage();
-    exit();
+  echo $e->getMessage();
+  exit();
 }
 ?>
 
@@ -79,7 +85,7 @@ catch (PDOException $e) {
                 <label>Email</label><input type="text" name="email" value="<?php echo $email; ?>" /><a class="required"></a>
             </div>
             <div>
-                <label>Password</label><input type="password" name="pass" value="<?php echo $pass; ?>" /><a class="required"></a>
+                <label>Password</label><input type="password" name="pass" value="<?php echo $password; ?>" /><a class="required"></a>
             </div>
             <div>
         </fieldset>
