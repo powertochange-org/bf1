@@ -26,6 +26,8 @@ try {
     $password = stripslashes($password);
     $firstName = stripslashes($firstName);
     $lastName = stripslashes($lastName);
+    //trim whitespaces from the email
+    $id = trim($id);
 
     //initialize the database object
     $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
@@ -36,12 +38,15 @@ try {
     //$data['Email']      = $email;
     $data['FName']      = $firstName;
     $data['LName']      = $lastName;
-    $data['Password']   = $password;
+    //hash the supplied password with some salt
+    $passwordHash = null;
+    $passwordHash = hash("sha512", $password.$id);
+    $data['Password']   = $passwordHash;
     $data['Type']       = $type;
     $data['Region']     = $region;
     //$data['Loc']        = $location;
     $data['Reg_Date']   = $regDate;
-    $data['Reg_Status'] = $status ? ACTIIVE  : INACTIVE;
+    $data['Reg_Status'] = $status ? ACTIVE : INACTIVE;
 
     //execute query
     $db->update("user", $data, "Email = '".$db->escape($id)."'");

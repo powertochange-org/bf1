@@ -25,7 +25,10 @@ try {
     //prepare query
     $data = null;
     $data = array();
-    $data['Password']   = $password;
+    //hash the supplied password with some salt
+    $passwordHash = null;
+    $passwordHash = hash("sha512", $password.$email);
+    $data['Password'] = $passwordHash;
 
     //execute query
     $db->update("user", $data, "Email = '".$db->escape($email)."'");
