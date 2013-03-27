@@ -46,5 +46,5 @@ define("DISCIPLES_REPORT", "disciples_report");
 define("PROGRESS_REPORT", "progress_report");
 define("ADMIN_EMAIL_USERNAME", "admin@crudoctrine.org");
 define("ADMIN_EMAIL_FULLNAME", "CruDoctrine Administrator");
-define("ADMIN_EMAIL_PASSWORD", "K@98jev?P7Y#93U<s#sK");
+define("ADMIN_EMAIL_PASSWORD", "password");
 ?>
