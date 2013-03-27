@@ -43,7 +43,6 @@ catch (PDOException $e) {
 }
 ?>
 <form id="formChangePassword" action="" method="post">
-  <button type="submit" name="submit" class="ui-corner-right corners-all shadow-light button" value="submit"><span class="ui-icon ui-icon-pencil"></span>Change Password</button>
   <fieldset id="changePassword">
     <div>
       <label>Password:</label>
@@ -54,6 +53,7 @@ catch (PDOException $e) {
       <input type="password" name="confirmPassword" value=""/>
     </div>
   </fieldset>
+  <button type="submit" name="submit" class="ui-corner-right corners-all shadow-light button" value="submit"><span class="ui-icon ui-icon-pencil"></span>Change Password</button>
   <fieldset id="feedback">
       <div id="errors"><?php echo $errors; ?></div>
   </fieldset>

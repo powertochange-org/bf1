@@ -29,4 +29,18 @@ function getVisibilityClause($type) {
   }
   return $visibility;
 }
+
+function generatePasswordResetKey($email) {
+  $visibility = null;
+  if($type == INTERN || $type == VOLUNTEER || $type == PART_TIME_FIELD_STAFF) {
+    $visibility = "(p.Visibility = 0 OR p.Visibility = 5)";
+  } 
+  else if($type == STUDENT || $type == OTHER) {
+    $visibility = "(p.Visibility = 0 OR p.Visibility = 4)";
+  }
+  else {
+    $visibility = "(p.Visibility >= 0)";
+  }
+  return $visibility;
+}
 ?>

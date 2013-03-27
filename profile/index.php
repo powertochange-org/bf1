@@ -10,11 +10,11 @@ $auth = false;
 
 session_start();
 if(isset($_SESSION['email'])){
-    $auth = true;
+  $auth = true;
 }
 
 if(!$auth){
-    header('Location: /#login');
+  header('Location: /#login');
 }
 
 //header

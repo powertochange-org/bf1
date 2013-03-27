@@ -41,7 +41,6 @@ catch (PDOException $e) {
 }
 ?>
 <form id="formViewProfile" action="" method="post">
-  <button type="submit" class="ui-corner-right corners-all shadow-light button" value="submit"><span class="ui-icon ui-icon-pencil"></span>Edit Profile</button>
   <fieldset id="viewUser">
     <div>
       <label>First Name:</label>
@@ -74,6 +73,7 @@ catch (PDOException $e) {
       <input type="text" name="coachName" value="<?php echo $coachName;?>" readonly/>
     </div>
   </fieldset>
+  <button type="submit" class="ui-corner-right corners-all shadow-light button" value="submit"><span class="ui-icon ui-icon-pencil"></span>Edit Profile</button>
 </form>
 
 <script type="text/javascript">
