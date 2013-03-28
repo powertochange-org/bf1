@@ -78,24 +78,23 @@ catch (PDOException $e) {
 
 <link rel="stylesheet" type="text/css" media="screen" href="/css/login.css" />
 <div id="login">
-    <form action="login.php" method="post">
-        <fieldset id="credentials">
-            <legend>Please Login</legend>
-            <div>
-                <label>Email</label><input type="text" name="email" value="<?php echo $email; ?>" /><a class="required"></a>
-            </div>
-            <div>
-                <label>Password</label><input type="password" name="pass" value="<?php echo $password; ?>" /><a class="required"></a>
-            </div>
-            <div>
-        </fieldset>
-
-        <fieldset id="feedback">
-            <div id="errors"><?php echo $errors; ?></div>
-        </fieldset>
-
-        <button type="submit" name="submit" class="ui-state-default ui-corner-all">Login<span class="ui-icon ui-icon-circle-triangle-e"></span></button>
-    </form>
+  <form action="login.php" method="post">
+    <fieldset id="credentials">
+      <legend>Please Login</legend>
+      <div>
+        <label>Email</label><input type="text" name="email" value="<?php echo $email; ?>" /><a class="required"></a>
+      </div>
+      <div>
+        <label>Password</label><input type="password" name="pass" value="<?php echo $password; ?>" /><a class="required"></a>
+      </div>
+      <div>
+    </fieldset>
+    <fieldset id="feedback">
+      <div id="errors"><?php echo $errors; ?></div>
+    </fieldset>
+    <button type="submit" name="submit" class="ui-state-default ui-corner-all">Login<span class="ui-icon ui-icon-circle-triangle-e"></span></button>
+  </form>
+  <a href="/profile/reset_password.php">Please reset my password.</a>
 </div>
 
 <script type="text/javascript">

@@ -65,6 +65,6 @@ $title = 'My Profile';
   }
 </script>
 <?php
-//footer
-include('../footer.php');
+  //footer
+  include('../footer.php');
 ?>

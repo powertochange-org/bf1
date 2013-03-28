@@ -4,12 +4,8 @@
  * Reset Password
  * Campus Crusade for Christ
  */
-$auth = false;
 
-session_start();
-if(isset($_SESSION['email'])){
-    $auth = true;
-}
+ob_start();
 //header
 include('../header.php');
 
@@ -38,23 +34,45 @@ try {
   if($key != '') { //key was submitted
     //0. validate the key
     //prepare query
-
-    //$curDate = date("Y-m-d H:i:s");
-    //if ($SQL = $mySQL->prepare("SELECT `UserID` FROM `recoveryemails_enc` WHERE `Key` = ? AND `UserID` = ? AND `expDate` >= ?"))
-
     $sql = null;
-    $sql = "SELECT * FROM user WHERE Email = '".$db->escape($email)."'";      
+    $sql = "SELECT * FROM password_reset WHERE Reset_Key = '".$db->escape($key)."'";
     //get results
     $result = null;
     $result = $db->query_first($sql);
 
     //check result to verify the supplied key
-    if(!$result == 0) { //valid key
-      //1. login the user (session)
+    if($result != 0) {
+      //check the expiry date on the key
+      $expiryDate = $result['Expiry_Date'];
+      if(strtotime($expiryDate) > time()) {
+        //1. login the user (session)
+        //prepare query
+        $email = $result['Email'];
+        $sql = null;
+        $sql = "SELECT * FROM user WHERE Email = '".$db->escape($email)."'";
+        //get results
+        $result = null;
+        $result = $db->query_first($sql);
+        $_SESSION['email']  = $email;
+        $_SESSION['fname']  = $result['FName'];
+        $_SESSION['lname']  = $result['LName'];
+        $_SESSION['type']   = $result['Type'];
+        $_SESSION['region'] = $result['Region'];
 
-      //2. remove the record from the password_reset table
-
-      //3. redirect the user to the Change Password page
+        //2. delete the record from the password_reset table
+        $sql = null;
+        $sql = "DELETE FROM password_reset WHERE Reset_Key = '".$db->escape($key)."'";
+        $db->query($sql);
+        
+        //3. redirect the user to the Change Password page
+        header ("Location: /profile/?p=".CHANGE_PASSWORD);
+      }
+      else {
+        //delete the stale password_reset record
+        $sql = "DELETE FROM password_reset WHERE Reset_Key = '".$db->escape($key)."'";
+        $db->query($sql);
+        $message = "The password reset key you submitted has expired.  Please request another password reset.";
+      }
     }
     else {
       $message = "The password reset key you submitted has expired.  Please request another password reset.";
@@ -84,12 +102,10 @@ try {
 
       //2. insert a record into the password_reset table
       //prepare query
-      $data = array();
-      $data['Email']        = $email;
-      $data['Key']          = $key;
-      $data['Expiry_Date']  = $expDate;
+      $sql = null;
+      $sql = "INSERT INTO password_reset VALUES ('".$db->escape($email)."','".$db->escape($key)."','".$db->escape($expDate)."') ON DUPLICATE KEY UPDATE Reset_Key = '".$db->escape($key)."', Expiry_Date = '".$db->escape($expDate)."'";
       //execute query
-      $db->insert("password_reset", $data);
+      $db->query($sql);
 
       //3. send the password reset email to the user
       $transport = null;
@@ -112,7 +128,7 @@ try {
       $emailMessageBody .= "Regards,\r\n\n";
       $emailMessageBody .= ADMIN_EMAIL_FULLNAME;
 
-      $emailMessage = Swift_Message::newInstance('Test Subject')
+      $emailMessage = Swift_Message::newInstance('Password Reset Request')
         ->setFrom(array(ADMIN_EMAIL_USERNAME => ADMIN_EMAIL_FULLNAME))
         ->setTo(array($email))
         ->setBody($emailMessageBody);

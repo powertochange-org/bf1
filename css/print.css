@@ -1,61 +1,28 @@
 /*
-    Document   : print.css
-    Description: Fonts & Text
+Document :print.css
+Description:Fonts & Text
 */
+html,textarea {font-family:Verdana,Geneva,sans-serif; font-size:12px;}
+a,button {font-family:Verdana,Geneva,sans-serif; font-size:12px; text-decoration:none;}
+/* CONTAINER */
 
-html, textarea {
-    font-family: Verdana, Geneva, sans-serif;
-    font-size: 12px;
-}
+/* HEADER */
+#pagetitle {text-transform:capitalize;}
+#loginbox {font-family:Verdana,Geneva,sans-serif; font-size:15px;}
+#loginbox #login, #loginbox #register, #loginbox #logout, #abouttab #about, #hometab #home, #myprofiletab #myprofile, #myworktab #mywork, #admintab #admin, #communitytab #community, #resourcestab #resources {text-transform:uppercase; font-size:15px;}
+#loginbox a, #abouttab a, #hometab a, #myprofiletab a, #myworktab a, #admintab a, #communitytab a, #resourcestab a {color:#696D66;}
+#loginbox a:hover, #abouttab a:hover, #myprofiletab a:hover, #myworktab a:hover, #admintab a:hover, #communitytab a:hover, #resourcestab a:hover {color:#000;}
 
-a, button {
-    font-family: Verdana, Geneva, sans-serif;
-    font-size: 12px;
-    text-decoration: none;
-}
-
-a { color: #696D66; }
-a:hover { color: #000; }
-
-/*  CONTAINER */
-
-/*  HEADER */
-
-#navbar .option a, #userbox a {
-    text-transform: uppercase;
-    font-size: 15px;
-}
-
-#navbar .option a:hover, #userbox a:hover {}
-
-#pagetitle {
-    text-transform: capitalize;
-}
-
-#loginbox {
-    text-transform: uppercase;
-}
-
-/*  CONTENT */
-#content {}
-
+/* CONTENT */
+#content{}
 #leftmenu{}
-
 #leftmenu ul{}
-
-#leftmenu li a{
-    color: #666666;
-    font-size: 14px;
-}
-
-#leftmenu li a:hover, #leftmenu li a.active{
-    color: #000;
-}
-
+#leftmenu li a {color:#666666; font-size:14px;}
+#leftmenu li a:hover,#leftmenu li a.active {color:#000;}
 #leftmenu li span{}
 
-/*  FOOTER  */
-#footer, #footer #links a{
-    font-size: 10px;
-    text-decoration: none;
-}
+/* FOOTER */
+#footer, #footer #links a {font-size:10px; text-decoration:none;}
+#footer a {color:#696D66;}
+#footer a:hover {color:#000;}
+

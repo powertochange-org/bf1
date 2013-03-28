@@ -49,7 +49,7 @@ try {
   $db->close();
 } 
 catch (PDOException $e) {
-    echo $e->getMessage();
-    exit();
+  echo $e->getMessage();
+  exit();
 }
 ?>

@@ -4,37 +4,23 @@
 */
 
 #login, #register {padding-top: 20px;}
-
 #login fieldset, #register fieldset {border: none; border-top: 1px solid #ccc;}
-
 #login fieldset legend, #register fieldset legend {font-size: 16px; padding: 0px 10px;}
-
 /*#login fieldset div, #register fieldset div {height: 35px;}*/
-
 #login fieldset label, #register fieldset label {font-size: 12px; float: left; width: 80px; height: 25px; vertical-align: middle; padding: 2px 5px;}
-
 #login fieldset .required, #register fieldset .required { width: 24px; height: 24px; margin: 5px 5px; background-image: url('/admin/images/001_30.png'); display: none;}
-
 #login #credentials, #register #user {padding-top: 10px;}
-
 #login #credentials div, #register #user div {overflow: auto; width: 100%; margin: 0px 0px 5px;}
-
 #register #user #help {width: 175px; font-size: 11px;}
-
 #login #credentials input {font-size: 12px; padding: 5px; width: 150px; float: left; border: 1px solid #ccc;}
-
 #register #user input {font-size: 12px; padding: 5px; width: 150px; float: left; border: 1px solid #ccc;}
-
 #register #user select {font-size: 12px; padding: 5px; width: 150px; float: left; border: 1px solid #ccc;}
-
 #login #feedback, #register #feedback {height: 1px;}
-
 #login #feedback #errors, #register #feedback #errors {margin-top: 8px; float: left; width: 150px;}
-
 #login #feedback #errors div, #register #feedback #errors div {height: 14px; font-size: 10px;}
-
 #login button {float: right; margin: 0px 20px; padding: 3px 10px; font-size: 14px; -webkit-box-shadow: 0px 0px 3px #222; -moz-box-shadow: 0px 0px 3px #222; box-shadow: 0px 0px 3px #222;}
-
 #register button {float: right; margin: 0px 10px; padding: 3px 10px; font-size: 14px; -webkit-box-shadow: 0px 0px 3px #222; -moz-box-shadow: 0px 0px 3px #222; box-shadow: 0px 0px 3px #222;}
-
 #login button .ui-icon, #register button .ui-icon {float:right; margin: 2px 10px; margin-right: 0px;}
+#login a {padding: 0px 8px; font-family:Verdana,Geneva,sans-serif; font-size:12px;}
+#login a {color:#696D66;}
+#login a:hover {color:#000;}
