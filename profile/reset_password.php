@@ -109,9 +109,16 @@ try {
 
       //3. send the password reset email to the user
       $transport = null;
-      $transport = Swift_SmtpTransport::newInstance(SMTP_SERVER, SMTP_PORT, SMTP_SSL)
-        ->setUsername(ADMIN_EMAIL_USERNAME)
-        ->setPassword(ADMIN_EMAIL_PASSWORD);
+      if(SMTP_SSL == '') {
+        $transport = Swift_SmtpTransport::newInstance(SMTP_SERVER, SMTP_PORT)
+          ->setUsername(ADMIN_EMAIL_USERNAME)
+          ->setPassword(ADMIN_EMAIL_PASSWORD);
+      }
+      else {
+        $transport = Swift_SmtpTransport::newInstance(SMTP_SERVER, SMTP_PORT, SMTP_SSL)
+          ->setUsername(ADMIN_EMAIL_USERNAME)
+          ->setPassword(ADMIN_EMAIL_PASSWORD);
+      }
 
       $mailer = null;
       $mailer = Swift_Mailer::newInstance($transport);
