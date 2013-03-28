@@ -44,7 +44,8 @@ define("MODULES", "modules");
 define("REPORTS", "reports");
 define("DISCIPLES_REPORT", "disciples_report");
 define("PROGRESS_REPORT", "progress_report");
-define("ADMIN_EMAIL_USERNAME", "admin@crudoctrine.org");
+define("SMTP_SERVER", "smtp.gmail.com")
+define("ADMIN_EMAIL_USERNAME", "administrator@crudoctrine.org");
 define("ADMIN_EMAIL_FULLNAME", "CruDoctrine Administrator");
 define("ADMIN_EMAIL_PASSWORD", "password");
 ?>

@@ -109,7 +109,7 @@ try {
 
       //3. send the password reset email to the user
       $transport = null;
-      $transport = Swift_SmtpTransport::newInstance('smtp.gmail.com', 465, "ssl")
+      $transport = Swift_SmtpTransport::newInstance(SMTP_SERVER, 465, "ssl")
         ->setUsername(ADMIN_EMAIL_USERNAME)
         ->setPassword(ADMIN_EMAIL_PASSWORD);
 
