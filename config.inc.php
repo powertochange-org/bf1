@@ -45,7 +45,9 @@ define("REPORTS", "reports");
 define("DISCIPLES_REPORT", "disciples_report");
 define("PROGRESS_REPORT", "progress_report");
 define("SMTP_SERVER", "smtp.gmail.com");
-define("ADMIN_EMAIL_USERNAME", "administrator@crudoctrine.org");
+define("SMTP_PORT", 465);
+define("SMTP_SSL", "sslv3");
+define("ADMIN_EMAIL_USERNAME", "admin@crudoctrine.org");
 define("ADMIN_EMAIL_FULLNAME", "CruDoctrine Administrator");
-define("ADMIN_EMAIL_PASSWORD", "password");
+define("ADMIN_EMAIL_PASSWORD", "test");
 ?>
