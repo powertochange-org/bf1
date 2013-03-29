@@ -17,7 +17,8 @@ try {
   $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
   $db->connect();
 
-  //get name of Region
+  //get name of region
+  $sql = null;
   $sql = "SELECT Name
           FROM  region
           WHERE ID = ".$region.";";
@@ -25,6 +26,7 @@ try {
   $regionName = $db->query_first($sql);
 
   //get coach for user
+  $sql = null;
   $sql = "SELECT u.Email, u.FName, u.LName
           FROM  user u
           INNER JOIN coach c ON u.Email = c.Coach
@@ -32,6 +34,14 @@ try {
 
   $coach     = $db->query_first($sql);
   $coachName = $coach['FName'].' '.$coach['LName'];
+
+  //get name of user type
+  $sql = null;
+  $sql = "SELECT Name
+          FROM  user_type
+          WHERE ID = ".$type.";";
+
+  $userTypeName = $db->query_first($sql);
 
   $db->close();
 }
@@ -53,6 +63,11 @@ catch (PDOException $e) {
     <div>
       <label>Email:</label>
       <input type="text" name="email" value="<?php echo $email;?>" readonly/>
+    </div>
+    <div>
+      <label>Type:</label>
+      <input type="hidden" name="type" value="<?php echo $type;?>"/>
+      <input type="text" name="userTypeName" value="<?php echo $userTypeName['Name'];?>" readonly/>
     </div>
     <!--div>
       <label>Password:</label>
@@ -86,6 +101,7 @@ catch (PDOException $e) {
         firstName   : $('#viewUser input:[name=firstName]').val(),
         lastName    : $('#viewUser input:[name=lastName]').val(),
         email       : $('#viewUser input:[name=email]').val(),
+        type        : $('#viewUser input:[name=type]').val(),
         region      : $('#viewUser input:[name=region]').val(),
         coach       : $('#viewUser input:[name=coach]').val()
       },

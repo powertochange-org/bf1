@@ -14,10 +14,9 @@ try {
 
   $id         = isset($_SESSION['email'])      ? $_SESSION['email']    : '';
   $email      = isset($_POST['email'])         ? $_POST['email']       : '';
+  $type       = isset($_POST['type'])          ? $_POST['type']        : '';
   $firstName  = isset($_POST['firstName'])     ? $_POST['firstName']   : '';
   $lastName   = isset($_POST['lastName'])      ? $_POST['lastName']    : '';
-  //$password   = isset($_POST['password'])    ? $_POST['password']    : '';
-  //$type       = isset($_POST['type'])        ? $_POST['type']        : '';
   $region     = isset($_POST['region'])        ? $_POST['region']      : '';
   $coach      = isset($_POST['coach'])         ? $_POST['coach']       : '';
 
@@ -83,8 +82,7 @@ try {
     $data['Email']      = $email;
     $data['FName']      = $firstName;
     $data['LName']      = $lastName;
-    //$data['Password']   = $password;
-    //$data['Type']       = $type;
+    $data['Type']       = $type;
     $data['Region']     = $region;
 
     //execute query
@@ -146,23 +144,35 @@ try {
       $result = $db->query_first($sql);
       $coachName = $result['FullName'];
 
+      //get name of user type
+      $sql = null;
+      $sql = "SELECT Name
+              FROM  user_type
+              WHERE ID = ".$type.";";
+
+      $result = null;
+      $result = $db->query_first($sql);
+      $userTypeName = $result['Name'];
+
       header('Content-Type: application/xml; charset=ISO-8859-1');
       echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
       echo '<user>';
-      echo '<email>'      .$email.       '</email>';
-      echo '<firstName>'  .$firstName.   '</firstName>';
-      echo '<lastName>'   .$lastName.    '</lastName>';
-      echo '<region>'     .$region.      '</region>';
-      echo '<regionName>' .$regionName.  '</regionName>';
-      echo '<coach>'      .$coach.       '</coach>';
-      echo '<coachName>'  .$coachName.   '</coachName>';
+      echo '<email>'        .$email.         '</email>';
+      echo '<firstName>'    .$firstName.     '</firstName>';
+      echo '<lastName>'     .$lastName.      '</lastName>';
+      echo '<type>'         .$type.          '</type>';
+      echo '<userTypeName>' .$userTypeName.  '</userTypeName>';
+      echo '<region>'       .$region.        '</region>';
+      echo '<regionName>'   .$regionName.    '</regionName>';
+      echo '<coach>'        .$coach.         '</coach>';
+      echo '<coachName>'    .$coachName.     '</coachName>';
       echo '</user>';
 
       //Update the session variables with the new values
       $_SESSION['email']  = $email;
       $_SESSION['fname']  = $firstName;
       $_SESSION['lname']  = $lastName;
-      //$_SESSION['type']   = $type;
+      $_SESSION['type']   = $type;
       $_SESSION['region'] = $region;
 
       $db->close();
@@ -171,6 +181,7 @@ try {
   }
   else { //get data for profile edit
     //get coaches for selection
+    $sql = null;
     $sql     =  "SELECT Email, FName, LName
                  FROM  user
                  WHERE Type < ".STUDENT."
@@ -179,11 +190,33 @@ try {
     $coaches = $db->fetch_array($sql);
 
     //get regions for selection
+    $sql = null;
     $sql     =  "SELECT ID, Name
                  FROM  region
                  ORDER BY Name;";
 
     $regions = $db->fetch_array($sql);
+
+    //get user types for selection
+    $typeClause = null;
+    switch ($type) {
+        case SUPER:
+          $typeClause = SUPER-1;
+          break;
+        case REGIONAL_ADMIN:
+          $typeClause = REGIONAL_ADMIN-1;
+          break;
+        default:
+          $typeClause = REGIONAL_ADMIN;
+          break;
+    }
+    $sql = null;
+    $sql = "SELECT ID, Name
+            FROM  user_type
+            WHERE ID > ".$typeClause."
+            ORDER BY ID;";
+
+    $user_types = $db->fetch_array($sql);
   }
 
   $db->close();
@@ -198,16 +231,31 @@ catch (PDOException $e) {
     <h2>Edit Profile</h2>
     <fieldset id="editUser">
       <div>
-        <label>First Name</label>
+        <label>First Name:</label>
         <input type="text" name="firstName" value="<?php echo $firstName;?>" class="required"/>
       </div>
       <div>
-        <label>Last Name</label>
+        <label>Last Name:</label>
         <input type="text" name="lastName" value="<?php echo $lastName;?>" class="required"/>
       </div>
       <div>
-        <label>Email</label>
+        <label>Email:</label>
         <input type="text" name="email" value="<?php echo $email;?>" class="required"/>
+      </div>
+      <div>
+        <label>Type:</label>
+        <select name="type">
+          <option value="" 'selected'>Select User Type</option>
+          <?php
+            if(count($user_types) > 0){
+              foreach ($user_types as $row){
+                echo '<option value="'.$row['ID'].'"';
+                echo $type == $row['ID'] ? ' selected>' : ''.'>';
+                echo $row['Name'].'</option>';
+              }
+            }
+          ?>
+        </select><a class="required"></a>
       </div>
       <!--div>
         <label>Password:</label>
@@ -218,7 +266,7 @@ catch (PDOException $e) {
         <input type="password" name="confirmPassword" value="<?php //echo $password;?>" readonly/>
       </div-->
       <div>
-          <label>Region</label>
+          <label>Region:</label>
           <select name="region" class="required">
             <option value="" 'selected' >Select A Region</option>
             <?php
@@ -233,7 +281,7 @@ catch (PDOException $e) {
         </select>
       </div>
       <div>
-          <label>Coach</label>
+          <label>Coach:</label>
           <select name="coach">
             <option value="" 'selected' >-- None --</option>
             <?php
@@ -283,6 +331,11 @@ catch (PDOException $e) {
             errors += '<div>Please enter an email address.</div>';
         }
 
+        if ($('#editUser select:[name=type]').val().length == 0) {
+            $('#editUser select:[name=type]').css('border-color', 'orange').siblings('a').css('display','inline-block');
+            errors += '<div>Please enter a user type.</div>';
+        }
+
         if ($('#editUser select:[name=region]').val().length == 0) {
             $('#editUser select:[name=region]').css('border-color', 'orange').siblings('a').css('display','inline-block');
             errors += '<div>Please select a region.</div>';
@@ -305,6 +358,7 @@ catch (PDOException $e) {
                 firstName   : $('#editUser input:[name=firstName]').val(),
                 lastName    : $('#editUser input:[name=lastName]').val(),
                 email       : $('#editUser input:[name=email]').val(),
+                type        : $('#editUser select:[name=type]').val(),
                 region      : $('#editUser select:[name=region]').val(),
                 coach       : $('#editUser select:[name=coach]').val()
               },
@@ -312,18 +366,22 @@ catch (PDOException $e) {
               success: function(xml) {
                   $(xml).find('user').each(function() {
                     //get values
-                    var email      = $(this).find('email').text();
-                    var firstName  = $(this).find('firstName').text();
-                    var lastName   = $(this).find('lastName').text();
-                    var region     = $(this).find('region').text();
-                    var regionName = $(this).find('regionName').text();
-                    var coach      = $(this).find('coach').text();
-                    var coachName  = $(this).find('coachName').text();
+                    var email        = $(this).find('email').text();
+                    var firstName    = $(this).find('firstName').text();
+                    var lastName     = $(this).find('lastName').text();
+                    var type         = $(this).find('type').text();
+                    var userTypeName = $(this).find('userTypeName').text();
+                    var region       = $(this).find('region').text();
+                    var regionName   = $(this).find('regionName').text();
+                    var coach        = $(this).find('coach').text();
+                    var coachName    = $(this).find('coachName').text();
 
                     //update the form values
                     $('#viewUser input:[name=firstName]').val(firstName);
                     $('#viewUser input:[name=lastName]').val(lastName);
                     $('#viewUser input:[name=email]').val(email);
+                    $('#viewUser input:[name=type]').val(type);
+                    $('#viewUser input:[name=userTypeName]').val(userTypeName);
                     $('#viewUser input:[name=region]').val(region);
                     $('#viewUser input:[name=regionName]').val(regionName);
                     $('#viewUser input:[name=coach]').val(coach);
