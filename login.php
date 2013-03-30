@@ -94,7 +94,9 @@ catch (PDOException $e) {
     </fieldset>
     <button type="submit" name="submit" class="ui-state-default ui-corner-all">Login<span class="ui-icon ui-icon-circle-triangle-e"></span></button>
   </form>
-  <a href="/profile/reset_password.php">Please reset my password.</a>
+  <div id="passwordReset">
+    <a href="/profile/reset_password.php">Please reset my password.</a>
+  </div>
 </div>
 
 <script type="text/javascript">
@@ -109,12 +111,12 @@ catch (PDOException $e) {
         var errors = '';
 
         if ($('#login input:[name=email]').val().length == 0) {
-            $('#login input:[name=email]').css('border-color', 'orange').siblings('a').css('display','inline-block');
+            $('#login input:[name=email]').css('border-color', 'orange');
             errors += '<div>Please enter your email.</div>';
         }
 
         if ($('#login input:[name=pass]').val().length == 0) {
-            $('#login input:[name=pass]').css('border-color', 'orange').siblings('a').css('display','inline-block');
+            $('#login input:[name=pass]').css('border-color', 'orange');
             errors += '<div>Please enter your password.</div>';
         }
 
