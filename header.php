@@ -21,6 +21,7 @@ $email       = '';
 $fname       = '';
 $lname       = '';
 $type        = '';
+$status      = '';
 $userMessage = '';
 
 if(isset($_SESSION['email'])) {
@@ -29,6 +30,7 @@ if(isset($_SESSION['email'])) {
     $fname      = isset($_SESSION['fname']) ? $_SESSION['fname']    : '';
     $lname      = isset($_SESSION['lname']) ? $_SESSION['lname']    : '';
     $type       = isset($_SESSION['type']) ? $_SESSION['type']      : '';
+    $status     = isset($_SESSION['status']) ? $_SESSION['status']  : '';
     $userMessage= 'Welcome '.$fname.'!';
 } 
 
@@ -109,7 +111,7 @@ echo"<title>".$title." | Cru Doctrine</title>";
                   <div id="resourcestab" class="option">
                     <a id="resources" href="/">RESOURCES</a>
                   </div-->';
-            echo ($type == SUPER || $type == REGIONAL_ADMIN || $type == COACH) ? '<div id="admintab" class="option"><a id="admin" href="/admin">ADMIN</a></div>' : '';
+            echo (($type == SUPER || $type == REGIONAL_ADMIN || $type == COACH) && $status == ACTIVE) ? '<div id="admintab" class="option"><a id="admin" href="/admin">ADMIN</a></div>' : '';
           }
         ?>
         <div id="abouttab" class="option" ><a id="about" href="/about.php">ABOUT</a></div>

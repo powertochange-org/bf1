@@ -104,7 +104,6 @@ public function connect($new_link=false) {
 }#-#connect()
 
 
-
 #-#############################################
 # desc: close the connection
 public function close() {
@@ -234,7 +233,6 @@ public function insert($table, $data) {
         return mysql_insert_id($this->link_id);
     }
     else return false;
-
 }#-#insert()
 
 

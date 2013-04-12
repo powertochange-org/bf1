@@ -24,6 +24,7 @@ try {
 
   require_once("config.inc.php"); 
   require_once("Database.singleton.php");
+  require_once("function.inc.php");
 
   $password  = stripslashes($password);
   $firstName = stripslashes($firstName);
@@ -48,7 +49,7 @@ try {
     $data['Region']     = $region;
     //$data['Loc']        = $location;
     $data['Reg_Date']   = date('Ymd');
-    $data['Reg_Status'] = ACTIVE;
+    $data['Status'] = ACTIVE;
 
     //execute query
     $db->insert("user", $data);
@@ -81,7 +82,7 @@ try {
         $_SESSION['lname']  = $result['LName'];
         $_SESSION['type']   = $result['Type'];
         $_SESSION['region'] = $result['Region'];
-        //$_SESSION['loc']    = $result['Loc'];
+        $_SESSION['status'] = $result['Status'];
 
         //if ajax, return user attributes as xml
         if ($ajax) {
@@ -108,28 +109,15 @@ try {
     }
   }
   else { //get data for user creation
+
     //get coaches for selection
-    $sql     =  "SELECT Email, FName, LName
-                 FROM  user
-                 WHERE Type < ".STUDENT."
-                 ORDER BY LName;";
+    $coaches = getActiveCoaches($db);
 
-    $coaches = $db->fetch_array($sql);
-
-      //get regions for selection
-    $sql     =  "SELECT ID, Name
-                 FROM  region
-                 ORDER BY Name;";
-
-    $regions = $db->fetch_array($sql);
+    //get regions for selection
+    $regions = getRegions($db);
 
     //get user types for selection
-    $sql     =  "SELECT ID, Name
-                 FROM  user_type
-                 WHERE ID > ".REGIONAL_ADMIN."
-                 ORDER BY Name;";
-
-    $user_types = $db->fetch_array($sql);
+    $user_types = getUserTypes($db);
   }
   $db->close();
 } 

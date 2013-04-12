@@ -50,14 +50,16 @@ try {
     $usersSQL = "SELECT u.Email, u.FName, u.LName, u.Region AS RegionID, r.Name AS Region, u.Type
                  FROM user u
                  INNER JOIN region r ON u.Region = r.ID
-                 WHERE (u.Type = ".INTERN." OR u.Type = ".PART_TIME_FIELD_STAFF." OR u.Type = ".VOLUNTEER.")
+                 WHERE u.Status = ".ACTIVE."
+                 AND (u.Type = ".INTERN." OR u.Type = ".PART_TIME_FIELD_STAFF." OR u.Type = ".VOLUNTEER.")
                  ORDER BY Region, u.LName, u.FName;";
   }
   else if ($type == REGIONAL_ADMIN) {
     $usersSQL = "SELECT u.Email, u.FName, u.LName, u.Region AS RegionID, r.Name AS Region, u.Type
                  FROM user u
                  INNER JOIN region r ON u.Region = r.ID
-                 WHERE u.Region = ".$region."
+                 WHERE u.Status = ".ACTIVE."
+                 AND u.Region = ".$region."
                  AND (u.Type = ".INTERN." OR u.Type = ".PART_TIME_FIELD_STAFF." OR u.Type = ".VOLUNTEER.")
                  ORDER BY Region, u.LName, u.FName;";
   }
@@ -66,7 +68,8 @@ try {
                  FROM user u
                  INNER JOIN region r ON u.Region = r.ID
                  LEFT JOIN coach c ON u.Email = c.Student
-                 WHERE c.Coach = '".$db->escape($email)."'
+                 WHERE u.Status = ".ACTIVE."
+                 AND c.Coach = '".$db->escape($email)."'
                  ORDER BY Region, u.LName, u.FName;";
   }
   $users = $db->fetch_array($usersSQL);
@@ -102,7 +105,7 @@ try {
     $_teams[$regionID]['Users'][$userEmail]['Progress']  = $user['Progress'];
     $_teams[$regionID]['Users'][$userEmail]['Finished']  = $user['Finished'];
     if(($user['Type'] != PART_TIME_FIELD_STAFF && $user['Type'] != VOLUNTEER) && $user['Finished']) {
-      $_teams[$regionID]['FinishedCount'] != null ? $_teams[$regionID]['FinishedCount']++ : $_teams[$regionID]['FinishedCount'] = 1;
+      array_key_exists('FinishedCount', $_teams) ? $_teams[$regionID]['FinishedCount']++ : $_teams[$regionID]['FinishedCount'] = 1;
     }
     if(($user['Type'] != PART_TIME_FIELD_STAFF && $user['Type'] != VOLUNTEER) && count($user['Progress']) > 0) {
       $_teams[$regionID]['CompletedModules'][] = $user['Progress'][(count($user['Progress'])-1)]['Module'];

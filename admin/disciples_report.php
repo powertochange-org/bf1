@@ -24,7 +24,8 @@ try {
           INNER JOIN page     p    ON e.PageId     = p.ID
           INNER JOIN section  s    ON p.SectionId  = s.ID
           INNER JOIN module   m    ON s.ModuleId   = m.ID
-          WHERE c.Coach = '".$db->escape($email)."'
+          WHERE u.Status = ".ACTIVE."
+          AND c.Coach = '".$db->escape($email)."'
           AND r.Coach = 1
           ORDER BY m.Ord, s.Ord, p.Ord";
   $disciples = $db->fetch_array($sql);
@@ -47,7 +48,7 @@ try {
       $_disciples[$email]['Modules'][$module]['Responses'][$response]['Question']   = $disciple['Question'];
       $_disciples[$email]['Modules'][$module]['Responses'][$response]['Response']   = $disciple['Response'];
   }
-  
+
   //iterate through the multi-dimensional array and build the report
   if (count($_disciples) > 0) {
     foreach ($_disciples as $disciple) {
@@ -87,7 +88,7 @@ try {
   $db->close();
 } 
 catch (PDOException $e) {
-    echo $e->getMessage();
+  echo $e->getMessage();
 }
 ?>
 

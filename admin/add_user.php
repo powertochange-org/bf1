@@ -38,7 +38,7 @@ try {
     $data['Region']     = $region;
     //$data['Loc']        = $location;
     $data['Reg_Date']   = $regDate;
-    $data['Reg_Status'] = ACTIVE;
+    $data['Status'] = ACTIVE;
 
     //execute query
     $db->insert("user", $data);

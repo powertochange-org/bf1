@@ -24,9 +24,12 @@ try {
 
   $coaches = array();
   $regions = array();
+  $user_statuses = array();
+  $user_types = array();
 
   require_once("../config.inc.php"); 
   require_once("../Database.singleton.php");
+  require_once("../function.inc.php");
 
   //$password  = stripslashes($password);
   $firstName = stripslashes($firstName);
@@ -180,22 +183,15 @@ try {
     }
   }
   else { //get data for profile edit
-    //get coaches for selection
-    $sql = null;
-    $sql     =  "SELECT Email, FName, LName
-                 FROM  user
-                 WHERE Type < ".STUDENT."
-                 ORDER BY LName;";
 
-    $coaches = $db->fetch_array($sql);
+    //get coaches for selection
+    $coaches = getActiveCoaches($db);
 
     //get regions for selection
-    $sql = null;
-    $sql     =  "SELECT ID, Name
-                 FROM  region
-                 ORDER BY Name;";
+    $regions = getRegions($db);
 
-    $regions = $db->fetch_array($sql);
+    //get user statuses for selection
+    $user_statuses = getUserStatuses($db);
 
     //get user types for selection
     $typeClause = null;
@@ -210,13 +206,7 @@ try {
           $typeClause = REGIONAL_ADMIN;
           break;
     }
-    $sql = null;
-    $sql = "SELECT ID, Name
-            FROM  user_type
-            WHERE ID > ".$typeClause."
-            ORDER BY ID;";
-
-    $user_types = $db->fetch_array($sql);
+    $user_types = getUserTypes($db, $typeClause);
   }
 
   $db->close();

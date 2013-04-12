@@ -5,12 +5,20 @@
 
 /* Disciples Report */
 #disciples-report{ margin:10px; }
+.year{ margin:10px; }
+.year .ui-icon{ float:left; }
+.year .name{ font-size:16px; padding:5px 0px; border-bottom:1px solid #bbb; }
+.year .name span{ margin-left:-20px; margin-top:2px; }
+.year .name span.ui-icon{ cursor:pointer; }
+.year .disciples{ display: none; padding:5px 0px; }
+.year .disciples.active{ display: block; }
+.year .disciples span.icon{ float:left; margin-left:-30px; width:16px; height:16px; margin-top:5px; }
 .disciple{ margin:10px; }
 .disciple .ui-icon{ float:left; }
 .disciple .name{ font-size:16px; padding:5px 0px; border-bottom:1px solid #bbb; }
 .disciple .name span{ margin-left:-20px; margin-top:2px; }
 .disciple .name span.ui-icon{ cursor:pointer; }
-.disciple .modules{ display: none; padding:5px 0px; }
+.disciple .modules{ display: none; padding:5px 10px; }
 .disciple .modules.active{ display: block; }
 .disciple .modules span.icon{ float:left; margin-left:-30px; width:16px; height:16px; margin-top:5px; }
 .module{ margin:10px; }
@@ -28,12 +36,20 @@
 
 /* Progress Report */
 #progress-report{ margin:12px; }
+.year{ margin:10px; }
+.year .ui-icon{ float:left; }
+.year .name{ font-size:16px; padding:5px 0px; border-bottom:1px solid #bbb; }
+.year .name span{ margin-left:-20px; margin-top:2px; }
+.year .name span.ui-icon{ cursor:pointer; }
+.year .teams{ display: none; padding:5px 0px; }
+.year .teams.active{ display: block; }
+.year .teams span.icon{ float:left; margin-left:-30px; width:16px; height:16px; margin-top:5px; }
 .team{ margin:10px; }
 .team .ui-icon{ float:left; }
 .team .name{ font-size:16px; padding:5px 0px; border-bottom:1px solid #bbb; }
 .team .name span{ margin-left:-20px; margin-top:2px; }
 .team .name span.ui-icon{ cursor:pointer; }
-.team .progress{ display: none; padding:5px 0px; }
+.team .progress{ display: none; padding:5px 10px; }
 .team .progress.active{ display: block; }
 .team .progress span.icon{ float:left; margin-left:-30px; width:16px; height:16px; margin-top:5px; }
 .progress-table{ margin:0; padding:5px 0px 10px 5px; width:100%; font:11px Arial,Helvetica,sans-serif; color:#747474}

@@ -45,7 +45,7 @@ try {
           $_SESSION['lname']  = $result['LName'];
           $_SESSION['type']   = $result['Type'];
           $_SESSION['region'] = $result['Region'];
-          //$_SESSION['loc']    = $result['Loc'];
+          $_SESSION['status'] = $result['Status'];
 
           //$_SESSION['documentRoot']  = $_SERVER['REQUEST_URI'];
 

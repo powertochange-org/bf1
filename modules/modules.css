@@ -9,7 +9,7 @@
 /* MAIN */
 
 /* MODULE */
-.module{ width: 880px; height: 400px; margin: 5px auto; margin-bottom: -5px; overflow: hidden; }
+.module{ width: 880px; height: 400px; margin: 5px auto; margin-bottom: 5px; overflow: hidden; }
 .module #background_img{ position: absolute; }
 .module #title, .page #title{ margin: 10px; }
 .module #title #number, .module #title #name { color: #fff; display: inline-block; font-size: 34px; text-transform: uppercase; font-weight:500; }
@@ -94,7 +94,7 @@
 .page #contentpane.one-column #right{ display:none; }
 
 /* BOTTOM */
-.page #bottom{ margin-left:180px; margin-right:30px; }
+.page #bottom{ margin-left:180px; margin-right:30px; margin-bottom: 10px;}
 .page #bottom #errors{ display:none; float:left; padding:5px; width:400px; padding-left:40px; background:url('../images/icons/error.png') no-repeat; }
 .page #bottom #submit button{ float:right; padding: 5px 10px; font-size: 14px; }
 .page #bottom #submit button .ui-icon{ float:right; margin-top:2px; }

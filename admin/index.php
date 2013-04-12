@@ -13,7 +13,7 @@ require_once("../function.inc.php");
 $auth = false;
 
 session_start();
-if($_SESSION['type'] == SUPER || $_SESSION['type'] == REGIONAL_ADMIN || $_SESSION['type'] == COACH){
+if(($_SESSION['type'] == SUPER || $_SESSION['type'] == REGIONAL_ADMIN || $_SESSION['type'] == COACH) && $_SESSION['status'] == ACTIVE){
     $auth = true;
 }
 
@@ -34,16 +34,16 @@ $page   = isset($_GET['request'])   ? $_GET['request']  : $page;
 $id     = isset($_GET['id'])        ? $_GET['id']       : false;
 
 switch ($page) {
-    case MODULES:
-      if ($id) {
-        $page = MODULE;
-      }
-      break;
-    case REPORTS:
-      if ($id) {
-        $page = $id;
-      }
-      break;
+  case MODULES:
+    if ($id) {
+      $page = MODULE;
+    }
+    break;
+  case REPORTS:
+    if ($id) {
+      $page = $id;
+    }
+    break;
 }
 
 $fullPage = $page.'.php';
@@ -80,16 +80,17 @@ $fullPage = $page.'.php';
           <!--li><a href="?p=articles" class="<?php //echo $_GET['p'] == 'articles' ? 'active' : ''; ?>">Articles</a></li-->
           <!--li><a href="?p=homepage" class="<?php //echo $_GET['p'] == 'homepage' ? 'active' : ''; ?>">Home Page</a></li-->
           <li><a href="?p=users" class="<?php echo $page == 'users' ? 'active' : ''; ?>">Users</a></li>
+          <li><a href="?p=archived_users" class="<?php echo $page == 'archived_users' ? 'active' : ''; ?>">Archived Users</a></li>
           <li><a href="?p=reports" class="<?php echo $page == 'reports' ? 'active' : ''; ?>">Reports</a></li>
           <!--li><a href="?p=settings" class="<?php  //echo $_GET['p'] == 'settings'   ? 'active' : ''; ?>">Settings</a></li-->
         </ul>
       </div>
       <div id="contentpane">
           <?php
-              include($fullPage);
+            include($fullPage);
           ?>
           <div id="confirm">
-              <div id="message"></div>
+            <div id="message"></div>
           </div>
       </div>
   </div>
@@ -188,6 +189,6 @@ $fullPage = $page.'.php';
 </script>
 
 <?php
-//footer
-include('../footer.php');
+  //footer
+  include('../footer.php');
 ?>

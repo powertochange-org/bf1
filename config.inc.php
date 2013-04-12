@@ -37,7 +37,7 @@ define("ALL", 0);
 define("NORMAL_PAGE", 0);
 define("ASSESSMENT_PAGE", 1);
 define("ACTIVE", 1);
-define("INACTIVE", 0);
+define("INACTIVE", 2);
 define("PASSWORD_RESET", 1);
 define("CHECKED", "checked");
 define("MODULES", "modules");
