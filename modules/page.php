@@ -148,7 +148,7 @@ function insertElement($_id, $_type, $_content) {
 <script src="/jquery/jQuery-URL-Parser/jquery.url.js" type="text/javascript" charset="utf-8"></script>
 <div id="module<?php echo str_replace('.', '', $module['Number']); ?>" class="page">
     <div id="title">
-        <div id="number">Module <?php echo $module['Number']; ?></div>
+        <div id="number">Module <?php echo number_format($module['Number'], 0); ?></div>
         <div id="name"><?php echo $module['Name']; ?></div>
     </div>
     <div id="banner">

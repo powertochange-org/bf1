@@ -76,7 +76,7 @@ try {
           $str_report .=     '<div class="module" id="'.$module['ModuleID'].'">
                                <div class="name">
                                  <span class="ui-icon ui-icon-triangle-1-e"></span>
-                                 Module '.$module['ModuleNumber'].' - '.$module['ModuleName'].'
+                                 Module '.number_format($module['ModuleNumber'], 0).' - '.$module['ModuleName'].'
                                </div>
                                <span class="check"></span>
                                <div class="flags">'.PHP_EOL;

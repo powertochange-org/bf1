@@ -29,7 +29,7 @@
         <div class="reporticon"></div>
         <div class="name">Archived Disciples</div>
       </div>
-      <div class="descr">Lists the responses of previous disciples where the coaches flag has been checked</div>
+      <div class="descr">Lists the flagged responses of previous year's disciples.</div>
       <a class="run ui-state-default corners-all button" href="?p=reports&id=archived_disciples_report"><span class="ui-icon ui-icon-gear"></span>Run</a>
     </div>
     <div class="report" id="archived_progress_report">
@@ -37,7 +37,7 @@
         <div class="reporticon"></div>
         <div class="name">Archived Progress</div>
       </div>
-      <div class="descr">Lists the completion status for the members of my previous teams</div>
+      <div class="descr">Lists the completion status for the members of my previous year's teams</div>
       <a class="run ui-state-default corners-all button" href="?p=reports&id=archived_progress_report"><span class="ui-icon ui-icon-gear"></span>Run</a>
     </div>
   </div>

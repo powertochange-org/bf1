@@ -132,7 +132,7 @@ try {
                       if(count($modules) > 0) {
                         foreach ($modules as $module) {
       $str_report .=         '<div class="progress-top-cell">'.PHP_EOL;
-      $str_report .=            $module['Number'].PHP_EOL;
+      $str_report .=            number_format($module['Number'], 0).PHP_EOL;
       $str_report .=         '</div>'.PHP_EOL;
                         }
                       }

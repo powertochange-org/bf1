@@ -13,7 +13,7 @@
         <a href="?s=<?php echo $module['FirstSection']; ?>" class="ui-state-default ui-corner-all shadow-medium">Continue<span class="ui-icon ui-icon-circle-triangle-e"></span></a>
     </div>
     <div id="title">
-        <div id="number">Module <?php echo $module['Number']; ?></div>
+        <div id="number">Module <?php echo number_format($module['Number'], 0); ?></div>
         <div id="name"><?php echo $module['Name']; ?></div>
     </div>
     <div id="description">

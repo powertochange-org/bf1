@@ -27,7 +27,7 @@ try {
     $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
     $db->connect();     
         
-    $sql = "SELECT * FROM module WHERE Number > 1 ORDER BY Ord;";
+    $sql = "SELECT * FROM module WHERE Number > 0 ORDER BY Ord;";
 
     //get modules
     $modules = $db->fetch_array($sql);
@@ -131,7 +131,7 @@ foreach($_modules as $module) {
   $i++;
   $str_bar .= '<div class="bar '.$module['status'].' '.$bar_class.'" id="'.$module['Ord'].'" style="width:'.$bar_wid.'%;"></div>'.PHP_EOL;
   if($module['status'] == STARTED) {
-    $str_sta = '<div class="name">Module '.$module['Number'].'<br />'.$module['Name'].'</div>
+    $str_sta = '<div class="name">Module '.number_format($module['Number'], 0).'<br />'.$module['Name'].'</div>
                 <a href="/modules/?p='.$module['page'].'" class="corners-all ui-state-default">Continue<span class="ui-icon ui-icon-triangle-1-e"></span></a>';
   }
 
@@ -139,12 +139,12 @@ foreach($_modules as $module) {
     $str_mod .= '<div class="module" id="'.$module['ID'].'">
                    <div class="name">
                      <span class="ui-icon ui-icon-triangle-1-'.($module['Ord'] == $cur_mod ? 's' : 'e').'"></span>
-                     Module '.$module['Number'].' - '.$module['Name'].'
+                     Module '.number_format($module['Number'], 0).' - '.$module['Name'].'
                    </div>
                    <span class="check"></span>
                    <div class="flagsnotes '.($module['Ord'] == $cur_mod ? 'active' : '').'">'.PHP_EOL;
     if ($flags) {
-      if($module['flags'] > 0) {
+      if(array_key_exists('flags', $module)) {
         foreach($module['flags'] as $flag) {
           $str_mod .= '<div class="flag" id="'.$flag['InputId'].'">
                          <span class="icon"></span>
@@ -155,7 +155,7 @@ foreach($_modules as $module) {
       }
     }
     if ($notes) {
-      if($module['notes'] > 0) {
+      if(array_key_exists('notes', $module)) {
         foreach($module['notes'] as $note) {
           $str_mod .= '<div class="note" id="'.$note['ElementId'].'">
                          <span class="icon"></span>

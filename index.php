@@ -46,10 +46,10 @@ catch (PDOException $e) {
             if(count($modules) > 0) {
                 echo '<div id="slider">';
                 foreach ($modules as $module) {
-                    if($module['Number'] > 1) {
+                    if($module['Number'] > 0) {
                         echo '  <div id="module'.str_replace('.', '', $module['Number']).'" class="module">
                                     <div class="slide">
-                                        <div class="label"><span>Module '.$module['Number'].'</span></div>
+                                        <div class="label"><span>Module '.number_format($module['Number'], 0).'</span></div>
                                         <div class="pic"><img src="'.$module['FrontImg'].'" height="300" width="515"></div>
                                         <div class="name">'.$module['Name'].'</div>
                                         <div class="desc">'.$module['Descr'].'</div>';
@@ -68,7 +68,7 @@ catch (PDOException $e) {
 </div>
 <script type="text/javascript">
   $(function() {
-      $('#module11').css('width', '555px').addClass('active');
+      $('#module10').css('width', '555px').addClass('active');
   });
 
   $('.module').click(function() {
