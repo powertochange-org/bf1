@@ -108,7 +108,7 @@ try {
     $_teams[$year][$regionID]['Users'][$userEmail]['Progress']  = $user['Progress'];
     $_teams[$year][$regionID]['Users'][$userEmail]['Finished']  = $user['Finished'];
     if(($user['Type'] != PART_TIME_FIELD_STAFF && $user['Type'] != VOLUNTEER) && $user['Finished']) {
-      array_key_exists('FinishedCount', $_teams) ? $_teams[$year][$regionID]['FinishedCount']++ : $_teams[$year][$regionID]['FinishedCount'] = 1;
+      array_key_exists('FinishedCount', $_teams[$year][$regionID]) ? $_teams[$year][$regionID]['FinishedCount']++ : $_teams[$year][$regionID]['FinishedCount'] = 1;
     }
     if(($user['Type'] != PART_TIME_FIELD_STAFF && $user['Type'] != VOLUNTEER) && count($user['Progress']) > 0) {
       $_teams[$year][$regionID]['CompletedModules'][] = $user['Progress'][(count($user['Progress'])-1)]['Module'];
