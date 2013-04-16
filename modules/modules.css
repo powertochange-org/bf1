@@ -28,18 +28,18 @@
 .module #continue{ position: absolute; display: inline-block; margin-left: 720px; margin-top: 355px; }
 .module #continue a{ display: block; padding: 5px 10px; font-size: 16px; height: 22px; }
 .module #continue .ui-icon { float: right; margin: 3px 10px; margin-right: 0px; }
-#module11 #title #name, #module11 #continue a{ color: #CC6600; }
-#module12 #title #name, #module12 #continue a{ color: #E27E07; }
-#module21 #title #name, #module21 #continue a{ color: #EB9E47; }
-#module22 #title #name, #module22 #continue a{ color: #666666; }
-#module31 #title #name, #module31 #continue a{ color: #887562; }
-#module31 #title #number { color: #002046; }
-#module32 #title #name, #module32 #continue a{ color: #717A76; }
-#module33 #title #name, #module33 #continue a{ color: #55402C; }
-#module33 #title #number { color: #558823; }
-#module41 #title #name, #module41 #continue a{ color: #6A9968; }
-#module42 #title #name, #module42 #continue a{ color: #585858; }
-#module43 #title #name, #module43 #continue a{ color: #003300; }
+#module10 #title #name, #module10 #continue a{ color: #CC6600; }
+#module20 #title #name, #module20 #continue a{ color: #E27E07; }
+#module30 #title #name, #module30 #continue a{ color: #EB9E47; }
+#module40 #title #name, #module40 #continue a{ color: #666666; }
+#module50 #title #name, #module50 #continue a{ color: #887562; }
+#module50 #title #number { color: #002046; }
+#module60 #title #name, #module60 #continue a{ color: #717A76; }
+#module70 #title #name, #module70 #continue a{ color: #55402C; }
+#module70 #title #number { color: #558823; }
+#module80 #title #name, #module80 #continue a{ color: #6A9968; }
+#module90 #title #name, #module90 #continue a{ color: #585858; }
+#module100 #title #name, #module100 #continue a{ color: #003300; }
 
 /* PAGE */
 .page{ width: 880px; min-height: 600px; margin: 5px auto; margin-bottom: -5px; overflow: hidden; }
