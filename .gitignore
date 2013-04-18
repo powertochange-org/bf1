@@ -38,3 +38,8 @@ Thumbs.db
 *test.php
 crudoctrine.tmproj
 phpinfo.php
+
+# Multimedia Files #
+########################
+*.mp4
+*.mov
