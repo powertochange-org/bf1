@@ -143,65 +143,65 @@ $.fn.media.defaults = {
 // Media Players; think twice before overriding
 $.fn.media.defaults.players = {
     flash: {
-        name:        'flash',
-        title:       'Flash',
-        types:       'flv,swf',
-        mimetype:    'application/x-shockwave-flash',
-        pluginspage: 'http://www.adobe.com/go/getflashplayer',
-        ieAttrs: {
-            classid:  'clsid:d27cdb6e-ae6d-11cf-96b8-444553540000',
-            type:     'application/x-oleobject',
-            codebase: 'http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=' + $.fn.media.defaults.flashVersion
-        }
+      name:        'flash',
+      title:       'Flash',
+      types:       'flv,swf',
+      mimetype:    'application/x-shockwave-flash',
+      pluginspage: 'http://www.adobe.com/go/getflashplayer',
+      ieAttrs: {
+          classid:  'clsid:d27cdb6e-ae6d-11cf-96b8-444553540000',
+          type:     'application/x-oleobject',
+          codebase: 'http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=' + $.fn.media.defaults.flashVersion
+      }
     },
     quicktime: {
-        name:        'quicktime',
-        title:       'QuickTime',
-        mimetype:    'video/quicktime',
-        pluginspage: 'http://www.apple.com/quicktime/download/',
-        types:       'aif,aiff,aac,au,bmp,gsm,mov,mid,midi,mpg,mpeg,mp3,mp4,m4a,psd,qt,qtif,qif,qti,snd,tif,tiff,wav,3g2,3gp',
-        ieAttrs: {
-            classid:  'clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B',
-            codebase: 'http://www.apple.com/qtactivex/qtplugin.cab'
-        }
+      name:        'quicktime',
+      title:       'QuickTime',
+      mimetype:    'video/quicktime',
+      pluginspage: 'http://www.apple.com/quicktime/download/',
+      types:       'aif,aiff,aac,au,bmp,gsm,mov,mid,midi,mpg,mpeg,mp3,mp4,m4a,psd,qt,qtif,qif,qti,snd,tif,tiff,wav,3g2,3gp',
+      ieAttrs: {
+          classid:  'clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B',
+          codebase: 'http://www.apple.com/qtactivex/qtplugin.cab'
+      }
     },
     realplayer: {
-        name:         'real',
-        title:        'RealPlayer',
-        types:        'ra,ram,rm,rpm,rv,smi,smil',
-        mimetype:     'audio/x-pn-realaudio-plugin',
-        pluginspage:  'http://www.real.com/player/',
-        autoplayAttr: 'autostart',
-        ieAttrs: {
-            classid: 'clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA'
-        }
+      name:         'real',
+      title:        'RealPlayer',
+      types:        'ra,ram,rm,rpm,rv,smi,smil',
+      mimetype:     'audio/x-pn-realaudio-plugin',
+      pluginspage:  'http://www.real.com/player/',
+      autoplayAttr: 'autostart',
+      ieAttrs: {
+          classid: 'clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA'
+      }
     },
     winmedia: {
-        name:         'winmedia',
-        title:        'Windows Media',
-        types:        'asx,asf,avi,wma,wmv',
-        mimetype:     $.browser.mozilla && isFirefoxWMPPluginInstalled() ? 'application/x-ms-wmp' : 'application/x-mplayer2',
-        pluginspage:  'http://www.microsoft.com/Windows/MediaPlayer/',
-        autoplayAttr: 'autostart',
-        oUrl:         'url',
-        ieAttrs: {
-            classid:  'clsid:6BF52A52-394A-11d3-B153-00C04F79FAA6',
-            type:     'application/x-oleobject'
-        }
+      name:         'winmedia',
+      title:        'Windows Media',
+      types:        'asx,asf,avi,wma,wmv',
+      mimetype:     $.browser.mozilla && isFirefoxWMPPluginInstalled() ? 'application/x-ms-wmp' : 'application/x-mplayer2',
+      pluginspage:  'http://www.microsoft.com/Windows/MediaPlayer/',
+      autoplayAttr: 'autostart',
+      oUrl:         'url',
+      ieAttrs: {
+          classid:  'clsid:6BF52A52-394A-11d3-B153-00C04F79FAA6',
+          type:     'application/x-oleobject'
+      }
     },
     // special cases
     img: {
-        name:  'img',
-        title: 'Image',
-        types: 'gif,png,jpg'
+      name:  'img',
+      title: 'Image',
+      types: 'gif,png,jpg'
     },
     iframe: {
-        name:  'iframe',
-        types: 'html,pdf'
+      name:  'iframe',
+      types: 'html,pdf,vimeo'
     },
     silverlight: {
-        name:  'silverlight',
-        types: 'xaml'
+      name:  'silverlight',
+      types: 'xaml'
     }
 };
 
@@ -224,12 +224,12 @@ function isFirefoxWMPPluginInstalled() {
 var counter = 1;
 
 for (var player in $.fn.media.defaults.players) {
-    var types = $.fn.media.defaults.players[player].types;
-    $.each(types.split(','), function(i,o) {
-        if (isDigit(o[0])) o = 'fn' + o;
-        $.fn.media[o] = $.fn.media[player] = getGenerator(player);
-        $.fn.media[o+'_player'] = $.fn.media.defaults.players[player];
-    });
+  var types = $.fn.media.defaults.players[player].types;
+  $.each(types.split(','), function(i,o) {
+    if (isDigit(o[0])) o = 'fn' + o;
+    $.fn.media[o] = $.fn.media[player] = getGenerator(player);
+    $.fn.media[o+'_player'] = $.fn.media.defaults.players[player];
+  });
 };
 
 function getTypesRegExp() {
@@ -462,7 +462,7 @@ function generate(el, opts, player) {
         a.push('<div><p><strong>'+o.title+' Required</strong></p><p>'+o.title+' is required to view this media. <a href="'+o.pluginspage+'">Download Here</a>.</p></div>');
         a.push('</ob'+'ject'+'>');
     }
-     else {
+    else {
             var a = ['<embed width="' + opts.width + '" height="' + opts.height + '" style="display:block"'];
             if (opts.src) a.push(' src="' + opts.src + '" ');
             for (var key in opts.attrs)
@@ -475,7 +475,7 @@ function generate(el, opts, player) {
                 a.push(key + '="'+opts.params[key]+'" ');
             }
             a.push('></em'+'bed'+'>');
-        }   
+    }   
     // convert element to div
     var id = el.id ? (' id="'+el.id+'"') : '';
     var cls = opts.cls ? (' class="' + opts.cls + '"') : '';
@@ -488,6 +488,5 @@ function generate(el, opts, player) {
     if (opts.caption) $('<div>').appendTo($div).html(opts.caption);
     return $div;
 };
-
 
 })(jQuery);
