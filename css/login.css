@@ -7,7 +7,7 @@
 #login fieldset, #register fieldset {border: none; border-top: 1px solid #ccc;}
 #login fieldset legend, #register fieldset legend {font-size: 16px; padding: 0px 10px;}
 /*#login fieldset div, #register fieldset div {height: 35px;}*/
-#login fieldset label, #register fieldset label {font-size: 12px; float: left; width: 80px; height: 25px; vertical-align: middle; padding: 2px 5px;}
+#login fieldset label, #register fieldset label {font-size: 12px; float: left; width: 86px; height: 25px; vertical-align: middle; padding: 2px 5px;}
 #login fieldset .required, #register fieldset .required { width: 24px; height: 24px; margin: 5px 5px; background-image: url('/admin/images/001_30.png'); display: none;}
 #login #credentials, #register #user {padding-top: 10px;}
 #login #credentials div, #register #user div {overflow: auto; width: 100%; margin: 0px 0px 5px;}
