@@ -6,7 +6,7 @@
  */
 
 if (!isset($_SESSION)) {
-  ini_set('session.gc_maxlifetime', 3600);
+  ini_set('session.gc_maxlifetime', 7200);
   ini_set('session.gc_probability', 1);
   ini_set('session.gc_divisor', 100);
   session_start();
@@ -41,32 +41,33 @@ require_once("Database.singleton.php");
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="description" content="Cru Doctrine" />
-<meta name="robots" content="noindex" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="description" content="Cru Doctrine" />
+  <meta name="robots" content="noindex" />
+  <meta http-equiv="refresh" content="7200;url=logout.php" />
 
-<?php
-//title
-echo"<title>".$title." | Cru Doctrine</title>";
-?>
+  <?php
+    //title
+    echo"<title>".$title." | Cru Doctrine</title>";
+  ?>
 
-<!--JQUERY-->
-<!--core-->
-<!--script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script-->
-<script type="text/javascript" src="/jquery/datatables/media/js/jquery.js"></script>
-<!--ui-->
-<script type="text/javascript" src="/jquery/ui/js/jquery-ui-1.8.custom.min.js"></script>
-<link type="text/css" href="/jquery/ui/css/crudoctrine-grey/jquery-ui-1.8.1.custom.css" rel="Stylesheet" />
-<!--media-->
-<script type="text/javascript" src="/jquery/media/jquery.media.js"></script>
-<!--validation-->
-<script type="text/javascript" src="/jquery/validation/jquery.validate.min.js"></script>
-<!--END JQUERY-->
+  <!--JQUERY-->
+  <!--core-->
+  <!--script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script-->
+  <script type="text/javascript" src="/jquery/datatables/media/js/jquery.js"></script>
+  <!--ui-->
+  <script type="text/javascript" src="/jquery/ui/js/jquery-ui-1.8.custom.min.js"></script>
+  <link type="text/css" href="/jquery/ui/css/crudoctrine-grey/jquery-ui-1.8.1.custom.css" rel="Stylesheet" />
+  <!--media-->
+  <script type="text/javascript" src="/jquery/media/jquery.media.js"></script>
+  <!--validation-->
+  <script type="text/javascript" src="/jquery/validation/jquery.validate.min.js"></script>
+  <!--END JQUERY-->
 
-<!--CSS-->
-<link rel="stylesheet" type="text/css" media="screen" href="/css/layout.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="/css/print.css" />
-<!--END CSS-->
+  <!--CSS-->
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/layout.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/print.css" />
+  <!--END CSS-->
 </head>
 
 <body>
