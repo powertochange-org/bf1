@@ -33,6 +33,7 @@ define("INTERN", 5);
 define("OTHER", 6);
 define("PART_TIME_FIELD_STAFF", 7);
 define("VOLUNTEER", 8);
+define("ASSOCIATE_STAFF", 9);
 define("ALL", 0);
 define("NORMAL_PAGE", 0);
 define("ASSESSMENT_PAGE", 1);

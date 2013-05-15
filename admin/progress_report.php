@@ -51,7 +51,7 @@ try {
                  FROM user u
                  INNER JOIN region r ON u.Region = r.ID
                  WHERE u.Status = ".ACTIVE."
-                 AND (u.Type = ".INTERN." OR u.Type = ".PART_TIME_FIELD_STAFF." OR u.Type = ".VOLUNTEER.")
+                 AND (u.Type = ".INTERN." OR u.Type = ".PART_TIME_FIELD_STAFF." OR u.Type = ".VOLUNTEER." OR u.Type = ".ASSOCIATE_STAFF.")
                  ORDER BY Region, u.LName, u.FName;";
   }
   else if ($type == REGIONAL_ADMIN) {
@@ -60,7 +60,7 @@ try {
                  INNER JOIN region r ON u.Region = r.ID
                  WHERE u.Status = ".ACTIVE."
                  AND u.Region = ".$region."
-                 AND (u.Type = ".INTERN." OR u.Type = ".PART_TIME_FIELD_STAFF." OR u.Type = ".VOLUNTEER.")
+                 AND (u.Type = ".INTERN." OR u.Type = ".PART_TIME_FIELD_STAFF." OR u.Type = ".VOLUNTEER." OR u.Type = ".ASSOCIATE_STAFF.")
                  ORDER BY Region, u.LName, u.FName;";
   }
   else {

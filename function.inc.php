@@ -20,7 +20,7 @@ function in_array_r($needle, $haystack, $strict = true) {
 function getVisibilityClause($type) {
   $visibility = null;
 
-  if($type == INTERN || $type == VOLUNTEER || $type == PART_TIME_FIELD_STAFF) {
+  if($type == INTERN || $type == VOLUNTEER || $type == PART_TIME_FIELD_STAFF || $type == ASSOCIATE_STAFF) {
     $visibility = "(p.Visibility = 0 OR p.Visibility = 5)";
   } 
   else if($type == STUDENT || $type == OTHER) {
