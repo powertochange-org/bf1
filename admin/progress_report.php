@@ -104,10 +104,13 @@ try {
     $_teams[$regionID]['Users'][$userEmail]['LName']     = $user['LName'];
     $_teams[$regionID]['Users'][$userEmail]['Progress']  = $user['Progress'];
     $_teams[$regionID]['Users'][$userEmail]['Finished']  = $user['Finished'];
-    if(($user['Type'] != PART_TIME_FIELD_STAFF && $user['Type'] != VOLUNTEER) && $user['Finished']) {
+    if(($user['Type'] == INTERN)) {
+      array_key_exists('InternCount', $_teams[$regionID]) ? $_teams[$regionID]['InternCount']++ : $_teams[$regionID]['InternCount'] = 1;
+    }
+    if(($user['Type'] == INTERN) && $user['Finished']) {
       array_key_exists('FinishedCount', $_teams[$regionID]) ? $_teams[$regionID]['FinishedCount']++ : $_teams[$regionID]['FinishedCount'] = 1;
     }
-    if(($user['Type'] != PART_TIME_FIELD_STAFF && $user['Type'] != VOLUNTEER) && count($user['Progress']) > 0) {
+    if(($user['Type'] == INTERN) && count($user['Progress']) > 0) {
       $_teams[$regionID]['CompletedModules'][] = $user['Progress'][(count($user['Progress'])-1)]['Module'];
     }
   }
@@ -118,9 +121,9 @@ try {
       $str_report .= '<div class="team" id="'.$team['ID'].'">
                         <div class="name">
                            <span class="ui-icon ui-icon-triangle-1-e"></span>'.PHP_EOL;
-      $progress_statistics   =  (isset($team['FinishedCount']) ? round(($team['FinishedCount']/count($team['Users'])*100)) : 0).'% Complete ';
-      $progress_statistics  .=  '('.((isset($team['FinishedCount']) ? $team['FinishedCount'] : 0)).' out of '.count($team['Users']).') ';
-      $progress_statistics  .=   '| Avg. Module Completed: '.(isset($team['CompletedModules']) ? $_modules[round((array_sum($team['CompletedModules'])/count($team['Users'])))]['Number'] : 'None');
+      $progress_statistics   =  (isset($team['FinishedCount']) ? round(($team['FinishedCount']/$team['InternCount']*100)) : 0).'% Complete ';
+      $progress_statistics  .=  '('.((isset($team['FinishedCount']) ? $team['FinishedCount'] : 0)).' out of '.(isset($team['InternCount']) ? $team['InternCount'] : 0).') ';
+      $progress_statistics  .=   '| Avg. Module Completed: '.(isset($team['CompletedModules']) ? ($_modules[round((array_sum($team['CompletedModules'])/(isset($team['InternCount']) ? $team['InternCount'] : 0)))]['Number']) : 'None');
       $str_report .=       $team['Name'].'  <font size="2">['.$progress_statistics.']</font>'.PHP_EOL;
       $str_report .=   '</div>
                         <span class="check"></span>
