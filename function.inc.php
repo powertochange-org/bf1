@@ -50,7 +50,7 @@ function getActiveCoaches($db) {
 function getUserNameByID($db, $id) {
   $coachName = array();
 
-  $sql     =  "SELECT CONCAT (u.FName, ' ', u.LName) as name
+  $sql     =  "SELECT CONCAT(u.FName, ' ', u.LName) as name
                FROM  user u
                WHERE u.Email = '".$db->escape($id)."';";
 
