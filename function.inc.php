@@ -36,7 +36,7 @@ function getVisibilityClause($type) {
 function getActiveCoaches($db) {
   $coaches = array();
 
-  $sql     =  "SELECT u.Email, u.FName, u.LName
+  $sql     =  "SELECT u.Email as id, CONCAT (u.FName, ' ', u.LName) as name
                FROM  user u
                WHERE u.Type < ".STUDENT."
                AND u.Status = ".ACTIVE."
@@ -47,10 +47,22 @@ function getActiveCoaches($db) {
   return $coaches;
 }
 
+function getUserNameByID($db, $id) {
+  $coachName = array();
+
+  $sql     =  "SELECT CONCAT (u.FName, ' ', u.LName) as name
+               FROM  user u
+               WHERE u.Email = '".$db->escape($id)."';";
+
+  $coachName = $db->query_first($sql);
+
+  return $coachName['name'];
+}
+
 function getRegions($db) {
   $regions = array();
 
-  $sql     =  "SELECT r.ID, r.Name
+  $sql     =  "SELECT r.ID as id, r.Name as name
                FROM  region r
                ORDER BY r.Name;";
 
@@ -59,11 +71,23 @@ function getRegions($db) {
   return $regions;
 }
 
+function getRegionNameByID($db, $id) {
+  $regionName = array();
+
+  $sql     =  "SELECT r.Name as name
+               FROM  region r
+               WHERE r.ID = ".$id.";";
+
+  $regionName = $db->query_first($sql);
+
+  return $regionName['name'];
+}
+
 function getUserTypes($db, $typeClause = REGIONAL_ADMIN) {
   $user_types = array();
 
   //get user types for selection
-  $sql = "SELECT ut.ID, ut.Name
+  $sql = "SELECT ut.ID as id, ut.Name as name
           FROM  user_type ut
           WHERE ut.ID > ".$typeClause."
           ORDER BY ut.ID;";
@@ -76,7 +100,7 @@ function getUserTypes($db, $typeClause = REGIONAL_ADMIN) {
 function getUserStatuses($db) {
   $user_statuses = array();
 
-  $sql =  "SELECT ID, Name
+  $sql =  "SELECT ID as id, Name as name
            FROM  user_status
            ORDER BY Name;";
 

@@ -6,268 +6,269 @@
  */
 
 try {
-    //initialize the database object
-    $db = Database::obtain();
+  //initialize the database object
+  $db = Database::obtain();
 
-    //get module sections & pages
-    $sql = "SELECT * FROM section WHERE ModuleId = " .(int)$module['ID']. " ORDER BY Ord ASC";
+  //get module sections & pages
+  $sql = "SELECT * FROM section WHERE ModuleId = " .(int)$module['ID']. " ORDER BY Ord ASC";
+
+  //execute query 
+  $sections = $db->fetch_array($sql); 
+
+  foreach($sections as $row) {
+    //get pages in section
+    $visibility = getVisibilityClause($type);
+    $sql = "SELECT * 
+            FROM page p
+            WHERE p.SectionId = ".(int)$row['ID']." AND
+            ".$visibility."
+            ORDER BY Ord ASC";
 
     //execute query 
-    $sections = $db->fetch_array($sql); 
+    $pages = $db->fetch_array($sql);
+    $count = count($pages);
 
-    foreach($sections as $row) {
-        //get pages in section
-        $visibility = getVisibilityClause($type);
-        $sql = "SELECT * 
-                FROM page p
-                WHERE p.SectionId = ".(int)$row['ID']." AND
-                ".$visibility."
-                ORDER BY Ord ASC";
-
-        //execute query 
-        $pages = $db->fetch_array($sql);
-        $count = count($pages);
-
-        //add to module if section has at least one page
-        if($count > 0){
-            $row['pages'] = $pages;
-            $module['sections'][] = $row;
-        }
+    //add to module if section has at least one page
+    if($count > 0){
+      $row['pages'] = $pages;
+      $module['sections'][] = $row;
     }
+  }
 
-    //get page data
-    $main_elements  = array();
-    $right_elements = array();
-    $notes          = array();
+  //get page data
+  $main_elements  = array();
+  $right_elements = array();
+  $notes          = array();
 
-    //get elements
-    $sql = "SELECT * FROM element WHERE PageId = ".$page['ID']." ORDER BY Ord";
-    //execute query 
-    $db_elements = $db->fetch_array($sql);  
+  //get elements
+  $sql = "SELECT * FROM element WHERE PageId = ".$page['ID']." ORDER BY Ord";
+  //execute query 
+  $db_elements = $db->fetch_array($sql);  
 
-    //get element content and construct element arrays
-    foreach($db_elements as $db_element) {
-        //get element id and type
-        $elemId     = $db_element['ElementId'];
-        $elemType   = $db_element['Type'];
+  //get element content and construct element arrays
+  foreach($db_elements as $db_element) {
+    //get element id and type
+    $elemId     = $db_element['ElementId'];
+    $elemType   = $db_element['Type'];
 
-        //execute query
-        $sql = "SELECT * FROM ".$elemType." WHERE ID = ".$elemId;
-        $db_content = $db->query_first($sql);
-
-        //content string
-        $content = '';
-
-        switch($elemType) {
-            case 'textbox': //textbox
-                $content    = $db_content['Text'];
-                //$content    = nl2br($content);
-                break;
-
-            case 'media':   //media
-                $filename   = $db_content['Filename'];
-                $height     = $db_content['Height'];
-                $width      = $db_content['Width'];
-                $caption    = $db_content['Caption']    != ''? '<div class="caption">'.$db_content['Caption'].'</div>' : '';
-                $content    = '<div align="center"><div class="media {width:'.$width.', height:'.($height+16).' }" href="'.$filename.'"></div>'.$caption.'</div>';
-                break;
-
-            case 'image':   //image
-                $filename   = $db_content['Filename'];
-                $height     = $db_content['Height']     != 0 ? 'height="'.$db_content['Height'].'"' : '';
-                $width      = $db_content['Width']      != 0 ? 'width="'.$db_content['Width'].'"'   : '';
-                $caption    = $db_content['Caption']    != ''? '<div class="caption">'.$db_content['Caption'].'</div>' : '';
-                $content    = '<div align="center"><img src="'.$filename.'" '.$height.' '.$width.' />'.$caption.'</div>';
-                break;
-
-            case 'input':   //input
-                $question   = $db_content['Question'];
-                $personal   = $db_content['Personal']   == 1 ? 'checked disabled' : '';
-                $coach      = $db_content['Coach']      == 1 ? 'checked disabled' : '';
-                $min        = $db_content['Min'];
-                $content    = '<div class="input"><div class="question">'.$question.'</div>';
-                $content   .= '<div class="response"><textarea name="response" min="'.$min.'"></textarea></div>';
-                $content   .= '<div class="alert"></div>';
-                $content   .= '<div class="flags"><div><input type="checkbox" name="personal" '.$personal.' /><label>Flag For Personal Followup</label></div><div><input type="checkbox" name="coach" '.$coach.' /><label>Flag For Coach Followup</label></div></div>';
-                $content   .= '</div>';
-                break;
-
-            case 'whitespace':   //whitespace
-                $height     = $db_content['Height'];
-                $content    = '<div style="height: '.$height.'px;"></div>';
-                break;
-        }
-
-        //construct element
-        $element = array();
-        $element['id']      = $elemId;
-        $element['type']    = $elemType;
-        $element['content'] = $content;
-
-        //add element to element array
-        switch($db_element['Loc']) {
-            case 'main':
-                $main_elements[] = $element;
-                break;
-
-            case 'right':
-                $right_elements[] = $element;
-        }
-
-        //determine column count
-        $columns = count($right_elements) > 0 ? 'two-column' : 'one-column';
-    }
-
-    //get notes
     //execute query
-    $sql = "SELECT n.ElementId FROM note n INNER JOIN element e ON n.ElementId = e.ElementId  WHERE e.PageId = ".$page['ID']." AND n.Email = '".$email."'";
-    $db_notes = $db->fetch_array($sql);
+    $sql = "SELECT * FROM ".$elemType." WHERE ID = ".$elemId;
+    $db_content = $db->query_first($sql);
 
-    foreach($db_notes as $db_note) {
-        $notes[] = $db_note['ElementId'];
+    //content string
+    $content = '';
+
+    switch($elemType) {
+        case 'textbox': //textbox
+          $content    = $db_content['Text'];
+          //$content    = nl2br($content);
+          break;
+
+        case 'media':   //media
+          $filename   = $db_content['Filename'];
+          $height     = $db_content['Height'];
+          $width      = $db_content['Width'];
+          $caption    = $db_content['Caption']    != ''? '<div class="caption">'.$db_content['Caption'].'</div>' : '';
+          $content    = '<div align="center"><div class="media {width:'.$width.', height:'.($height+16).' }" href="'.$filename.'"></div>'.$caption.'</div>';
+          break;
+
+        case 'image':   //image
+          $filename   = $db_content['Filename'];
+          $height     = $db_content['Height']     != 0 ? 'height="'.$db_content['Height'].'"' : '';
+          $width      = $db_content['Width']      != 0 ? 'width="'.$db_content['Width'].'"'   : '';
+          $caption    = $db_content['Caption']    != ''? '<div class="caption">'.$db_content['Caption'].'</div>' : '';
+          $content    = '<div align="center"><img src="'.$filename.'" '.$height.' '.$width.' />'.$caption.'</div>';
+          break;
+
+        case 'input':   //input
+          $question   = $db_content['Question'];
+          $personal   = $db_content['Personal']   == 1 ? 'checked disabled' : '';
+          $coach      = $db_content['Coach']      == 1 ? 'checked disabled' : '';
+          $min        = $db_content['Min'];
+          $content    = '<div class="input"><div class="question">'.$question.'</div>';
+          $content   .= '<div class="response"><textarea name="response" min="'.$min.'"></textarea></div>';
+          $content   .= '<div class="alert"></div>';
+          $content   .= '<div class="flags"><div><input type="checkbox" name="personal" '.$personal.' /><label>Flag For Personal Followup</label></div><div><input type="checkbox" name="coach" '.$coach.' /><label>Flag For Coach Followup</label></div></div>';
+          $content   .= '</div>';
+          break;
+
+        case 'whitespace':   //whitespace
+          $height     = $db_content['Height'];
+          $content    = '<div style="height: '.$height.'px;"></div>';
+          break;
     }
 
-} catch (PDOException $e) {
-    echo $e->getMessage();
+    //construct element
+    $element = array();
+    $element['id']      = $elemId;
+    $element['type']    = $elemType;
+    $element['content'] = $content;
+
+    //add element to element array
+    switch($db_element['Loc']) {
+      case 'main':
+        $main_elements[] = $element;
+        break;
+
+      case 'right':
+         $right_elements[] = $element;
+    }
+
+    //determine column count
+    $columns = count($right_elements) > 0 ? 'two-column' : 'one-column';
+  }
+
+  //get notes
+  //execute query
+  $sql = "SELECT n.ElementId FROM note n INNER JOIN element e ON n.ElementId = e.ElementId  WHERE e.PageId = ".$page['ID']." AND n.Email = '".$email."'";
+  $db_notes = $db->fetch_array($sql);
+
+  foreach($db_notes as $db_note) {
+    $notes[] = $db_note['ElementId'];
+  }
+
+} 
+catch (PDOException $e) {
+  echo $e->getMessage();
 }
 
 //function to insert element
 function insertElement($_id, $_type, $_content) {
-    //fill template
-    $element  = '<div id="'.$_type.$_id.'" class="'.$_type.' element" eId="'.$_id.'">'.PHP_EOL;
-    $element .= ($_type != 'input') ? '<a class="note add" href="javascript:;" ></a>' : '';
-    $element .= '   '.$_content.PHP_EOL;
-    $element .= '</div>'.PHP_EOL;
+  //fill template
+  $element  = '<div id="'.$_type.$_id.'" class="'.$_type.' element" eId="'.$_id.'">'.PHP_EOL;
+  $element .= ($_type != 'input') ? '<a class="note add" href="javascript:;" ></a>' : '';
+  $element .= '   '.$_content.PHP_EOL;
+  $element .= '</div>'.PHP_EOL;
 
-    //add to DOM
-    echo $element;
+  //add to DOM
+  echo $element;
 }
 ?>
 
 <script src="/jquery/elastic/jquery.elastic-1.6.js" type="text/javascript" charset="utf-8"></script>
 <script src="/jquery/jQuery-URL-Parser/jquery.url.js" type="text/javascript" charset="utf-8"></script>
 <div id="module<?php echo str_replace('.', '', $module['Number']); ?>" class="page">
-    <div id="title">
-        <div id="number">Module <?php echo number_format($module['Number'], 0); ?></div>
-        <div id="name"><?php echo $module['Name']; ?></div>
-    </div>
-    <div id="banner">
-        <img src="<?php echo '../'.$module['Banner']; ?>"</img>
-    </div>
-    <div id="sectiontitle">
-        <?php echo $section['Title']; ?>
-    </div>
-    <div id="leftmenu">
-        <ul>
-        <?php
-          if(is_array($module['sections'])) {
-            foreach($module['sections'] as $sec){
-                //add line for section
-                echo '<li class="section"><a href="?s='.$sec['ID'].'" ';
-                echo $sec['ID'] == $section['ID'] ? 'class="active" ' : '';
-                echo '>'.$sec['Title'].'</a>';
-                if(count($sec['pages']) > 1) {
-                    $active = ($sec['ID'] == $section['ID']) ? true : false;
-                    echo '<div class="colapse ui-icon ';
-                    echo $active ? ' ui-icon-triangle-1-s " ' : 'ui-icon-triangle-1-e "';
-                    echo '"></div>';
-                    echo '<div class="pages ';
-                    echo $active ? 'active ' : '';
-                    echo '">';
-                    foreach($sec['pages'] as $pag){
-                        $active = ($pag['ID'] == $page['ID']) ? true : false;
-                        echo '<a href="?p='.$pag['ID'].'" ';
-                        echo $active ? 'class="active" ' : '';
-                        echo '>'.$pag['Title'].'</a>';
-                    }
-                    echo '</div>';
-                }
-                echo '</li>';
+  <div id="title">
+    <div id="number">Module <?php echo number_format($module['Number'], 0); ?></div>
+    <div id="name"><?php echo $module['Name']; ?></div>
+  </div>
+  <div id="banner">
+    <img src="<?php echo '../'.$module['Banner']; ?>"</img>
+  </div>
+  <div id="sectiontitle">
+    <?php echo $section['Title']; ?>
+  </div>
+  <div id="leftmenu">
+    <ul>
+    <?php
+      if(is_array($module['sections'])) {
+        foreach($module['sections'] as $sec) {
+          //add line for section
+          echo '<li class="section"><a href="?s='.$sec['ID'].'" ';
+          echo $sec['ID'] == $section['ID'] ? 'class="active" ' : '';
+          echo '>'.$sec['Title'].'</a>';
+          if(count($sec['pages']) > 1) {
+            $active = ($sec['ID'] == $section['ID']) ? true : false;
+            echo '<div class="colapse ui-icon ';
+            echo $active ? ' ui-icon-triangle-1-s " ' : 'ui-icon-triangle-1-e "';
+            echo '"></div>';
+            echo '<div class="pages ';
+            echo $active ? 'active ' : '';
+            echo '">';
+            foreach($sec['pages'] as $pag) {
+              $active = ($pag['ID'] == $page['ID']) ? true : false;
+              echo '<a href="?p='.$pag['ID'].'" ';
+              echo $active ? 'class="active" ' : '';
+              echo '>'.$pag['Title'].'</a>';
             }
+            echo '</div>';
           }
-        ?>
-        </ul>
+          echo '</li>';
+        }
+      }
+    ?>
+    </ul>
+  </div>
+  <div id="contentpane" class="<?php echo $columns; ?>">
+    <div id="main">
+      <?php
+        if(isset($main_elements)){
+          foreach($main_elements as $element){
+              insertElement($element['id'], $element['type'], $element['content']);
+          }
+        }
+      ?>
     </div>
-    <div id="contentpane" class="<?php echo $columns; ?>">
-        <div id="main">
-            <?php
-                if(isset($main_elements)){
-                    foreach($main_elements as $element){
-                        insertElement($element['id'], $element['type'], $element['content']);
-                    }
-                }
-            ?>
-        </div>
-        <div id="right">
-            <?php
-                if(isset($right_elements)){
-                    foreach($right_elements as $element){
-                        insertElement($element['id'], $element['type'], $element['content']);
-                    }
-                }
-            ?>
-        </div>
-        <div id="notes">
-        </div>
-        <div class="clear"></div>
+    <div id="right">
+      <?php
+        if(isset($right_elements)){
+          foreach($right_elements as $element){
+              insertElement($element['id'], $element['type'], $element['content']);
+          }
+        }
+      ?>
+    </div>
+    <div id="notes">
     </div>
     <div class="clear"></div>
-    <div id="bottom">
-        <div id="errors"></div>
-        <form id="submit" action="#" method="post">
-          <button name="continue" type="submit" class="shadow-light corners-all ui-state-default">Continue<span class="ui-icon ui-icon-triangle-1-e"></span></button>
-        </form>
-        <div class="clear"></div>
-    </div>
+  </div>
+  <div class="clear"></div>
+  <div id="bottom">
+    <div id="errors"></div>
+    <form id="formPageSubmit" action="#" method="post">
+      <button name="continue" id="continue" type="submit" class="shadow-light corners-all ui-state-default">Continue<span class="ui-icon ui-icon-triangle-1-e"></span></button>
+    </form>
+    <div class="clear"></div>
+  </div>
 </div>
 
 <script type="text/javascript">
-    //$('textarea').elastic();
+  //$('textarea').elastic();
 
-    //if the page is an assessment page, then hide the submit button
-    $(function() {
-      if(<?php echo $page['Type']; ?> == <?php echo ASSESSMENT_PAGE; ?>) {
-        $('form button:[name=continue]').hide();
-      }
-    });
-
-    //initialize media elements
-    $.fn.media.mapFormat('mp3','quicktime');
-    $.fn.media.mapFormat('flv','quicktime');
-    $('div.media').media({
-        attrs:     { wmode: 'opaque', scale: 'aspect' },
-        params:    { wmode: 'opaque', scale: 'aspect' }
-    });
-
-    $('.section .ui-icon-triangle-1-e').toggle(
-        function(){
-            expand($(this));
-        },
-
-        function(){
-            colapse($(this));
-        }
-    );
-
-    $('.section .ui-icon-triangle-1-s').toggle(
-        function(){
-            colapse($(this));
-        },
-        
-        function(){
-            expand($(this));
-        }
-    );
-
-    function colapse(object) {
-        object.addClass('ui-icon-triangle-1-e').removeClass('ui-icon-triangle-1-s');
-        object.siblings('.pages').slideUp('fast');
+  //if the page is an assessment page, then hide the submit button
+  $(function() {
+    if(<?php echo $page['Type']; ?> == <?php echo ASSESSMENT_PAGE; ?>) {
+      $('#formPageSubmit #continue').hide();
     }
+  });
 
-    function expand(object) {
-        object.addClass('ui-icon-triangle-1-s').removeClass('ui-icon-triangle-1-e');
-        object.siblings('.pages').slideDown('fast');
+  //initialize media elements
+  $.fn.media.mapFormat('mp3','quicktime');
+  $.fn.media.mapFormat('flv','quicktime');
+  $('div.media').media({
+    attrs:     { wmode: 'opaque', scale: 'aspect' },
+    params:    { wmode: 'opaque', scale: 'aspect' }
+  });
+
+  $('.section .ui-icon-triangle-1-e').toggle(
+    function() {
+      expand($(this));
+    },
+
+    function() {
+      colapse($(this));
     }
+  );
+
+  $('.section .ui-icon-triangle-1-s').toggle(
+    function() {
+      colapse($(this));
+    },
+    
+    function() {
+      expand($(this));
+    }
+  );
+
+  function colapse(object) {
+    object.addClass('ui-icon-triangle-1-e').removeClass('ui-icon-triangle-1-s');
+    object.siblings('.pages').slideUp('fast');
+  }
+
+  function expand(object) {
+    object.addClass('ui-icon-triangle-1-s').removeClass('ui-icon-triangle-1-e');
+    object.siblings('.pages').slideDown('fast');
+  }
 </script>
 
 <script type="text/javascript">
@@ -564,28 +565,28 @@ function insertElement($_id, $_type, $_content) {
                    moduleOrd:  <?php echo "'".$module['Order']."'"; ?>},
             dataType: "xml",
             success: function(xml) {
-                       $(xml).find('next').each(function() {
-                         //get values
-                         var type = $(this).find('type').text();
-                         var id   = $(this).find('id').text();
+              $(xml).find('next').each(function() {
+                //get values
+                var type = $(this).find('type').text();
+                var id   = $(this).find('id').text();
 
-                         var url  = "/modules/?";
-                         switch(type) {
-                           case <?php echo "'".PAGE."'"; ?>:
-                                url    += 'p';
-                                break;
+                var url  = "/modules/?";
+                switch(type) {
+                  case <?php echo "'".PAGE."'"; ?>:
+                     url    += 'p';
+                     break;
 
-                           case <?php echo "'".MODULE."'"; ?>:
-                                url    += 'm';
-                                break;
-                         }
-                         url += '='+id;
+                  case <?php echo "'".MODULE."'"; ?>:
+                     url    += 'm';
+                     break;
+                }
+                url += '='+id;
 
-                         //update href, remove handler, and trigger
-                         $('#bottom #submit').attr('action',url).unbind('submit');
-                         $('#bottom #submit').submit();
-                       });
-                     }
+                //update href, remove handler, and trigger
+                $('#bottom #continue').attr('action',url).unbind('submit');
+                $('#bottom #continue').submit();
+              });
+            }
           });
         }
       }
@@ -594,69 +595,70 @@ function insertElement($_id, $_type, $_content) {
 
 <script type="text/javascript">
     //submitting & updating progress
-    $('#bottom #submit').submit(function() {
-        var errors = '';
-        $('#errors').fadeOut('fast').html(errors);
+    $('#bottom #formPageSubmit').submit(function() {
+      var errors = '';
+      $('#errors').fadeOut('fast').html(errors);
 
-       //ensure inputs have been saved if required by the user type
-       if((<?php echo $type; ?> > <?php echo COACH; ?>) && (<?php echo $type; ?> != <?php echo OTHER; ?>)) {
-         $('.input .response').each(function() {
-             if(!$(this).hasClass('saved')){
-                 //input not saved
-                 errors = 'Please enter a response to the above question(s).<br/>';
-             }
-         });
-       }
+     //ensure inputs have been saved if required by the user type
+     if((<?php echo $type; ?> > <?php echo COACH; ?>) && (<?php echo $type; ?> != <?php echo OTHER; ?>)) {
+       $('.input .response').each(function() {
+         if(!$(this).hasClass('saved')){
+             //input not saved
+             errors = 'Please enter a response to the above question(s).<br/>';
+         }
+       });
+     }
 
-       //if no errors, update progress and go to next page
-       if(errors.length == 0) {
-           $.ajax({
-                url: "progress.php",
-                type: "POST",
-                data: {submit:true,
-                       pageId:     <?php echo "'".$page['ID']."'"; ?>,
-                       sectionId:  <?php echo "'".$section['ID']."'"; ?>,
-                       moduleId:   <?php echo "'".$module['ID']."'"; ?>,
-                       pageOrd:    <?php echo "'".$page['Order']."'"; ?>,
-                       sectionOrd: <?php echo "'".$section['Order']."'"; ?>,
-                       moduleOrd:  <?php echo "'".$module['Order']."'"; ?>},
-                dataType: "xml",
-                success: function(xml) {
-                    $(xml).find('next').each(function() {
-                        //get values
-                        var type = $(this).find('type').text();
-                        var id   = $(this).find('id').text();
+     //if no errors, update progress and go to next page
+     if(errors.length == 0) {
+       $.ajax({
+          url: "progress.php",
+          type: "POST",
+          data: {submit:true,
+                 pageId:     <?php echo "'".$page['ID']."'"; ?>,
+                 sectionId:  <?php echo "'".$section['ID']."'"; ?>,
+                 moduleId:   <?php echo "'".$module['ID']."'"; ?>,
+                 pageOrd:    <?php echo "'".$page['Order']."'"; ?>,
+                 sectionOrd: <?php echo "'".$section['Order']."'"; ?>,
+                 moduleOrd:  <?php echo "'".$module['Order']."'"; ?>},
+          dataType: "xml",
+          success: function(xml) {
+            $(xml).find('next').each(function() {
+                //get values
+                var type = $(this).find('type').text();
+                var id   = $(this).find('id').text();
 
-                        var url  = "/modules/?";
-                        switch(type) {
-                            case <?php echo "'".PAGE."'"; ?>:
-                                url    += 'p';
-                                break;
+                var url  = "/modules/?";
+                switch(type) {
+                  case <?php echo "'".PAGE."'"; ?>:
+                    url    += 'p';
+                    break;
 
-                            case <?php echo "'".MODULE."'"; ?>:
-                                url    += 'm';
-                                break;
-                        }
-                        url += '='+id;
-
-                        //update href, remove handler, and trigger
-                        $('#bottom #submit').attr('action',url).unbind('submit');
-                        $('#bottom #submit').submit();
-                    });
+                  case <?php echo "'".MODULE."'"; ?>:
+                    url    += 'm';
+                    break;
                 }
-           });
-       } else {
-           $('#errors').html(errors).fadeIn('fast');
-       }
+                url += '='+id;
 
-       return false;
+                //update href, remove handler, and trigger
+                $('#bottom #formPageSubmit').attr('action',url).unbind('submit');
+                $('#bottom #formPageSubmit').submit();
+            });
+          }
+       });
+     } 
+     else {
+       $('#errors').html(errors).fadeIn('fast');
+     }
+
+     return false;
     });
 </script>
 
 <script type="text/javascript">
-    <?php
-      foreach($notes as $id){
-        echo 'getNote('.$id.');'.PHP_EOL;
-      }
-    ?>
+  <?php
+    foreach($notes as $id){
+      echo 'getNote('.$id.');'.PHP_EOL;
+    }
+  ?>
 </script>

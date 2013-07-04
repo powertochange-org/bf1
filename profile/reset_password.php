@@ -152,8 +152,8 @@ try {
   $db->close();
 }
 catch (PDOException $e) {
-    echo $e->getMessage();
-    exit();
+  echo $e->getMessage();
+  exit();
 }
 ?>
 
@@ -173,13 +173,15 @@ catch (PDOException $e) {
           </div>
            <div>
             <label>Email:</label>
-            <input type="input" name="email" value=""/>
+            <input type="input" id="email" value=""/>
           </div>
         </fieldset>
         <fieldset id="feedback">
-            <div id="message"><?php echo $message; ?></div>
+          <div id="message">
+            <?php echo $message; ?>
+          </div>
         </fieldset>
-        <button type="submit" name="submit" class="ui-corner-right corners-all shadow-light button" value="submit"><span class="ui-icon ui-icon-pencil"></span>Reset Password</button>
+        <button type="submit" id="submit" class="ui-corner-right corners-all shadow-light button" value="submit"><span class="ui-icon ui-icon-pencil"></span>Reset Password</button>
       </form>
     </div>
   </div>
@@ -192,8 +194,8 @@ catch (PDOException $e) {
     var errors = '';
     $('#feedback #message').html(errors);
 
-    if ($('#resetPassword input:[name=email]').val().length == 0) {
-      $('#resetPassword input:[name=email]').css('border-color', 'orange').siblings('a').css('display','inline-block');
+    if ($('#formResetPassword #email').val().length == 0) {
+      $('#formResetPassword #email').css('border-color', 'orange').siblings('a').css('display','inline-block');
       errors += '<div>Please enter an email address.</div>';
     }
 

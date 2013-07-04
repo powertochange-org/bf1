@@ -23,7 +23,9 @@ try {
   $errors     = isset($_POST['errors'])   ? $_POST['errors'] : '';
 
   $coaches = array();
+  $coachName = null;
   $regions = array();
+  $regionName = null;
   $user_statuses = array();
   $user_types = array();
 
@@ -187,8 +189,14 @@ try {
     //get coaches for selection
     $coaches = getActiveCoaches($db);
 
+    //get the coach name
+    $coachName = getUserNameByID($db, $coach);
+
     //get regions for selection
     $regions = getRegions($db);
+
+    //get the region name
+    $regionName = getRegionNameByID($db, $region);
 
     //get user statuses for selection
     $user_statuses = getUserStatuses($db);
@@ -218,169 +226,199 @@ catch (PDOException $e) {
 ?>
 
 <form id="formEditProfile" action="" method="post">
-    <h2>Edit Profile</h2>
-    <fieldset id="editUser">
-      <div>
-        <label>First Name:</label>
-        <input type="text" name="firstName" value="<?php echo $firstName;?>" class="required"/>
-      </div>
-      <div>
-        <label>Last Name:</label>
-        <input type="text" name="lastName" value="<?php echo $lastName;?>" class="required"/>
-      </div>
-      <div>
-        <label>Email:</label>
-        <input type="text" name="email" value="<?php echo $email;?>" class="required"/>
-      </div>
-      <div>
-        <label>Type:</label>
-        <select name="type">
-          <option value="" 'selected'>Select User Type</option>
-          <?php
-            if(count($user_types) > 0){
-              foreach ($user_types as $row){
-                echo '<option value="'.$row['ID'].'"';
-                echo $type == $row['ID'] ? ' selected>' : ''.'>';
-                echo $row['Name'].'</option>';
-              }
+  <h2>Edit Profile</h2>
+  <fieldset id="editUser">
+    <div>
+      <label>First Name:</label>
+      <input type="text" id="firstName" placeholder="First Name" value="<?php echo $firstName;?>"/>
+      <a class="required"></a>
+    </div>
+    <div>
+      <label>Last Name:</label>
+      <input type="text" id="lastName" placeholder="Last Name" value="<?php echo $lastName;?>"/>
+      <a class="required"></a>
+    </div>
+    <div>
+      <label>Email:</label>
+      <input type="text" id="email" placeholder="Email" value="<?php echo $email;?>"/>
+      <a class="required"></a>
+    </div>
+    <div>
+      <label>Type:</label>
+      <select id="type">
+        <option value="" 'selected'>Select User Type</option>
+        <?php
+          if(count($user_types) > 0){
+            foreach ($user_types as $row){
+              echo '<option value="'.$row['id'].'"';
+              echo $type == $row['id'] ? ' selected>' : ''.'>';
+              echo $row['name'].'</option>';
             }
-          ?>
-        </select><a class="required"></a>
-      </div>
-      <!--div>
-        <label>Password:</label>
-        <input type="password" name="password" value="<?php //echo $password;?>" readonly/>
-      </div>
-      <div>
-        <label>Confirm Password:</label>
-        <input type="password" name="confirmPassword" value="<?php //echo $password;?>" readonly/>
-      </div-->
-      <div>
-          <label>Region:</label>
-          <select name="region" class="required">
-            <option value="" 'selected' >Select A Region</option>
-            <?php
-              if(count($regions) > 0) {
-                foreach ($regions as $row) {
-                  echo '<option value="'.$row['ID'].'"';
-                  echo $region == $row['ID'] ? ' selected>' : ''.'>';
-                  echo $row['Name'].'</option>';
-                }
-              }
-            ?>
-        </select>
-      </div>
-      <div>
-          <label>Coach:</label>
-          <select name="coach">
-            <option value="" 'selected' >-- None --</option>
-            <?php
-              if(count($coaches) > 0) {
-                foreach ($coaches as $row) {
-                  echo '<option value="'.$row['Email'].'"';
-                  echo $coach == $row['Email'] ? ' selected>' : ''.'>';
-                  echo $row['FName'].' '.$row['LName'].'</option>';
-                }
-              }
-            ?>
-        </select>
-      </div>
-    </fieldset>
-    <fieldset id="feedback">
-        <div id="errors"><?php echo $errors; ?></div>
-    </fieldset>
-    <button id="formEditProfileCancel" name="cancel" type="button">Cancel</button>
-    <button id="formEditProfileOk" name="submit" type="submit">Save</button>
+          }
+        ?>
+      </select>
+      <a class="required"></a>
+    </div>
+    <div>
+      <label>Region</label>
+      <input id="regionSearch" placeholder="Type Name" value="<?php echo $regionName;?>" type="text">
+      <input id="region" value="<?php echo $region;?>" type="hidden">
+      <a class="required"></a>
+    </div>
+    <div>
+      <label>Coach</label>
+      <input id="coachSearch" placeholder="Type Name" value="<?php echo $coachName;?>" type="text">
+      <input id="coach" value="<?php echo $coach;?>" type="hidden">
+    </div>
+  </fieldset>
+  <fieldset id="feedback">
+      <div id="errors"><?php echo $errors; ?></div>
+  </fieldset>
+  <button id="formEditProfileCancel" name="cancel" type="button">Cancel</button>
+  <button id="formEditProfileOk" name="submit" type="submit">Save</button>
 </form>
 
 <script type="text/javascript">
-    //hide submit button
-    $(function() {
-        $('form button:[name=submit]').hide();
-        $('form button:[name=cancel]').hide();
-    });
+  //hide submit button
+  $(function() {
+      $('#formEditProfile #formEditProfileCancel').hide();
+      $('#formEditProfile #formEditProfileOk').hide();
+  });
 
-    //validate form submission
-    $('#formEditProfile').submit(function() {
-        var submit = false;
-        var errors = '';
-        $('#errors').html(errors);
+  $('#formEditProfile #coachSearch').typeahead({
+    name: 'Coach',
+    valueKey: 'name',
+    local: <?php echo json_encode($coaches); ?>
+  }).on('typeahead:opened', function(event) {
+    $('#formEditProfile #coach').val('');
+    $('#formEditProfile #coachSearch').val('');
+    $('#formEditProfile #coachSearch').typeahead('setQuery', '');
+  }).on('typeahead:selected', function(event, datum) {
+    $('#formEditProfile #coach').val(datum.id);
+  }).on('typeahead:autocompleted', function(event, datum) {
+    $('#formEditProfile #coach').val(datum.id);
+  });
 
-        if ($('#editUser input:[name=firstName]').val().length == 0) {
-            $('#editUser input:[name=firstName]').css('border-color', 'orange').siblings('a').css('display','inline-block');
-            errors += '<div>Please enter a first name.</div>';
-        }
+  $('#formEditProfile #regionSearch').typeahead({
+    name: 'Region',
+    valueKey: 'name',
+    local: <?php echo json_encode($regions); ?>
+  }).on('typeahead:opened', function(event) {
+    $('#formEditProfile #region').val('');
+    $('#formEditProfile #regionSearch').val('');
+    $('#formEditProfile #regionSearch').typeahead('setQuery', '');
+  }).on('typeahead:selected', function(event, datum) {
+    $('#formEditProfile #region').val(datum.id);
+  }).on('typeahead:autocompleted', function(event, datum) {
+    $('#formEditProfile #region').val(datum.id);
+  });
 
-        if ($('#editUser input:[name=lastName]').val().length == 0) {
-            $('#editUser input:[name=lastName]').css('border-color', 'orange').siblings('a').css('display','inline-block');
-            errors += '<div>Please enter a last name.</div>';
-        }
+  //validate form submission
+  $('#formEditProfile').submit(function() {
+    var submit = false;
+    var errors = '';
+    $('#errors').html(errors);
 
-        if ($('#editUser input:[name=email]').val().length == 0) {
-            $('#editUser input:[name=email]').css('border-color', 'orange').siblings('a').css('display','inline-block');
-            errors += '<div>Please enter an email address.</div>';
-        }
+    if ($('#editUser #firstName').val().length == 0) {
+      $('#editUser #firstName').css('border-color', 'orange').siblings('a').css('display','inline-block');
+      errors += '<div>Please enter a first name.</div>';
+    }
+    else {
+      $('#editUser #firstName').css('border-color', '').siblings('a').css('display','');
+    }
 
-        if ($('#editUser select:[name=type]').val().length == 0) {
-            $('#editUser select:[name=type]').css('border-color', 'orange').siblings('a').css('display','inline-block');
-            errors += '<div>Please enter a user type.</div>';
-        }
+    if ($('#editUser #lastName').val().length == 0) {
+      $('#editUser #lastName').css('border-color', 'orange').siblings('a').css('display','inline-block');
+      errors += '<div>Please enter a last name.</div>';
+    }
+    else {
+      $('#editUser #lastName').css('border-color', '').siblings('a').css('display','');
+    }
 
-        if ($('#editUser select:[name=region]').val().length == 0) {
-            $('#editUser select:[name=region]').css('border-color', 'orange').siblings('a').css('display','inline-block');
-            errors += '<div>Please select a region.</div>';
-        }
+    if ($('#editUser #email').val().length == 0) {
+      $('#editUser #email').css('border-color', 'orange').siblings('a').css('display','inline-block');
+      errors += '<div>Please enter an email address.</div>';
+    }
+    else {
+      $('#editUser #email').css('border-color', '').siblings('a').css('display','');
+    }
 
-        if (errors !== ''){
-           $('#feedback #errors').html(errors);
-           submit = false;
-        } else {
-           submit = true;
-        }
+    if ($('#editUser #type').val().length == 0) {
+      $('#editUser #type').css('border-color', 'orange').siblings('a').css('display','inline-block');
+      errors += '<div>Please enter a user type.</div>';
+    }
+    else {
+      $('#editUser #type').css('border-color', '').siblings('a').css('display','');
+    }
 
-        if(submit) {
-          $.ajax({
-              url: 'edit_profile.php',
-              type: 'POST',
-              data: {
-                ajax        : true,
-                submit      : true,
-                firstName   : $('#editUser input:[name=firstName]').val(),
-                lastName    : $('#editUser input:[name=lastName]').val(),
-                email       : $('#editUser input:[name=email]').val(),
-                type        : $('#editUser select:[name=type]').val(),
-                region      : $('#editUser select:[name=region]').val(),
-                coach       : $('#editUser select:[name=coach]').val()
-              },
-              dataType: "xml",
-              success: function(xml) {
-                  $(xml).find('user').each(function() {
-                    //get values
-                    var email        = $(this).find('email').text();
-                    var firstName    = $(this).find('firstName').text();
-                    var lastName     = $(this).find('lastName').text();
-                    var type         = $(this).find('type').text();
-                    var userTypeName = $(this).find('userTypeName').text();
-                    var region       = $(this).find('region').text();
-                    var regionName   = $(this).find('regionName').text();
-                    var coach        = $(this).find('coach').text();
-                    var coachName    = $(this).find('coachName').text();
+    if ($('#editUser #region').val().length == 0) {
+      if ($('#editUser #regionSearch').val().length > 0) {
+        $('#editUser #regionSearch').css('border-color', 'orange');
+        $('#editUser #region').siblings('a').css('display','inline-block');
+        errors += '<div>Please select a valid region.</div>';
+      }
+      else {
+        $('#editUser #regionSearch').css('border-color', 'orange');
+        $('#editUser #region').siblings('a').css('display','inline-block');
+        errors += '<div>Please select a region.</div>';
+      }
+    }
+    else {
+      $('#editUser #regionSearch').css('border-color', '');
+      $('#editUser #region').siblings('a').css('display','');
+    }
 
-                    //update the form values
-                    $('#viewUser input:[name=firstName]').val(firstName);
-                    $('#viewUser input:[name=lastName]').val(lastName);
-                    $('#viewUser input:[name=email]').val(email);
-                    $('#viewUser input:[name=type]').val(type);
-                    $('#viewUser input:[name=userTypeName]').val(userTypeName);
-                    $('#viewUser input:[name=region]').val(region);
-                    $('#viewUser input:[name=regionName]').val(regionName);
-                    $('#viewUser input:[name=coach]').val(coach);
-                    $('#viewUser input:[name=coachName]').val(coachName);
-                  });
-                  $('#formEditProfile').dialog("close");
-              }
+    if (errors !== '') {
+      $('#feedback #errors').html(errors);
+      submit = false;
+    } 
+    else {
+      submit = true;
+    }
+
+    if(submit) {
+      $.ajax({
+        url: 'edit_profile.php',
+        type: 'POST',
+        data: {
+          ajax        : true,
+          submit      : true,
+          firstName   : $('#editUser #firstName').val(),
+          lastName    : $('#editUser #lastName').val(),
+          email       : $('#editUser #email').val(),
+          type        : $('#editUser #type').val(),
+          region      : $('#editUser #region').val(),
+          coach       : $('#editUser #coach').val()
+        },
+        dataType: "xml",
+        success: function(xml) {
+          $(xml).find('user').each(function() {
+            //get values
+            var email        = $(this).find('email').text();
+            var firstName    = $(this).find('firstName').text();
+            var lastName     = $(this).find('lastName').text();
+            var type         = $(this).find('type').text();
+            var userTypeName = $(this).find('userTypeName').text();
+            var region       = $(this).find('region').text();
+            var regionName   = $(this).find('regionName').text();
+            var coach        = $(this).find('coach').text();
+            var coachName    = $(this).find('coachName').text();
+
+            //update the form values
+            $('#viewUser #firstName').val(firstName);
+            $('#viewUser #lastName').val(lastName);
+            $('#viewUser #email').val(email);
+            $('#viewUser #type').val(type);
+            $('#viewUser #userTypeName').val(userTypeName);
+            $('#viewUser #region').val(region);
+            $('#viewUser #regionName').val(regionName);
+            $('#viewUser #coach').val(coach);
+            $('#viewUser #coachName').val(coachName);
           });
+          $('#formEditProfile').dialog("close");
         }
-        return false;
-    });
+      });
+    }
+    return false;
+  });
 </script>

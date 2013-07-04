@@ -17,13 +17,8 @@ try {
   $db = Database::obtain(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE); 
   $db->connect();
 
-  //get name of region
-  $sql = null;
-  $sql = "SELECT Name
-          FROM  region
-          WHERE ID = ".$region.";";
-
-  $regionName = $db->query_first($sql);
+  //get the region name
+  $regionName = getRegionNameByID($db, $region);
 
   //get coach for user
   $sql = null;
@@ -54,38 +49,38 @@ catch (PDOException $e) {
   <fieldset id="viewUser">
     <div>
       <label>First Name:</label>
-      <input type="text" name="firstName" value="<?php echo $firstName;?>" readonly/>
+      <input type="text" id="firstName" value="<?php echo $firstName;?>" readonly/>
     </div>
     <div>
       <label>Last Name:</label>
-      <input type="text" name="lastName" value="<?php echo $lastName;?>" readonly/>
+      <input type="text" id="lastName" value="<?php echo $lastName;?>" readonly/>
     </div>
     <div>
       <label>Email:</label>
-      <input type="text" name="email" value="<?php echo $email;?>" readonly/>
+      <input type="text" id="email" value="<?php echo $email;?>" readonly/>
     </div>
     <div>
       <label>Type:</label>
-      <input type="hidden" name="type" value="<?php echo $type;?>"/>
-      <input type="text" name="userTypeName" value="<?php echo $userTypeName['Name'];?>" readonly/>
+      <input type="hidden" id="type" value="<?php echo $type;?>"/>
+      <input type="text" id="userTypeName" value="<?php echo $userTypeName['Name'];?>" readonly/>
     </div>
     <!--div>
       <label>Password:</label>
-      <input type="password" name="password" value="<?php //echo $password;?>" readonly/>
+      <input type="password" id="password" value="<?php //echo $password;?>" readonly/>
     </div>
     <div>
       <label>Confirm Password:</label>
-      <input type="password" name="confirmPassword" value="<?php //echo $password;?>" readonly/>
+      <input type="password" id="confirmPassword" value="<?php //echo $password;?>" readonly/>
     </div-->
     <div>
       <label>Region:</label>
-      <input type="hidden" name="region" value="<?php echo $region;?>"/>
-      <input type="text" name="regionName" value="<?php echo $regionName['Name'];?>" readonly/>
+      <input type="hidden" id="region" value="<?php echo $region;?>"/>
+      <input type="text" id="regionName" value="<?php echo $regionName;?>" readonly/>
     </div>
     <div>
       <label>Coach:</label>
-      <input type="hidden" name="coach" value="<?php echo $coach['Email'];?>"/>
-      <input type="text" name="coachName" value="<?php echo $coachName;?>" readonly/>
+      <input type="hidden" id="coach" value="<?php echo $coach['Email'];?>"/>
+      <input type="text" id="coachName" value="<?php echo $coachName;?>" readonly/>
     </div>
   </fieldset>
   <button type="submit" class="ui-corner-right corners-all shadow-light button" value="submit"><span class="ui-icon ui-icon-pencil"></span>Edit Profile</button>
@@ -98,12 +93,12 @@ catch (PDOException $e) {
       type: "post",
       dataType: "html",
       data: {
-        firstName   : $('#viewUser input:[name=firstName]').val(),
-        lastName    : $('#viewUser input:[name=lastName]').val(),
-        email       : $('#viewUser input:[name=email]').val(),
-        type        : $('#viewUser input:[name=type]').val(),
-        region      : $('#viewUser input:[name=region]').val(),
-        coach       : $('#viewUser input:[name=coach]').val()
+        firstName   : $('#viewUser #firstName').val(),
+        lastName    : $('#viewUser #lastName').val(),
+        email       : $('#viewUser #email').val(),
+        type        : $('#viewUser #type').val(),
+        region      : $('#viewUser #region').val(),
+        coach       : $('#viewUser #coach').val()
       },
       success: function(msg){
         //append form to DOM and display a dialog
@@ -122,8 +117,8 @@ catch (PDOException $e) {
             $(this).dialog( "destroy" );
             $('#formEditProfile').remove();
           },
-          height: 650,
-          width: 650,
+          height: 500,
+          width: 450,
           resizable: false,
           modal: true
         });

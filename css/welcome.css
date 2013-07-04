@@ -5,7 +5,7 @@
 .ui-icon:hover{ opacity:0.75; }
 
 /* WELCOME */
-.welcome { width: 880px; height: 400px; margin: 5px auto; margin-top: 15px; margin-bottom: 5px; overflow: hidden; }
+.welcome { width: 880px; height: 400px; margin: 5px auto; margin-top: 15px; margin-bottom: 15px; overflow: hidden; }
 .welcome #background_img { position: absolute; }
 .welcome #title { margin: 10px; }
 .welcome #title #number, .welcome #title #name { color: #fff; display: inline-block; font-size: 34px; text-transform: uppercase; font-weight:500; }

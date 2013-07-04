@@ -29,28 +29,26 @@ try {
   //get users
   $sql = null;
   if ($type == SUPER) {
-    $sql = "SELECT u.Email, u.FName, u.LName, u.Password, u.Type AS TypeID, u.Region AS RegionID, u.Loc, u.Reg_Date, u.Status AS StatusID, r.Name AS Region, s.Name AS Status, t.Name AS Type, c.Coach AS Coach_Email
+    $sql = "SELECT u.Email, u.FName, u.LName, u.Password, u.Type AS TypeID, u.Region AS RegionID, u.Loc, u.Reg_Date, u.Status AS StatusID, r.Name AS Region, s.Name AS Status, t.Name AS Type
             FROM user u
             INNER JOIN region r ON u.Region = r.ID
             INNER JOIN user_status s ON u.Status = s.ID
             INNER JOIN user_type t ON u.Type = t.ID
-            LEFT JOIN coach c ON u.Email = c.Student
             WHERE u.Status = ".INACTIVE."
             ORDER BY Region, u.LName;";
   } 
   else if ($type == REGIONAL_ADMIN) {
-    $sql = "SELECT u.Email, u.FName, u.LName, u.Password, u.Type AS TypeID, u.Region AS RegionID, u.Loc, u.Reg_Date, u.Status AS StatusID, r.Name AS Region, s.Name AS Status, t.Name AS Type, c.Coach AS Coach_Email
+    $sql = "SELECT u.Email, u.FName, u.LName, u.Password, u.Type AS TypeID, u.Region AS RegionID, u.Loc, u.Reg_Date, u.Status AS StatusID, r.Name AS Region, s.Name AS Status, t.Name AS Type
             FROM user u
             INNER JOIN region r ON u.Region = r.ID
             INNER JOIN user_status s ON u.Status = s.ID
             INNER JOIN user_type t ON u.Type = t.ID
-            LEFT JOIN coach c ON u.Email = c.Student
             WHERE u.Region = ".$region." AND
             u.Status = ".INACTIVE."
             ORDER BY Region, u.LName;";
     } 
   else {
-    $sql = "SELECT u.Email, u.FName, u.LName, u.Password, u.Type AS TypeID, u.Region AS RegionID, u.Loc, u.Reg_Date, u.Status AS StatusID, r.Name AS Region, s.Name AS Status, t.Name AS Type, c.Coach AS Coach_Email
+    $sql = "SELECT u.Email, u.FName, u.LName, u.Password, u.Type AS TypeID, u.Region AS RegionID, u.Loc, u.Reg_Date, u.Status AS StatusID, r.Name AS Region, s.Name AS Status, t.Name AS Type
             FROM user u
             INNER JOIN region r ON u.Region = r.ID
             INNER JOIN user_status s ON u.Status = s.ID
@@ -62,58 +60,19 @@ try {
     }
   $users = $db->fetch_array($sql);
 
-  //get assigned coach
-  foreach ($users as &$user) {
-    if (!is_null($user['Coach_Email'])) {
-      $sql = "SELECT u.FName AS Coach_FName, u.LName AS Coach_LName 
-              FROM user u
-              WHERE u.Email = '".$db->escape($user['Coach_Email'])."'";
-      $result   = $db->query_first($sql);
-      $user['Coach_FName']  = $result['Coach_FName'];
-      $user['Coach_LName']  = $result['Coach_LName'];
-    }
-    else {
-      $user['Coach_FName']  = '';
-      $user['Coach_LName']  = '';
-    }
-  }
-  unset($user); //break the reference with the last element
-
-  //get coaches for selection
-  $sql = '';
-  $sql     =  "SELECT Email, FName, LName
-               FROM  user
-               WHERE Type < ".STUDENT."
-               ORDER BY LName;";
-  $coaches = $db->fetch_array($sql);
-
   //get regions for selection
-  $sql = '';
-  $sql     =  "SELECT ID, Name
-               FROM  region
-               ORDER BY Name;";
-  $regions = $db->fetch_array($sql);
+  $regions = getRegions($db);
 
   //get user types for selection
-  $sql = '';
   if ($type == SUPER) {
-        $sql =  "SELECT ID, Name
-                 FROM  user_type
-                 ORDER BY Name;";
-    } else {
-        $sql =  "SELECT ID, Name
-                 FROM  user_type
-                 WHERE ID > ".REGIONAL_ADMIN."
-                 ORDER BY Name;";
-    }
-  $user_types = $db->fetch_array($sql);
+    $user_types = getUserTypes($db, SUPER-1);
+  }
+  else {
+    $user_types = getUserTypes($db);
+  }
 
   //get user statuses for selection
-  $sql = '';
-  $sql =  "SELECT ID, Name
-           FROM  user_status
-           ORDER BY Name;";
-  $user_statuses = $db->fetch_array($sql);
+  $user_statuses = getUserStatuses($db);
 
   $db->close();
 }
@@ -156,8 +115,8 @@ catch (PDOException $e) {
           <?php
               if(count($user_types) > 0){
                   foreach ($user_types as $row){
-                      echo '<option value="'.$row['ID'].'" >';
-                      echo $row['Name'].'</option>';
+                      echo '<option value="'.$row['id'].'" >';
+                      echo $row['name'].'</option>';
                   }
               }
           ?>
@@ -170,8 +129,8 @@ catch (PDOException $e) {
           <?php
               if(count($regions) > 0){
                   foreach ($regions as $row){
-                      echo '<option value="'.$row['ID'].'" >';
-                      echo $row['Name'].'</option>';
+                      echo '<option value="'.$row['id'].'" >';
+                      echo $row['name'].'</option>';
                   }
               }
           ?>
@@ -184,17 +143,14 @@ catch (PDOException $e) {
           <?php
             if(count($user_statuses) > 0){
               foreach ($user_statuses as $row){
-                echo '<option value="'.$row['ID'].'" >';
-                echo $row['Name'].'</option>';
+                echo '<option value="'.$row['id'].'" >';
+                echo $row['name'].'</option>';
               }
             }
           ?>
       </select>
     </div>
-    <div>
-      <input type="hidden" name="coach" value="" rel="9"/>
-    </div>
-    <span class="datafield" style="display:none" rel="10"><a class="table-action-EditUser">Edit</a></span>
+    <span class="datafield" style="display:none" rel="9"><a class="table-action-EditUser">Edit</a></span>
   </fieldset>
   <button id="formEditUserOk" type="submit">Save</button>
   <button id="formEditUserCancel" type="button">Cancel</button>
@@ -215,7 +171,6 @@ catch (PDOException $e) {
           <th>Confirm Password</th>
           <th>Type</th>
           <th>Status</th>
-          <th>Coach</th>
           <th>Edit</th>
         </tr>
       </thead>
@@ -233,11 +188,10 @@ catch (PDOException $e) {
                       <td>'.$row['Password'].'</td>
                       <td>'.$row['Type'].'</td>
                       <td>'.$row['Status'].'</td>
-                      <td>'.$row['Coach_Email'].'</td>
                       <td><a class="table-action-EditUser">Edit</a></td>
                     </tr>';
-                }
             }
+          }
         ?>
       </tbody>
     </table>
@@ -257,30 +211,29 @@ catch (PDOException $e) {
     "bAutoWidth": false,
     "sDom": 'T<"clear">lfrtip',
     "oTableTools": {
-      "sSwfPath": "/jquery/datatables/extras/TableTools/media/swf/copy_cvs_xls_pdf.swf",
+      "sSwfPath": "/jquery/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf",
       "aButtons": [
         {
           "sExtends": "pdf",
-          "mColumns": [ 0, 1, 2, 3, 4, 7, 9 ]
+          "mColumns": [ 0, 1, 2, 3, 4, 7 ]
         },
         {
           "sExtends": "print"
         },
         {
           "sExtends": "xls",
-          "mColumns": [ 0, 1, 2, 3, 4, 7, 9 ]
+          "mColumns": [ 0, 1, 2, 3, 4, 7 ]
         },
         {
           "sExtends": "copy",
-          "mColumns": [ 0, 1, 2, 3, 4, 7, 9 ]
+          "mColumns": [ 0, 1, 2, 3, 4, 7 ]
         }
       ]
     },
     "aoColumnDefs": [
       { "bSearchable": false, "bVisible": false, "aTargets": [ 5 ] },
       { "bSearchable": false, "bVisible": false, "aTargets": [ 6 ] },
-      { "bSearchable": false, "bVisible": false, "aTargets": [ 8 ] },
-      { "bSearchable": false, "bVisible": false, "aTargets": [ 9 ] }
+      { "bSearchable": false, "bVisible": false, "aTargets": [ 8 ] }
     ]
   }).makeEditable({
       aoTableActions: [
@@ -292,7 +245,7 @@ catch (PDOException $e) {
             show: "blind",
             hide: "blind",
             width: 400,
-            height: 450,
+            height: 500,
             autoOpen: false, 
             modal: true
           }

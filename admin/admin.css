@@ -55,10 +55,11 @@
 #editmodule, #editsection { padding-top: 20px; }
 #editmodule fieldset, #editsection fieldset { border: none; border-top: 1px solid #ccc; }
 #editmodule fieldset legend, #editsection fieldset legend { font-size: 16px; padding: 0px 10px; }
-#editmodule fieldset div, #editsection fieldset div { overflow: auto; width: 100%; height: auto; margin: 10px 0px; }
+#editmodule fieldset div, #editsection fieldset div { overflow: auto; width: 100%; height: auto; margin: 10px 10px; }
 #editmodule fieldset label, #editsection fieldset label { font-size: 14px; float: left; width: 150px; height: 100%; vertical-align: middle; }
 #editmodule fieldset .required, #editsection fieldset .required { width: 24px; height: 24px; margin: 5px 5px; background-image: url('images/001_30.png'); display: none; }
-#editmodule #information input, #editmodule #information textarea, #editsection #information input { font-size: 14px; padding: 5px; width: 400px; float: left; border: 1px solid #ccc; }
+#editmodule #information input, #editmodule #information textarea, #editsection #information input { height: auto; margin: 10px 10px; font-size: 14px; padding: 0px; width: 400px; float: left; border: 1px solid #ccc; }
+#editmodule #information textarea {resize: vertical; min-height: 100px;}
 #editmodule #images input { font-size: 14px; padding: 5px; width: 275px; float: left; border: 1px solid #ccc; margin-right: 20px; }
 #editmodule #upload{ position: absolute; width: 400px; overflow: hidden; opacity: 0.8; padding-right: 50px; }
 #editmodule #images object{ float: left; }

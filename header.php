@@ -53,11 +53,14 @@ require_once("Database.singleton.php");
 
   <!--JQUERY-->
   <!--core-->
-  <!--script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script-->
-  <script type="text/javascript" src="/jquery/datatables/media/js/jquery.js"></script>
+  <!--script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script-->
+  <script type="text/javascript" src="/jquery/jquery/jquery-2.0.0.js"></script>
+  <script type="text/javascript" src="/jquery/jquery/jquery-migrate-1.2.1.js"></script>
   <!--ui-->
-  <script type="text/javascript" src="/jquery/ui/js/jquery-ui-1.8.custom.min.js"></script>
-  <link type="text/css" href="/jquery/ui/css/crudoctrine-grey/jquery-ui-1.8.1.custom.css" rel="Stylesheet" />
+  <script type="text/javascript" src="/jquery/jquery-ui/js/jquery-ui-1.10.3.custom.js"></script>
+  <link type="text/css" href="/jquery/jquery-ui/css/crudoctrine-grey/jquery-ui-1.10.3.custom.css" rel="Stylesheet" />
+  <!--typeahead-->
+  <script type="text/javascript" src="/jquery/typeahead/typeahead.js"></script>
   <!--media-->
   <script type="text/javascript" src="/jquery/media/jquery.media.js"></script>
   <!--validation-->

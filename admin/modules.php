@@ -47,6 +47,7 @@ catch (PDOException $e){
     ?>
   </div>
 </div>
+
 <script type="text/javascript">
   $('#list').sortable({
       handle: '.drag',
@@ -57,37 +58,37 @@ catch (PDOException $e){
       }
   });
 
-  $('#createNew').submit(function(){
-      //get new module form
-      $.ajax({
-          url: "edit_module.php",
-          dataType: "html",
-          success: function(msg){
-              //append form to DOM and display and dialog
-              $('#modules').append(msg);
-              $('#editmodule').dialog({
-                  title: "New Module",
-                  buttons: {
-                      "Ok": function() {
-                          $(this).find('form').submit();
-                      },
-                      "Cancel": function() {
-                          $(this).dialog("close");
-                      }
-                  },
-                  close: function(){
-                      $(this).dialog( "destroy" );
-                      $('#editmodule').remove();
-                  },
-                  height: 650,
-                  width: 650,
-                  resizable: false,
-                  modal: true
-              });
-          }
-      });
+  $('#createNew').submit(function() {
+    //get new module form
+    $.ajax({
+      url: "edit_module.php",
+      dataType: "html",
+      success: function(msg) {
+        //append form to DOM and display and dialog
+        $('#modules').append(msg);
+        $('#editmodule').dialog({
+            title: "New Module",
+            buttons: {
+              "Ok": function() {
+                  $(this).find('form').submit();
+              },
+              "Cancel": function() {
+                  $(this).dialog("close");
+              }
+            },
+            close: function(){
+                $(this).dialog( "destroy" );
+                $('#editmodule').remove();
+            },
+            height: 650,
+            width: 650,
+            resizable: false,
+            modal: true
+        });
+      }
+    });
 
-      //prevent form from submitting traditionaly
-      return false;
+    //prevent form from submitting traditionaly
+    return false;
   });
 </script>

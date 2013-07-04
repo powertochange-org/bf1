@@ -90,17 +90,20 @@ catch (PDOException $e) {
 
 <link rel="stylesheet" type="text/css" media="screen" href="/css/login.css" />
 <div id="login">
-  <form action="login.php" method="post">
+  <form id="formLogin" action="login.php" method="post">
     <fieldset id="credentials">
       <legend>Please Login</legend>
       <div>
-        <label>Email</label><input type="text" name="email" value="<?php echo $_COOKIE['remember_me']; ?>" /><a class="required"></a>
+        <label>Email</label>
+        <input type="text" id="email" value="<?php echo $_COOKIE['remember_me']; ?>" /><a class="required"></a>
       </div>
       <div>
-        <label>Password</label><input type="password" name="password" value="" /><a class="required"></a>
+        <label>Password</label>
+        <input type="password" id="password" value="" /><a class="required"></a>
       </div>
       <div>
-        <label>Remember Me</label><input type="checkbox" name="rememberMe"
+        <label>Remember Me</label>
+        <input type="checkbox" id="rememberMe"
           <?php 
             if(isset($_COOKIE['remember_me'])) {
               echo 'checked="checked"';
@@ -114,7 +117,7 @@ catch (PDOException $e) {
     <fieldset id="feedback">
       <div id="errors"><?php echo $errors; ?></div>
     </fieldset>
-    <button type="submit" name="submit" class="ui-state-default ui-corner-all">Login<span class="ui-icon ui-icon-circle-triangle-e"></span></button>
+    <button type="submit" id="formLoginLogin" class="ui-state-default ui-corner-all">Login<span class="ui-icon ui-icon-circle-triangle-e"></span></button>
   </form>
   <div id="passwordReset">
     <a href="/profile/reset_password.php">Please reset my password.</a>
@@ -124,7 +127,7 @@ catch (PDOException $e) {
 <script type="text/javascript">
     //hide submit button
     /*$(function() {
-        $('form button:[name=submit]').hide();
+        $('#formLogin #formLoginLogin').hide();
     });*/
 
     //validate form submission
@@ -132,13 +135,13 @@ catch (PDOException $e) {
       var submit = false;
       var errors = '';
 
-      if ($('#login input:[name=email]').val().length == 0) {
-        $('#login input:[name=email]').css('border-color', 'orange');
+      if ($('#login #email').val().length == 0) {
+        $('#login #email').css('border-color', 'orange');
         errors += '<div>Please enter your email.</div>';
       }
 
-      if ($('#login input:[name=pass]').val().length == 0) {
-        $('#login input:[name=pass]').css('border-color', 'orange');
+      if ($('#login #password').val().length == 0) {
+        $('#login #password').css('border-color', 'orange');
         errors += '<div>Please enter your password.</div>';
       }
 
@@ -157,9 +160,9 @@ catch (PDOException $e) {
           data: {
               ajax       : true,
               submit     : true,
-              email      : $('form input:[name=email]').val(),
-              password   : $('form input:[name=password]').val(),
-              rememberMe : $('form input:[name=rememberMe]').val()
+              email      : $('form #email').val(),
+              password   : $('form #password').val(),
+              rememberMe : $('form #rememberMe').val()
           },
           dataType: "html",
           success: function(msg) {

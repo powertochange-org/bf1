@@ -102,29 +102,29 @@ try {
 }
 ?>
 
-<form id="formAddNewRow" action="#">
-    <input type="hidden" name="id" id="id"  class="DT_RowId" />
+<form id="formAddNewRow" action="add_user.php">
+    <input type="hidden" name="id" id="id" class="DT_RowId" />
     <h2>New User</h2>
     <fieldset id="user">
       <div>
         <label>First Name</label>
-        <input type="text" name="firstName" value="" rel="0" class="required"/>
+        <input type="text" name="firstName" placeholder="First Name" value="" rel="0" class="required"/>
       </div>
       <div>
         <label>Last Name</label>
-        <input type="text" name="lastName" value="" rel="1" class="required"/>
+        <input type="text" name="lastName" placeholder="Last Name" value="" rel="1" class="required"/>
       </div>
       <div>
         <label>Email</label>
-        <input type="text" name="email" value="" rel="2" class="required"/>
+        <input type="text" name="email" placeholder="Email" value="" rel="2" class="required"/>
       </div>
       <div>
           <label>Password</label>
-          <input type="password" name="password" value="" rel="3" class="required"/>
+          <input type="password" name="password" placeholder="Password" value="" rel="3" class="required"/>
       </div>
       <div>
           <label>Confirm Password</label>
-          <input type="password" name="confirmPassword" rel="4" value="" class="required"/>
+          <input type="password" name="confirmPassword" rel="4" placeholder="Confirm Password" value="" class="required"/>
       </div>
       <div>
          <label>Type</label>
@@ -133,8 +133,8 @@ try {
             <?php
                 if(count($user_types) > 0){
                     foreach ($user_types as $row){
-                        echo '<option value="'.$row['ID'].'" >';
-                        echo $row['Name'].'</option>';
+                        echo '<option value="'.$row['id'].'" >';
+                        echo $row['name'].'</option>';
                     }
                 }
             ?>
@@ -147,34 +147,16 @@ try {
         <input type="hidden" name="status" value="<?php echo ACTIVE; ?>" rel="7"/>
       </div>
       <div>
-          <label>Region</label>
-          <select name="region" rel="8" class="required">
-            <option value="" 'selected' >Select A Region</option>
-            <?php
-                if(count($regions) > 0){
-                    foreach ($regions as $row){
-                        echo '<option value="'.$row['ID'].'" >';
-                        echo $row['Name'].'</option>';
-                    }
-                }
-            ?>
-        </select>
+        <label>Region</label>
+        <input id="regionName" name="regionName" placeholder="Type Name" type="text" class="required" rel="8"/>
+        <input id="region" name="region" type="hidden" value="" rel="9"/>
       </div>
       <div>
-          <label>Coach</label>
-          <select name="coach" rel="9">
-            <option value="" 'selected'>-- None --</option>
-            <?php
-                if(count($coaches) > 0){
-                    foreach ($coaches as $row){
-                        echo '<option value="'.$row['Email'].'" >';
-                        echo $row['FName'].' '.$row['LName'].'</option>';
-                    }
-                }
-            ?>
-        </select>
+        <label>Coach</label>
+        <input id="coachName" name="coachName" placeholder="Type Name" type="text" rel="10"/>
+        <input id="coach" name="coach" type="hidden" value="" rel="11"/>
       </div>
-      <span class="datafield" style="display:none" rel="10"><a class="table-action-EditUser">Edit</a></span>
+      <span class="datafield" style="display:none" rel="12"><a class="table-action-EditUser">Edit</a></span>
     </fieldset>
     <button id="btnAddNewRowOk" type="submit">Save</button>
     <button id="btnAddNewRowCancel" type="button">Cancel</button>
@@ -186,23 +168,23 @@ try {
     <fieldset id="user">
       <div>
         <label>First Name</label>
-        <input type="text" name="firstName" value="" rel="0" class="required"/>
+        <input type="text" name="firstName" value="" placeholder="First Name" rel="0" class="required"/>
       </div>
       <div>
         <label>Last Name</label>
-        <input type="text" name="lastName" value="" rel="1" class="required"/>
+        <input type="text" name="lastName" value="" placeholder="Last Name" rel="1" class="required"/>
       </div>
       <div>
         <label>Email</label>
-        <input type="text" name="email" value="" rel="2" class="required"/>
+        <input type="text" name="email" value="" placeholder="Email" rel="2" class="required"/>
       </div>
       <div>
           <label>Password</label>
-          <input type="password" name="password" value="" rel="3" class="required"/>
+          <input type="password" name="password" placeholder="Password" value="" rel="3" class="required"/>
       </div>
       <div>
           <label>Confirm Password</label>
-          <input type="password" name="confirmPassword" rel="4" value="" class="required"/>
+          <input type="password" name="confirmPassword" placeholder="Confirm Password" rel="4" value="" class="required"/>
       </div>
       <div>
          <label>Type</label>
@@ -211,8 +193,8 @@ try {
             <?php
                 if(count($user_types) > 0){
                     foreach ($user_types as $row){
-                        echo '<option value="'.$row['ID'].'" >';
-                        echo $row['Name'].'</option>';
+                        echo '<option value="'.$row['id'].'" >';
+                        echo $row['name'].'</option>';
                     }
                 }
             ?>
@@ -228,42 +210,24 @@ try {
             <?php
               if(count($user_statuses) > 0){
                 foreach ($user_statuses as $row){
-                  echo '<option value="'.$row['ID'].'" >';
-                  echo $row['Name'].'</option>';
+                  echo '<option value="'.$row['id'].'" >';
+                  echo $row['name'].'</option>';
                 }
               }
             ?>
         </select>
       </div>
       <div>
-          <label>Region</label>
-          <select name="region" rel="8" class="required">
-            <option value="" 'selected' >Select A Region</option>
-            <?php
-                if(count($regions) > 0){
-                    foreach ($regions as $row){
-                        echo '<option value="'.$row['ID'].'" >';
-                        echo $row['Name'].'</option>';
-                    }
-                }
-            ?>
-        </select>
+        <label>Region</label>
+        <input id="regionName" name="regionName" placeholder="Type Name" type="text" class="required" rel="8"/>
+        <input id="region" name="region" type="hidden" value="" rel="9"/>
       </div>
       <div>
-          <label>Coach</label>
-          <select name="coach" rel="9">
-            <option value="" 'selected'>-- None --</option>
-            <?php
-                if(count($coaches) > 0){
-                    foreach ($coaches as $row){
-                        echo '<option value="'.$row['Email'].'" >';
-                        echo $row['FName'].' '.$row['LName'].'</option>';
-                    }
-                }
-            ?>
-        </select>
+        <label>Coach</label>
+        <input id="coachName" name="coachName" placeholder="Type Name" type="text" rel="10"/>
+        <input id="coach" name="coach" type="hidden" value="" rel="11"/>
       </div>
-      <span class="datafield" style="display:none" rel="10"><a class="table-action-EditUser">Edit</a></span>
+      <span class="datafield" style="display:none" rel="12"><a class="table-action-EditUser">Edit</a></span>
     </fieldset>
     <button id="formEditUserOk" type="submit">Save</button>
     <button id="formEditUserCancel" type="button">Cancel</button>
@@ -293,29 +257,33 @@ try {
             <th>Reg Date</th>
             <th>Status</th>
             <th>Region</th>
+            <th>Region ID</th>
             <th>Coach</th>
+            <th>Coach Email</th>
             <th>Edit</th>
           </tr>
       </thead>
       <tbody>
           <?php
-              if(count($users) > 0){
-                  foreach ($users as $row){
-                      echo '<tr id="'.$row['Email'].'">
-                              <td>'.$row['FName'].'</td>
-                              <td>'.$row['LName'].'</td>
-                              <td>'.$row['Email'].'</td>
-                              <td>'.$row['Password'].'</td>
-                              <td>'.$row['Password'].'</td>
-                              <td>'.$row['Type'].'</td>
-                              <td>'.$row['Reg_Date'].'</td>
-                              <td>'.$row['Status'].'</td>
-                              <td>'.$row['Region'].'</td>
-                              <td>'.$row['Coach_FName'].' '.$row['Coach_LName'].'</td>
-                              <td><a class="table-action-EditUser">Edit</a></td>
-                            </tr>';
-                  }
+            if(count($users) > 0){
+              foreach ($users as $row){
+                echo '<tr id="'.$row['Email'].'">
+                        <td>'.$row['FName'].'</td>
+                        <td>'.$row['LName'].'</td>
+                        <td>'.$row['Email'].'</td>
+                        <td>'.$row['Password'].'</td>
+                        <td>'.$row['Password'].'</td>
+                        <td>'.$row['Type'].'</td>
+                        <td>'.$row['Reg_Date'].'</td>
+                        <td>'.$row['Status'].'</td>
+                        <td>'.$row['Region'].'</td>
+                        <td>'.$row['RegionID'].'</td>
+                        <td>'.$row['Coach_FName'].' '.$row['Coach_LName'].'</td>
+                        <td>'.$row['Coach_Email'].'</td>
+                        <td><a class="table-action-EditUser">Edit</a></td>
+                      </tr>';
               }
+            }
           ?>
       </tbody>
     </table>
@@ -335,30 +303,32 @@ try {
       "bAutoWidth": false,
       "sDom": 'T<"clear">lfrtip',
       "oTableTools": {
-      "sSwfPath": "/jquery/datatables/extras/TableTools/media/swf/copy_cvs_xls_pdf.swf",
-      "aButtons": [
-        {
+        "sSwfPath": "/jquery/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf",
+        "aButtons": [
+          {
           "sExtends": "pdf",
-          "mColumns": [ 0, 1, 2, 5, 8, 9 ]
+          "mColumns": [ 0, 1, 2, 5, 8, 10 ]
         },
-        {
+          {
           "sExtends": "print"
         },
-        {
+          {
           "sExtends": "xls",
-          "mColumns": [ 0, 1, 2, 5, 8, 9 ]
+          "mColumns": [ 0, 1, 2, 5, 8, 10 ]
         },
-        {
+          {
           "sExtends": "copy",
-          "mColumns": [ 0, 1, 2, 5, 8, 9 ]
+          "mColumns": [ 0, 1, 2, 5, 8, 10 ]
         }
-      ]
-    },
+        ]
+      },
       "aoColumnDefs": [
         { "bSearchable": false, "bVisible": false, "aTargets": [ 3 ] },
         { "bSearchable": false, "bVisible": false, "aTargets": [ 4 ] },
         { "bSearchable": false, "bVisible": false, "aTargets": [ 6 ] },
-        { "bSearchable": false, "bVisible": false, "aTargets": [ 7 ] }
+        { "bSearchable": false, "bVisible": false, "aTargets": [ 7 ] },
+        { "bSearchable": false, "bVisible": false, "aTargets": [ 9 ] },
+        { "bSearchable": false, "bVisible": false, "aTargets": [ 11 ] }
       ]
     }).makeEditable({
       aoTableActions: [
@@ -370,7 +340,7 @@ try {
             show: "blind",
             hide: "blind",
             width: 400,
-            height: 450,
+            height: 500,
             autoOpen: false, 
             modal: true
           }
@@ -406,14 +376,70 @@ try {
         show: "blind",
         hide: "blind",
         width: 400,
-        height: 450,
-        autoOpen: false, 
+        height: 500,
+        autoOpen: false,
         modal: true
       }
     });;
 
     $("#formAddNewRow").validate();
     $("#formEditUser").validate();
+  });
+
+  $('#formAddNewRow #coachName').typeahead({
+    name: 'Coach',
+    valueKey: 'name',
+    local: <?php echo json_encode($coaches); ?>
+  }).on('typeahead:opened', function(event) {
+    $('#formAddNewRow #coach').val('');
+    $('#formAddNewRow #coachName').val('');
+    $('#formAddNewRow #coachName').typeahead('setQuery', '');
+  }).on('typeahead:selected', function(event, datum) {
+    $('#formAddNewRow #coach').val(datum.id);
+  }).on('typeahead:autocompleted', function(event, datum) {
+    $('#formAddNewRow #coach').val(datum.id);
+  });
+
+  $('#formAddNewRow #regionName').typeahead({
+    name: 'Region',
+    valueKey: 'name',
+    local: <?php echo json_encode($regions); ?>
+  }).on('typeahead:opened', function(event) {
+    $('#formAddNewRow #region').val('');
+    $('#formAddNewRow #regionName').val('');
+    $('#formAddNewRow #regionName').typeahead('setQuery', '');
+  }).on('typeahead:selected', function(event, datum) {
+    $('#formAddNewRow #region').val(datum.id);
+  }).on('typeahead:autocompleted', function(event, datum) {
+    $('#formAddNewRow #region').val(datum.id);
+  });
+
+  $('#formEditUser #coachName').typeahead({
+    name: 'Coach',
+    valueKey: 'name',
+    local: <?php echo json_encode($coaches); ?>
+  }).on('typeahead:opened', function(event) {
+    $('#formEditUser #coach').val('');
+    $('#formEditUser #coachName').val('');
+    $('#formEditUser #coachName').typeahead('setQuery', '');
+  }).on('typeahead:selected', function(event, datum) {
+    $('#formEditUser #coach').val(datum.id);
+  }).on('typeahead:autocompleted', function(event, datum) {
+    $('#formEditUser #coach').val(datum.id);
+  });
+
+  $('#formEditUser #regionName').typeahead({
+    name: 'Region',
+    valueKey: 'name',
+    local: <?php echo json_encode($regions); ?>
+  }).on('typeahead:opened', function(event) {
+    $('#formEditUser #region').val('');
+    $('#formEditUser #regionName').val('');
+    $('#formEditUser #regionName').typeahead('setQuery', '');
+  }).on('typeahead:selected', function(event, datum) {
+    $('#formEditUser #region').val(datum.id);
+  }).on('typeahead:autocompleted', function(event, datum) {
+    $('#formEditUser #region').val(datum.id);
   });
 
   $('#formArchiveUsers').submit(function() {

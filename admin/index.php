@@ -133,8 +133,7 @@ $fullPage = $page.'.php';
         });
     }
 
-    function remove(type, id){
-
+    function remove(type, id) {
         //send request
         $.ajax({
             url: "remove.php",

@@ -38,24 +38,26 @@ try {
   $db->close();
 }
 catch (PDOException $e) {
-    echo $e->getMessage();
-    exit();
+  echo $e->getMessage();
+  exit();
 }
 ?>
 <form id="formChangePassword" action="" method="post">
   <fieldset id="changePassword">
     <div>
       <label>Password:</label>
-      <input type="password" name="password" value=""/>
+      <input type="password" name="password" id="password" value=""/>
     </div>
     <div>
       <label>Confirm Password:</label>
-      <input type="password" name="confirmPassword" value=""/>
+      <input type="password" name="confirmPassword" id="confirmPassword" value=""/>
     </div>
   </fieldset>
-  <button type="submit" name="submit" class="ui-corner-right corners-all shadow-light button" value="submit"><span class="ui-icon ui-icon-pencil"></span>Change Password</button>
+  <button type="submit" name="submit" id="submit" class="ui-corner-right corners-all shadow-light button" value="submit"><span class="ui-icon ui-icon-pencil"></span>Change Password</button>
   <fieldset id="feedback">
-      <div id="errors"><?php echo $errors; ?></div>
+    <div id="errors">
+      <?php echo $errors; ?>
+    </div>
   </fieldset>
 </form>
 
@@ -66,19 +68,19 @@ catch (PDOException $e) {
     var errors = '';
     $('#feedback #errors').html(errors);
 
-    if ($('#changePassword input:[name=password]').val().length == 0) {
-      $('#changePassword input:[name=password]').css('border-color', 'orange').siblings('a').css('display','inline-block');
+    if ($('#formChangePassword #password').val().length == 0) {
+      $('#formChangePassword #password').css('border-color', 'orange').siblings('a').css('display','inline-block');
       errors += '<div>Please enter a password.</div>';
     }
 
-    if ($('#changePassword input:[name=confirmPassword]').val().length == 0) {
-      $('#changePassword input:[name=confirmPassword]').css('border-color', 'orange').siblings('a').css('display','inline-block');
+    if ($('#formChangePassword #confirmPassword').val().length == 0) {
+      $('#formChangePassword #confirmPassword').css('border-color', 'orange').siblings('a').css('display','inline-block');
       errors += '<div>Please enter a confirm password.</div>';
     }
 
-    if ($('#changePassword input:[name=password]').val() != $('#changePassword input:[name=confirmPassword]').val()) {
-      $('#changePassword input:[name=password]').css('border-color', 'orange').siblings('a').css('display','inline-block');
-      $('#changePassword input:[name=confirmPassword]').css('border-color', 'orange').siblings('a').css('display','inline-block');
+    if ($('#formChangePassword #password').val() != $('#formChangePassword #confirmPassword').val()) {
+      $('#formChangePassword #password').css('border-color', 'orange').siblings('a').css('display','inline-block');
+      $('#formChangePassword #confirmPassword').css('border-color', 'orange').siblings('a').css('display','inline-block');
       errors += '<div>The password and confirm password do not match.</div>';
     }
 
