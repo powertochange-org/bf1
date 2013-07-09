@@ -61,6 +61,8 @@ require_once("Database.singleton.php");
   <link type="text/css" href="/jquery/jquery-ui/css/crudoctrine-grey/jquery-ui-1.10.3.custom.css" rel="Stylesheet" />
   <!--typeahead-->
   <script type="text/javascript" src="/jquery/typeahead/typeahead.js"></script>
+  <!--hogan-->
+  <script type="text/javascript" src="/jquery/hogan/hogan-2.0.0.js"></script>
   <!--media-->
   <script type="text/javascript" src="/jquery/media/jquery.media.js"></script>
   <!--validation-->

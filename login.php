@@ -125,70 +125,76 @@ catch (PDOException $e) {
 </div>
 
 <script type="text/javascript">
-    //hide submit button
-    /*$(function() {
-        $('#formLogin #formLoginLogin').hide();
-    });*/
+  //hide submit button
+  /*$(function() {
+      $('#formLogin #formLoginLogin').hide();
+  });*/
 
-    //validate form submission
-    $('#login form').submit(function() {
-      var submit = false;
-      var errors = '';
+  //validate form submission
+  $('#login form').submit(function() {
+    var submit = false;
+    var errors = '';
 
-      if ($('#login #email').val().length == 0) {
-        $('#login #email').css('border-color', 'orange');
-        errors += '<div>Please enter your email.</div>';
-      }
+    if ($('#login #email').val().length == 0) {
+      $('#login #email').css('border-color', 'orange');
+      errors += '<div>Please enter your email.</div>';
+    }
+    else {
+      $('#login #email').css('border-color', '').siblings('a').css('display','');
+    }
 
-      if ($('#login #password').val().length == 0) {
-        $('#login #password').css('border-color', 'orange');
-        errors += '<div>Please enter your password.</div>';
-      }
+    if ($('#login #password').val().length == 0) {
+      $('#login #password').css('border-color', 'orange');
+      errors += '<div>Please enter your password.</div>';
+    }
+    else {
+      $('#login #password').css('border-color', '').siblings('a').css('display','');
+    }
 
-      if (errors !== '') {
-        $('#login #errors').html(errors);
-        submit = false;
-      } 
-      else {
-        submit = true;
-      }
+    if (errors !== '') {
+      $('#login #errors').html(errors);
+      submit = false;
+    } 
+    else {
+      submit = true;
+    }
 
-      if(submit) {
-        $.ajax({
-          url: 'login.php',
-          type: 'POST',
-          data: {
-              ajax       : true,
-              submit     : true,
-              email      : $('form #email').val(),
-              password   : $('form #password').val(),
-              rememberMe : $('form #rememberMe').val()
-          },
-          dataType: "html",
-          success: function(msg) {
-            if(msg != 'error') {
-              $('#loginbox  #login').click();
-              $('#header').html($(msg).find('#header').html());
-              window.location.reload(true);
-            } 
-            else {
-              $('#login #errors').html('<div>Login failed. Please check your email and password.</div>')
-            }
+    if(submit) {
+      $.ajax({
+        url: 'login.php',
+        type: 'POST',
+        data: {
+          ajax       : true,
+          submit     : true,
+          email      : $('form #email').val(),
+          password   : $('form #password').val(),
+          rememberMe : $('form #rememberMe').val()
+        },
+        dataType: "html",
+        success: function(msg) {
+          if(msg != 'error') {
+            $('#loginbox  #login').click();
+            $('#header').html($(msg).find('#header').html());
+            window.location.reload(true);
+          } 
+          else {
+            $('#login #errors').html('<div>Login failed. Please check your email and password.</div>')
           }
-        });
-      }
-      return false;
-    });
+        }
+      });
+    }
+    return false;
+  });
 
-    //jquery class interaction states
-    $('button').addClass('ui-state-default');
+  //jquery class interaction states
+  $('button').addClass('ui-state-default');
 
-    $('.ui-state-default').hover(
-      function(){
-        $(this).addClass("ui-state-hover");
-      },
-      function(){
-        $(this).removeClass("ui-state-hover");
-      }
-    );
+  $('.ui-state-default').hover(
+    function(){
+      $(this).addClass("ui-state-hover");
+    },
+    function(){
+      $(this).removeClass("ui-state-hover");
+    }
+  );
 </script>

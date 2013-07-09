@@ -176,7 +176,7 @@ catch (PDOException $e) {
       </div>
       <div>
         <label>Region</label>
-        <input id="regionSearch" placeholder="Type Name" type="text">
+        <input id="regionSearch" class="typeahead" placeholder="Type Name" type="text">
         <input id="region" type="hidden">
         <a class="required"></a>
         <div id="help">
@@ -186,7 +186,7 @@ catch (PDOException $e) {
       </div>
       <div>
         <label>Coach</label>
-        <input id="coachSearch" placeholder="Type Name" type="text">
+        <input id="coachSearch" class="typeahead" placeholder="Type Name" type="text">
         <input id="coach" type="hidden">
       </div>
     </fieldset>
@@ -210,7 +210,9 @@ catch (PDOException $e) {
   $('#formRegister #coachSearch').typeahead({
     name: 'Coach',
     valueKey: 'name',
-    local: <?php echo json_encode($coaches); ?>
+    local: <?php echo json_encode($coaches); ?>,
+    template: '<p><strong>{{name}}</strong> – {{region}}</p>',
+    engine: Hogan
   }).on('typeahead:opened', function(event) {
     $('#formRegister #coach').val('');
     $('#formRegister #coachSearch').val('');
@@ -246,7 +248,7 @@ catch (PDOException $e) {
     $('#formRegister #errors').html(errors);
 
     if ($('#formRegister #firstName').val().length == 0) {
-      $('#formRegister #firstName').css('border-color', 'orange').siblings('a').css('display','inline-block');
+      $('#formRegister #firstName').css('border-color', 'orange').siblings('a').css('display','');
       errors += '<div>Please enter a first name.</div>';
     }
     else {
@@ -254,7 +256,7 @@ catch (PDOException $e) {
     }
 
     if ($('#formRegister #lastName').val().length == 0) {
-      $('#formRegister #lastName').css('border-color', 'orange').siblings('a').css('display','inline-block');
+      $('#formRegister #lastName').css('border-color', 'orange').siblings('a').css('display','');
       errors += '<div>Please enter a last name.</div>';
     }
     else {
@@ -262,7 +264,7 @@ catch (PDOException $e) {
     }
 
     if ($('#formRegister #email').val().length == 0) {
-      $('#formRegister #email').css('border-color', 'orange').siblings('a').css('display','inline-block');
+      $('#formRegister #email').css('border-color', 'orange').siblings('a').css('display','');
       errors += '<div>Please enter an email address.</div>';
     }
     else {
@@ -270,7 +272,7 @@ catch (PDOException $e) {
     }
 
     if ($('#formRegister #password').val().length == 0) {
-      $('#formRegister #password').css('border-color', 'orange').siblings('a').css('display','inline-block');
+      $('#formRegister #password').css('border-color', 'orange').siblings('a').css('display','');
       errors += '<div>Please enter a password.</div>';
     }
     else {
@@ -278,7 +280,7 @@ catch (PDOException $e) {
     }
 
     if ($('#formRegister #confirmPassword').val().length == 0) {
-      $('#formRegister #confirmPassword').css('border-color', 'orange').siblings('a').css('display','inline-block');
+      $('#formRegister #confirmPassword').css('border-color', 'orange').siblings('a').css('display','');
       errors += '<div>Please enter a confirm password.</div>';
     }
     else {
@@ -287,8 +289,8 @@ catch (PDOException $e) {
 
     if (($('#formRegister #password').val().length > 0) && ($('#formRegister #confirmPassword').val().length > 0)) {
       if ($('#formRegister #password').val() != $('#formRegister #confirmPassword').val()) {
-        $('#formRegister #password').css('border-color', 'orange').siblings('a').css('display','inline-block');
-        $('#formRegister #confirmPassword').css('border-color', 'orange').siblings('a').css('display','inline-block');
+        $('#formRegister #password').css('border-color', 'orange').siblings('a').css('display','');
+        $('#formRegister #confirmPassword').css('border-color', 'orange').siblings('a').css('display','');
         errors += '<div>The passwords do not match.</div>';
       }
       else {
@@ -298,7 +300,7 @@ catch (PDOException $e) {
     }
 
     if ($('#formRegister #type').val().length == 0) {
-      $('#formRegister #type').css('border-color', 'orange').siblings('a').css('display','inline-block');
+      $('#formRegister #type').css('border-color', 'orange').siblings('a').css('display','');
       errors += '<div>Please select a type.</div>';
     }
     else {
@@ -308,12 +310,12 @@ catch (PDOException $e) {
     if ($('#formRegister #region').val().length == 0) {
       if ($('#formRegister #regionSearch').val().length > 0) {
         $('#formRegister #regionSearch').css('border-color', 'orange');
-        $('#formRegister #region').siblings('a').css('display','inline-block');
+        $('#formRegister #region').siblings('a').css('display','');
         errors += '<div>Please select a valid region.</div>';
       }
       else {
         $('#formRegister #regionSearch').css('border-color', 'orange');
-        $('#formRegister #region').siblings('a').css('display','inline-block');
+        $('#formRegister #region').siblings('a').css('display','');
         errors += '<div>Please select a region.</div>';
       }
     }

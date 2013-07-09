@@ -36,8 +36,9 @@ function getVisibilityClause($type) {
 function getActiveCoaches($db) {
   $coaches = array();
 
-  $sql     =  "SELECT u.Email as id, CONCAT(u.FName, ' ', u.LName) as name
+  $sql     =  "SELECT u.Email as id, CONCAT(u.FName, ' ', u.LName) as name, r.Name as region
                FROM  user u
+               INNER JOIN region r ON u.Region = r.ID
                WHERE u.Type < ".STUDENT."
                AND u.Status = ".ACTIVE."
                ORDER BY u.LName;";
