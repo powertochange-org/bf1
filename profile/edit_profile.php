@@ -261,13 +261,13 @@ catch (PDOException $e) {
     </div>
     <div>
       <label>Region</label>
-      <input id="regionSearch" placeholder="Type Name" value="<?php echo $regionName;?>" type="text">
+      <input id="regionSearch" placeholder="Type Name" class="typeahead" value="<?php echo $regionName;?>" type="text">
       <input id="region" value="<?php echo $region;?>" type="hidden">
       <a class="required"></a>
     </div>
     <div>
       <label>Coach</label>
-      <input id="coachSearch" placeholder="Type Name" value="<?php echo $coachName;?>" type="text">
+      <input id="coachSearch" placeholder="Type Name" class="typeahead" value="<?php echo $coachName;?>" type="text">
       <input id="coach" value="<?php echo $coach;?>" type="hidden">
     </div>
   </fieldset>
@@ -288,7 +288,9 @@ catch (PDOException $e) {
   $('#formEditProfile #coachSearch').typeahead({
     name: 'Coach',
     valueKey: 'name',
-    local: <?php echo json_encode($coaches); ?>
+    local: <?php echo json_encode($coaches); ?>,
+    template: '<p><strong>{{name}}</strong> – {{region}}</p>',
+    engine: Hogan
   }).on('typeahead:opened', function(event) {
     $('#formEditProfile #coach').val('');
     $('#formEditProfile #coachSearch').val('');

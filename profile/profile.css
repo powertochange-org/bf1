@@ -32,10 +32,10 @@
 #formEditProfile{ padding-top: 20px; }
 #formEditProfile fieldset{ border: none;}
 #formEditProfile fieldset legend { font-size: 14px; padding: 0px 10px; }
-#formEditProfile fieldset div { overflow: auto; margin: 1px 5px 5px; }
+#formEditProfile fieldset div { margin: 5px 5px 10px; }
 #formEditProfile fieldset label { font-size: 12px; float: left; width: 86px; height: 28px; vertical-align: middle; padding: 2px 5px; }
-#formEditProfile fieldset input { font-size: 12px; padding: 5px; width: 200px; float: left; border: 1px solid #ccc; }
-#formEditProfile fieldset select { font-size: 12px; padding: 5px; width: 200px; float: left; border: 1px solid #ccc; }
+#formEditProfile fieldset input { font-size: 12px; padding: 5px; width: 200px; border: 1px solid #ccc; line-height:12px; border:1px solid #ccc; -webkit-border-radius:5px; -moz-border-radius:5px; border-radius:5px; outline:none; }
+#formEditProfile fieldset select { font-size: 12px; padding: 5px; width: 200px; border: 1px solid #ccc; line-height:12px; border:1px solid #ccc; -webkit-border-radius:5px; -moz-border-radius:5px; border-radius:5px; outline:none; }
 #formEditProfile fieldset .required { width: 24px; height: 24px; margin: 5px 5px; background-image: url('/admin/images/001_30.png'); display: none; }
 #formEditProfile #feedback #errors { margin-top: 5px; float: left; width: 100%; }
 #formEditProfile #feedback #errors div { font-size: 12px; }
@@ -47,7 +47,7 @@
 #formChangePassword .button { margin-bottom: 20px; }
 #formChangePassword fieldset{ border: none;}
 #formChangePassword fieldset legend { font-size: 14px; padding: 0px 10px; }
-#formChangePassword fieldset div { overflow: auto; width: 100%; height: auto; margin: 10px 0px; }
+#formChangePassword fieldset div { width: 100%; height: auto; margin: 10px 0px; }
 #formChangePassword fieldset label { font-size: 14px; float: left; width: 150px; height: 100%; vertical-align: middle; }
 /*#formChangePassword fieldset .required { width: 24px; height: 24px; margin: 5px 5px; background-image: url('/admin/images/001_30.png'); display: none; }*/
 #formChangePassword button { cursor: pointer; margin: 0px 2px; float: right; margin: 2px; border: none; font-size: 12px; }
@@ -57,9 +57,9 @@
 #formResetPassword .button { margin-bottom: 20px; }
 #formResetPassword fieldset{ border: none;}
 #formResetPassword fieldset legend { font-size: 14px; padding: 0px 10px; }
-#formResetPassword fieldset div { overflow: auto; width: 100%; height: auto; margin: 10px 0px; }
+#formResetPassword fieldset div { width: 100%; height: auto; margin: 10px 0px; }
 #formResetPassword fieldset label { font-size: 14px; float: left; width: 100px; height: 100%; vertical-align: middle; }
-#formResetPassword fieldset input { width: 250px; font-size: 12px; float: left; height: 100%; vertical-align: middle; }
+#formResetPassword fieldset input { font-size: 12px; padding: 5px; width: 200px; border: 1px solid #ccc; line-height:12px; border:1px solid #ccc; -webkit-border-radius:5px; -moz-border-radius:5px; border-radius:5px; outline:none; }
 /*#formResetPassword fieldset .required { width: 24px; height: 24px; margin: 5px 5px; background-image: url('/admin/images/001_30.png'); display: none; }*/
 #formResetPassword button { cursor: pointer; margin: 0px 2px; float: right; margin: 2px; border: none; font-size: 12px; }
 #formResetPassword #instructions {margin-top: 8px; float: left; width: 100%; }

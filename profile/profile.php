@@ -117,7 +117,7 @@ catch (PDOException $e) {
             $(this).dialog( "destroy" );
             $('#formEditProfile').remove();
           },
-          height: 500,
+          height: 550,
           width: 450,
           resizable: false,
           modal: true
