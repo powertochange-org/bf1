@@ -339,8 +339,8 @@ try {
             title: 'Edit a user',
             show: "blind",
             hide: "blind",
-            width: 400,
-            height: 500,
+            width: 450,
+            height: 550,
             autoOpen: false, 
             modal: true
           }
@@ -375,8 +375,8 @@ try {
         title: 'Add a new user',
         show: "blind",
         hide: "blind",
-        width: 400,
-        height: 500,
+        width: 450,
+        height: 550,
         autoOpen: false,
         modal: true
       }
@@ -389,7 +389,9 @@ try {
   $('#formAddNewRow #coachName').typeahead({
     name: 'Coach',
     valueKey: 'name',
-    local: <?php echo json_encode($coaches); ?>
+    local: <?php echo json_encode($coaches); ?>,
+    template: '<p><strong>{{name}}</strong> – {{region}}</p>',
+    engine: Hogan
   }).on('typeahead:opened', function(event) {
     $('#formAddNewRow #coach').val('');
     $('#formAddNewRow #coachName').val('');
@@ -417,7 +419,9 @@ try {
   $('#formEditUser #coachName').typeahead({
     name: 'Coach',
     valueKey: 'name',
-    local: <?php echo json_encode($coaches); ?>
+    local: <?php echo json_encode($coaches); ?>,
+    template: '<p><strong>{{name}}</strong> – {{region}}</p>',
+    engine: Hogan
   }).on('typeahead:opened', function(event) {
     $('#formEditUser #coach').val('');
     $('#formEditUser #coachName').val('');

@@ -85,8 +85,10 @@
 #formAddNewRow{ padding-top: 20px; }
 #formAddNewRow fieldset{ border: none; border-top: 1px solid #ccc; }
 #formAddNewRow fieldset legend { font-size: 14px; padding: 0px 10px; }
-#formAddNewRow fieldset div { overflow: auto; width: 100%; height: auto; margin: 10px 0px; }
+#formAddNewRow fieldset div { margin: 5px 5px 10px; }
 #formAddNewRow fieldset label { font-size: 14px; float: left; width: 150px; height: 100%; vertical-align: middle; }
+#formAddNewRow #user input { font-size: 12px; padding: 5px; width: 200px; border: 1px solid #ccc; line-height:12px; border:1px solid #ccc; -webkit-border-radius:5px; -moz-border-radius:5px; border-radius:5px; outline:none; }
+#formAddNewRow #user select { font-size: 12px; padding: 5px; width: 200px; border: 1px solid #ccc; line-height:12px; border:1px solid #ccc; -webkit-border-radius:5px; -moz-border-radius:5px; border-radius:5px; outline:none; }
 /*#formAddNewRow fieldset .required { width: 24px; height: 24px; margin: 5px 5px; background-image: url('images/001_30.png'); display: none; }*/
 #formAddNewRow button { cursor: pointer; margin: 0px 2px; float: right; margin: 2px; border: none; font-size: 12px; }
 
@@ -94,7 +96,9 @@
 #formEditUser{ padding-top: 20px; }
 #formEditUser fieldset{ border: none; border-top: 1px solid #ccc; }
 #formEditUser fieldset legend { font-size: 14px; padding: 0px 10px; }
-#formEditUser fieldset div { overflow: auto; width: 100%; height: auto; margin: 10px 0px; }
+#formEditUser fieldset div { margin: 5px 5px 10px; }
 #formEditUser fieldset label { font-size: 14px; float: left; width: 150px; height: 100%; vertical-align: middle; }
+#formEditUser #user input { font-size: 12px; padding: 5px; width: 200px; border: 1px solid #ccc; line-height:12px; border:1px solid #ccc; -webkit-border-radius:5px; -moz-border-radius:5px; border-radius:5px; outline:none; }
+#formEditUser #user select { font-size: 12px; padding: 5px; width: 200px; border: 1px solid #ccc; line-height:12px; border:1px solid #ccc; -webkit-border-radius:5px; -moz-border-radius:5px; border-radius:5px; outline:none; }
 /*#formEditUser fieldset .required { width: 24px; height: 24px; margin: 5px 5px; background-image: url('images/001_30.png'); display: none; }*/
 #formEditUser button { cursor: pointer; margin: 0px 2px; float: right; margin: 2px; border: none; font-size: 12px; }
