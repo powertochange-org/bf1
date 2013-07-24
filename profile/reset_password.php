@@ -173,15 +173,15 @@ catch (PDOException $e) {
           </div>
            <div>
             <label>Email:</label>
-            <input type="input" id="email" value=""/>
+            <input type="input" id="email" name="email" value=""/>
           </div>
         </fieldset>
         <fieldset id="feedback">
-          <div id="message">
+          <div id="message" name="message">
             <?php echo $message; ?>
           </div>
         </fieldset>
-        <button type="submit" id="submit" class="ui-corner-right corners-all shadow-light button" value="submit"><span class="ui-icon ui-icon-pencil"></span>Reset Password</button>
+        <button type="submit" id="submit" name="submit" class="ui-corner-right corners-all shadow-light button" value="submit"><span class="ui-icon ui-icon-pencil"></span>Reset Password</button>
       </form>
     </div>
   </div>
