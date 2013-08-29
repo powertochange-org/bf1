@@ -583,8 +583,8 @@ function insertElement($_id, $_type, $_content) {
                 url += '='+id;
 
                 //update href, remove handler, and trigger
-                $('#bottom #continue').attr('action',url).unbind('submit');
-                $('#bottom #continue').submit();
+                $('#bottom #formPageSubmit').attr('action',url).unbind('submit');
+                $('#bottom #formPageSubmit').submit();
               });
             }
           });
