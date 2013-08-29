@@ -27,8 +27,9 @@ try {
             INNER JOIN module m ON pr.ID = m.ID
             WHERE pr.Email = '".$db->escape($email)."'
             AND pr.Type = '".MODULE."'
-            AND pr.Status = '".STARTED."'";
-
+            ORDER BY m.Ord DESC
+            LIMIT 1;";
+            
     $progress = $db->query_first($sql);
     $currentModule = $progress['Module'];
 
