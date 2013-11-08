@@ -137,184 +137,184 @@ function insertElement($_id, $_type, $_content) {
 <script type="text/javascript" src="/jquery/jwplayer/jwplayer.js"></script>
 
 <div>
-    <div id="toolbox">
-        <div id="textbox" class="textbox tool" eId="0"><span>Text</span></div>
-        <div id="media" class="media tool" eId="0"><span>Media</span></div>
-        <div id="image" class="image tool" eId="0"><span>Image</span></div>
-        <div id="input" class="input tool" eId="0"><span>Input</span></div>
-        <div id="whitespace" class="whitespace tool" eId="0"><span>Whitespace</span></div>
-        <hr>
-        <div id="trash" class="trash">
-            <div id="trashbin"></div>
-        </div>
+  <div id="toolbox">
+    <div id="textbox" class="textbox tool" eId="0"><span>Text</span></div>
+    <div id="media" class="media tool" eId="0"><span>Media</span></div>
+    <div id="image" class="image tool" eId="0"><span>Image</span></div>
+    <div id="input" class="input tool" eId="0"><span>Input</span></div>
+    <div id="whitespace" class="whitespace tool" eId="0"><span>Whitespace</span></div>
+    <hr>
+    <div id="trash" class="trash">
+        <div id="trashbin"></div>
     </div>
+  </div>
 
-    <div id="canvas">
-        <div id="canvasmain">
-            <?php
-                if(isset($main_elements)){
-                    foreach($main_elements as $element){
-                        insertElement($element['id'], $element['type'], $element['content']);
-                    }
+  <div id="canvas">
+    <div id="canvasmain">
+        <?php
+            if(isset($main_elements)){
+                foreach($main_elements as $element){
+                    insertElement($element['id'], $element['type'], $element['content']);
                 }
-            ?>
-        </div>
-        <div id="canvasright">
-            <?php
-                if(isset($right_elements)){
-                    foreach($right_elements as $element){
-                        insertElement($element['id'], $element['type'], $element['content']);
-                    }
+            }
+        ?>
+    </div>
+    <div id="canvasright">
+        <?php
+            if(isset($right_elements)){
+                foreach($right_elements as $element){
+                    insertElement($element['id'], $element['type'], $element['content']);
                 }
-            ?>
+            }
+        ?>
+    </div>
+  </div>
+
+  <form id="saveForm" action="../?p=modules&id=<?php echo $moduleId; ?>" method="POST">
+    <button type="submit" name="save">SAVE</button>
+    <button name="cancel" type="submit" onclick="cancelFunc();return(false);">CANCEL</button>
+  </form>
+
+  <div id="textbox_editor">
+  </div>
+
+  <div id="image_editor">
+    <div>
+        1. Source
+    </div>
+    <hr>
+    <fieldset id="source">
+        <div>
+            <input type="radio" name="src" value="upload" checked /><label> Upload: </label><input class="upload" type="text" name="upload" value="" /> <button type="button" name ="browse" id="imageBrowse">Browse</button>
+        </div>
+        <div>
+            <input type="radio" name="src" value="url"/><label> Insert URL: </label><input class="url" type="text" name="url" value="" />
+        </div>
+        <div id="imageupload"></div>
+    </fieldset>
+    <div>
+        2. Caption
+    </div>
+    <hr>
+    <fieldset id="caption">
+        <div>
+            <textarea name="caption"></textarea>
+        </div>
+    </fieldset>
+    <div>
+        3. Options
+    </div>
+    <hr>
+    <fieldset id="options" >
+        <div id="size">
+            <div class="size small"><div class="label">Small</div></div>
+            <div class="size medium"><div class="label">Medium</div></div>
+            <div class="size large"><div class="label">Large</div></div>
+            <div class="size custom"><div class="label">Custom</div></div>
+            <div id="height">
+                <label>H</label><input class="dim" type="text" name="height" value="">
+            </div>
+            <div id="width">
+                <label>W</label><input class="dim" type="text" name="width" value="">
+            </div>
+        </div>
+    </fieldset>
+  </div>
+
+  <div id="media_editor">
+    <div>
+        1. Source
+    </div>
+    <hr>
+    <fieldset id="source">
+        <div>
+            <input type="radio" name="src" value="upload" checked /><label> Upload: </label><input class="upload" type="text" name="upload" value="" /> <button type="button" name="browse" id="mediaBrowse">Browse</button>
+        </div>
+        <div>
+            <input type="radio" name="src" value="url"/><label> Insert URL: </label><input class="url" type="text" name="url" value="" />
+        </div>
+        <div id="mediaupload"></div>
+    </fieldset>
+    <div>
+        2. Caption
+    </div>
+    <hr>
+    <fieldset id="caption">
+        <div>
+            <textarea name="caption"></textarea>
+        </div>
+    </fieldset>
+    <div>
+        3. Options
+    </div>
+    <hr>
+    <fieldset id="options" >
+        <div id="size">
+            <div class="size small"><div class="label">Small</div></div>
+            <div class="size medium"><div class="label">Medium</div></div>
+            <div class="size large"><div class="label">Large</div></div>
+            <div class="size custom"><div class="label">Custom</div></div>
+            <div id="height">
+                <label>H</label><input class="dim" type="text" name="height" value="">
+            </div>
+            <div id="width">
+                <label>W</label><input class="dim" type="text" name="width" value="">
+            </div>
+        </div>
+    </fieldset>
+  </div>
+
+  <div id="input_editor">
+    <div>
+        1. Question
+    </div>
+    <hr>
+    <fieldset id="question">
+        <div>
+            <textarea name="question"></textarea>
+        </div>
+    </fieldset>
+    <div>
+        2. Default Flags & Minimum Response
+    </div>
+    <hr>
+    <fieldset id="options">
+        <div>
+            <input type="checkbox" name="personal" /><label> Personal Followup </label>
+            <input type="checkbox" name="coach" /><label> Coach Followup </label>
+        </div>
+        <div>
+            <label>Minimum Response Length: </label><input type="text" name="responseLength" value="5" />
+        </div>
+    </fieldset>
+  </div>
+
+  <div id="save_dialog">
+    <div id="message"></div>
+    <div id="progress"><div id="bar"></div></div>
+  </div>
+
+  <div id="element">
+    <div class="element">
+        <div class="menu ui-widget-header ui-corner-all">
+            <div class="edit" onclick="$(this).parent().parent().addClass('editing'); openEditor($(this).parent().parent().parent().attr('id'));"></div>
+            <div class="settings"></div>
+            <div class="delete" onclick="$(this).parent().parent().parent().addClass('deleted').appendTo('#trashbin'); makeDraggable();"></div>
+            <div class="dragbar"><span class=" ui-icon ui-icon-grip-dotted-vertical"></span></div>
+        </div>
+        <div class="content">
         </div>
     </div>
-
-    <form id="saveForm" action="../?p=modules&id=<?php echo $moduleId; ?>" method="POST">
-        <button type="submit" name="save">SAVE</button>
-        <button name="cancel" type="submit" onclick="cancelFunc();return(false);">CANCEL</button>
-    </form>
-
-    <div id="textbox_editor">
-    </div>
-
-    <div id="image_editor">
-        <div>
-            1. Source
-        </div>
-        <hr>
-        <fieldset id="source">
-            <div>
-                <input type="radio" name="src" value="upload" checked /><label> Upload: </label><input class="upload" type="text" name="upload" value="" /> <button type="button" name ="browse" id="imageBrowse">Browse</button>
-            </div>
-            <div>
-                <input type="radio" name="src" value="url"/><label> Insert URL: </label><input class="url" type="text" name="url" value="" />
-            </div>
-            <div id="imageupload"></div>
-        </fieldset>
-        <div>
-            2. Caption
-        </div>
-        <hr>
-        <fieldset id="caption">
-            <div>
-                <textarea name="caption"></textarea>
-            </div>
-        </fieldset>
-        <div>
-            3. Options
-        </div>
-        <hr>
-        <fieldset id="options" >
-            <div id="size">
-                <div class="size small"><div class="label">Small</div></div>
-                <div class="size medium"><div class="label">Medium</div></div>
-                <div class="size large"><div class="label">Large</div></div>
-                <div class="size custom"><div class="label">Custom</div></div>
-                <div id="height">
-                    <label>H</label><input class="dim" type="text" name="height" value="">
-                </div>
-                <div id="width">
-                    <label>W</label><input class="dim" type="text" name="width" value="">
-                </div>
-            </div>
-        </fieldset>
-    </div>
-
-    <div id="media_editor">
-        <div>
-            1. Source
-        </div>
-        <hr>
-        <fieldset id="source">
-            <div>
-                <input type="radio" name="src" value="upload" checked /><label> Upload: </label><input class="upload" type="text" name="upload" value="" /> <button type="button" name="browse" id="mediaBrowse">Browse</button>
-            </div>
-            <div>
-                <input type="radio" name="src" value="url"/><label> Insert URL: </label><input class="url" type="text" name="url" value="" />
-            </div>
-            <div id="mediaupload"></div>
-        </fieldset>
-        <div>
-            2. Caption
-        </div>
-        <hr>
-        <fieldset id="caption">
-            <div>
-                <textarea name="caption"></textarea>
-            </div>
-        </fieldset>
-        <div>
-            3. Options
-        </div>
-        <hr>
-        <fieldset id="options" >
-            <div id="size">
-                <div class="size small"><div class="label">Small</div></div>
-                <div class="size medium"><div class="label">Medium</div></div>
-                <div class="size large"><div class="label">Large</div></div>
-                <div class="size custom"><div class="label">Custom</div></div>
-                <div id="height">
-                    <label>H</label><input class="dim" type="text" name="height" value="">
-                </div>
-                <div id="width">
-                    <label>W</label><input class="dim" type="text" name="width" value="">
-                </div>
-            </div>
-        </fieldset>
-    </div>
-
-    <div id="input_editor">
-        <div>
-            1. Question
-        </div>
-        <hr>
-        <fieldset id="question">
-            <div>
-                <textarea name="question"></textarea>
-            </div>
-        </fieldset>
-        <div>
-            2. Default Flags & Minimum Response
-        </div>
-        <hr>
-        <fieldset id="options">
-            <div>
-                <input type="checkbox" name="personal" /><label> Personal Followup </label>
-                <input type="checkbox" name="coach" /><label> Coach Followup </label>
-            </div>
-            <div>
-                <label>Minimum Response Length: </label><input type="text" name="responseLength" value="5" />
-            </div>
-        </fieldset>
-    </div>
-
-    <div id="save_dialog">
-        <div id="message"></div>
-        <div id="progress"><div id="bar"></div></div>
-    </div>
-
-    <div id="element">
-        <div class="element">
-            <div class="menu ui-widget-header ui-corner-all">
-                <div class="edit" onclick="$(this).parent().parent().addClass('editing'); openEditor($(this).parent().parent().parent().attr('id'));"></div>
-                <div class="settings"></div>
-                <div class="delete" onclick="$(this).parent().parent().parent().addClass('deleted').appendTo('#trashbin'); makeDraggable();"></div>
-                <div class="dragbar"><span class=" ui-icon ui-icon-grip-dotted-vertical"></span></div>
-            </div>
-            <div class="content">
-            </div>
-        </div>
-    </div>
+  </div>
 </div>
 
 <!-- PASSED VALUES -->
 <script type="text/javascript">
     var _pageId      = <?php echo $id != '' ? $id : 0; ?>;
-    var _title       = <?php echo "'".$_title."'"; ?>;
+    var _title       = <?php echo "'".$pageTitle."'"; ?>;
     var _section     = <?php echo $sectionId; ?>;
     var _order       = <?php echo $order; ?>;
-    var _visibility  = <?php echo "'".$visibility."'"; ?>;
+    var _visibility  = <?php echo "'".$pageVisibility."'"; ?>;
     var _pageType    = <?php echo "'".$pageType."'"; ?>;
 </script>
 
@@ -357,20 +357,18 @@ function insertElement($_id, $_type, $_content) {
 
     $('#trash').toggle(
         function(event, ui){
-            $('#trashbin').animate({
-                opacity: 0.8,
-                width: '750px',
-                marginLeft: '100px'
-              }, 200, 'linear'
-            )
+          $('#trashbin').animate({
+            opacity: 0.8,
+            width: '750px',
+            marginLeft: '100px'
+          }, 200, 'linear')
         },
         function(event, ui){
-            $('#trashbin').animate({
-                opacity: 0,
-                width: '0px',
-                marginLeft: '0px'
-              }, 200, 'linear'
-            )
+          $('#trashbin').animate({
+            opacity: 0,
+            width: '0px',
+            marginLeft: '0px'
+          }, 200, 'linear')
         }
     );
 
@@ -393,65 +391,64 @@ function insertElement($_id, $_type, $_content) {
 
         //input editor
         $('#input_editor').dialog({
-            autoOpen: false,
-            //modal: true,
-            height: 400,
-            width: 550,
-            resizable: false,
-            buttons: {
-                "Ok": function() {
-                    //assemble image tag
-                    var question = $(this).find('textarea[name=question]').val();
-                    var length = $(this).find('input:text[name=responseLength]').val();
-                    var personal = $(this).find('input:checkbox[name=personal]').attr('checked') ? 'checked="checked" disabled="disabled"' : '';
-                    var coach = $(this).find('input:checkbox[name=coach]').attr('checked') ? 'checked="checked" disabled="disabled"' : '';
+          autoOpen: false,
+          //modal: true,
+          height: 400,
+          width: 550,
+          resizable: false,
+          buttons: {
+              "Ok": function() {
+                  //assemble image tag
+                  var question = $(this).find('textarea[name=question]').val();
+                  var length = $(this).find('input:text[name=responseLength]').val();
+                  var personal = $(this).find('input:checkbox[name=personal]').attr('checked') ? 'checked="checked" disabled="disabled"' : '';
+                  var coach = $(this).find('input:checkbox[name=coach]').attr('checked') ? 'checked="checked" disabled="disabled"' : '';
 
-                    var input = '<div class="input"><div class="question">'+question+'</div>';
-                    input += '<div class="response"><textarea name="response" min="'+length+'"></textarea></div>';
-                    input += '<div class="flags">';
-                    input += '<div><input type="checkbox" name="personal" '+personal+' /><label>Flag For Personal Followup</label></div>';
-                    input += '<div><input type="checkbox" name="coach" '+coach+' /><label>Flag For Coach Followup</label></div>';
-                    input += '</div>';
-                    $('.editing').find('.content').html(input);
+                  var input = '<div class="input"><div class="question">'+question+'</div>';
+                  input += '<div class="response"><textarea name="response" min="'+length+'"></textarea></div>';
+                  input += '<div class="flags">';
+                  input += '<div><input type="checkbox" name="personal" '+personal+' /><label>Flag For Personal Followup</label></div>';
+                  input += '<div><input type="checkbox" name="coach" '+coach+' /><label>Flag For Coach Followup</label></div>';
+                  input += '</div>';
+                  $('.editing').find('.content').html(input);
 
-                    $(this).dialog("close");
-                },
-                "Cancel": function() {
-                    $(this).dialog("close");
-                }
-            },
+                  $(this).dialog("close");
+              },
+              "Cancel": function() {
+                  $(this).dialog("close");
+              }
+          },
 
-            open: function(event, ui) {
-                $('embed').hide();
+          open: function(event, ui) {
+            $('embed').hide();
 
-                if($('.editing').find('.content').html().length > 0) {
-                    //get initial values
-                    var question = $('.editing .content').find('.question').html();
-                    var personal = $('.editing .content').find('input:checkbox[name=personal]').attr('checked');
-                    var coach = $('.editing .content').find('input:checkbox[name=coach]').attr('checked');
-                    var length = $('.editing .content').find('textarea[name=response]').attr('min');
+            if($('.editing').find('.content').html().length > 0) {
+              //get initial values
+              var question = $('.editing .content').find('.question').html();
+              var personal = $('.editing .content').find('input:checkbox[name=personal]').attr('checked');
+              var coach = $('.editing .content').find('input:checkbox[name=coach]').attr('checked');
+              var length = $('.editing .content').find('textarea[name=response]').attr('min');
 
-                    //set values
-                    $(this).find('textarea[name=question]').val(question);
-                    $(this).find('input:checkbox[name=personal]').attr('checked', personal);
-                    $(this).find('input:checkbox[name=coach]').attr('checked', coach);
-                    $(this).find('input:text[name=responseLength]').val(length);
-                }
+              //set values
+              $(this).find('textarea[name=question]').val(question);
+              $(this).find('input:checkbox[name=personal]').attr('checked', personal);
+              $(this).find('input:checkbox[name=coach]').attr('checked', coach);
+              $(this).find('input:text[name=responseLength]').val(length);
+            }
+          },
 
-            },
+          close: function(event, ui) {
+              $('embed').show();
 
-            close: function(event, ui) {
-                $('embed').show();
+              //clear values
+              $(this).find('textarea[name=question]').val('');
+              $(this).find('input:checkbox[name=personal]').attr('checked', false);
+              $(this).find('input:checkbox[name=coach]').attr('checked', false);
+              $(this).find('input:text[name=responseLength]').val('5');
+              $('.editing').removeClass('editing');
+          },
 
-                //clear values
-                $(this).find('textarea[name=question]').val('');
-                $(this).find('input:checkbox[name=personal]').attr('checked', false);
-                $(this).find('input:checkbox[name=coach]').attr('checked', false);
-                $(this).find('input:text[name=responseLength]').val('5');
-                $('.editing').removeClass('editing');
-            },
-
-            resize: function(event, ui) {}
+          resize: function(event, ui) {}
 
         });
 

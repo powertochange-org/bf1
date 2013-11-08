@@ -9,18 +9,18 @@
 $title = 'Page Builder';
 
 //get values
-$new        = isset($_GET['page'])          ? false                 : true;
+$new            = isset($_GET['page'])            ? false                     : true;
 
-$id         = isset($_GET['page'])          ? $_GET['page']         : '';
-$sectionId  = isset($_GET['section'])       ? $_GET['section']      : '';
-$moduleId   = isset($_GET['module'])        ? $_GET['module']       : '';
-$order      = isset($_GET['order'])         ? $_GET['order']        : '';
+$id             = isset($_GET['page'])            ? $_GET['page']             : '';
+$sectionId      = isset($_GET['section'])         ? $_GET['section']          : '';
+$moduleId       = isset($_GET['module'])          ? $_GET['module']           : '';
+$order          = isset($_GET['order'])           ? $_GET['order']            : '';
 
-$_title     = isset($_POST['title'])        ? $_POST['title']       : '';
-$visibility = isset($_POST['visibility'])   ? $_POST['visibility']  : '';
-$pageType   = isset($_POST['pageType'])     ? $_POST['pageType']    : '';
+$pageTitle      = isset($_POST['pageTitle'])      ? $_POST['pageTitle']       : '';
+$pageVisibility = isset($_POST['pageVisibility']) ? $_POST['pageVisibility']  : '';
+$pageType       = isset($_POST['pageType'])       ? $_POST['pageType']        : '';
 
-$errors     = isset($_POST['errors'])       ? $_POST['errors']      : '';
+$errors         = isset($_POST['errors'])         ? $_POST['errors']          : '';
 
 //header
 include('../../header.php');
@@ -61,15 +61,15 @@ include('../../header.php');
     </div>
 </div>
 <script type="text/javascript">
-    function load(page) {
-        $.ajax({
-           type: "POST",
-           url: page,
-           success: function(msg){
-               $('#contentpane').html(msg);
-           }
-        });
-    }
+  function load(page) {
+    $.ajax({
+      type: "POST",
+      url: page,
+      success: function(msg){
+        $('#contentpane').html(msg);
+      }
+    });
+  }
 </script>
 <?php
 //footer

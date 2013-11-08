@@ -20,7 +20,7 @@ try {
 
     //assign values
     $sectionId  = $result['SectionId'];
-    $_title     = $result['Title'];
+    $pageTitle  = $result['Title'];
     $order      = $result['Ord'];
     $visibility = $result['Visibility'];
     $pageType   = $result['Type'];
@@ -38,11 +38,11 @@ catch (PDOException $e) {
   <form id="formInformation" action="" method="POST">
     <fieldset id="information">
       <div><label>Page Title</label>
-        <input id="pageTitle" value="<?php echo $_title; ?>"/><a class="required"></a>
+        <input id="pageTitle" name="pageTitle" value="<?php echo $pageTitle; ?>"/><a class="required"></a>
       </div>
       <div>
         <label>Visibility</label>
-        <select id="pageVisibility">
+        <select id="pageVisibility" name="pageVisibility">
           <option value="<?php echo ALL; ?>"                    <?php echo $visibility == ''                     ? 'selected' : ''; ?>   >Select Visibility Level</option>
           <option value="<?php echo STUDENT; ?>"                <?php echo $visibility == STUDENT                ? 'selected' : ''; ?>   >Student</option>
           <option value="<?php echo INTERN; ?>"                 <?php echo $visibility == INTERN                 ? 'selected' : ''; ?>   >Intern</option>
@@ -54,7 +54,7 @@ catch (PDOException $e) {
       </div>
       <div>
         <label>Page Type</label>
-          <select id="pageType">
+          <select id="pageType" name="pageType">
             <option value="<?php echo NORMAL_PAGE; ?>"      <?php echo $pageType == ''               ? 'selected' : ''; ?>   >Select Page Type</option>
             <option value="<?php echo NORMAL_PAGE; ?>"      <?php echo $pageType == NORMAL_PAGE      ? 'selected' : ''; ?>   >Normal</option>
             <option value="<?php echo ASSESSMENT_PAGE; ?>"  <?php echo $pageType == ASSESSMENT_PAGE  ? 'selected' : ''; ?>   >Assessment</option>
@@ -62,7 +62,7 @@ catch (PDOException $e) {
         </div>
     </fieldset>
     <fieldset id="feedback">
-      <div id="errors">
+      <div id="errors" name="errors">
         <?php echo $errors; ?>
       </div>
     </fieldset>
@@ -83,12 +83,12 @@ catch (PDOException $e) {
     var errors = '';
 
     if ($('#formInformation #pageTitle').val().length == 0) {
-      $('#formInformation #title').css('border-color', 'orange').siblings('a').css('display','inline-block');
+      $('#formInformation #pageTitle').css('border-color', 'orange').siblings('a').css('display','inline-block');
       errors += '<div>Please enter a title for this page.</div>';
     }
 
     if ($('#formInformation #pageVisibility').val() == 'blank'){
-      $('#formInformation #visibility').css('border-color', 'orange').siblings('a').css('display','inline-block');
+      $('#formInformation #pageVisibility').css('border-color', 'orange').siblings('a').css('display','inline-block');
       errors += '<div>Please select a visibility level.</div>';
     }
 
