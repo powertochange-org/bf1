@@ -174,15 +174,11 @@ catch (PDOException $e) {
         </select>
         <a class="required"></a>
       </div>
-      <div>
+      <div style="display:none">
         <label>Region</label>
         <input id="regionSearch" class="typeahead" placeholder="Type Name" type="text">
-        <input id="region" type="hidden">
+        <input id="region" type="hidden" value="29">
         <a class="required"></a>
-        <div id="help">
-          (For Cru Interns, select your sending region.
-          For all others, select "none".)
-        </div>
       </div>
       <div>
         <label>Coach</label>
