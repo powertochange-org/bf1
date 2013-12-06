@@ -186,7 +186,7 @@ foreach($_modules as $module) {
                     echo '<div id="status" class="corners-all"><div class="point"></div>'.$str_sta.'</div>';
                   }
                   else {
-                    echo '<div id="complete">Congratulations on completing CruDoctrine!</div>';
+                    echo '<div id="complete">Congratulations on completing Biblical Foundations 1!</div>';
                   }
                 ?>
             </div>
